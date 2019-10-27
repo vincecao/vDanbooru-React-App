@@ -1,11 +1,17 @@
 {
-  "name": "create-react-app",
+  "name": "vdanbooru",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.6.1",
-    "react-dom": "^16.6.1",
-    "react-scripts": "2.1.1"
+    "@blueprintjs/core": "^3.19.1",
+    "@emotion/core": "^10.0.22",
+    "csstype": "^2.6.7",
+    "normalize.css": "^8.0.1",
+    "now": "^16.4.3",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.2.0"
   },
   "scripts": {
     "dev": "BROWSER=none react-scripts start",
@@ -21,5 +27,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "main": "index.js",
+  "repository": "git@github.com:vincecao/vdanbooru-react-app.git",
+  "author": "Lineng Cao <linengca@usc.edu>",
+  "license": "MIT"
 }
