@@ -30,7 +30,7 @@ export default class extends Component {
   render() {
     return (
       <div style={this.divStyle}>
-        <BrowserRouter>
+        <BrowserRouter basename={'/vdanbooru-react'}>
           <Navbar>
             <Navbar.Group align={Alignment.LEFT}>
 
