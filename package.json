@@ -2,6 +2,7 @@
   "name": "vdanbooru",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://vince-amazing.us-west-1.elasticbeanstalk.com/vdanbooru-react/",
   "dependencies": {
     "@blueprintjs/core": "^3.19.1",
     "@emotion/core": "^10.0.22",
