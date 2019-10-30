@@ -2,6 +2,6 @@
 
 A React & BlueprintJS implement of vDanbooru, using for searching Image from safe danbooru lib.
 
-[vDanbooru React Portal](https://vdanbooru-react-app.linengca.now.sh/Search)
+[vDanbooru React Portal](http://vince-amazing.us-west-1.elasticbeanstalk.com/vdanbooru-react)
 
-Deployed with ZEIT Now and zero configuration.
+<del>Deployed with ZEIT Now and zero configuration.</del>
