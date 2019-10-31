@@ -1,0 +1,13 @@
+a.desktop-navbar-txt {
+  text-decoration: none;
+  color: #182026;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+@media screen and (max-width: 650px) {
+  a.desktop-navbar-txt {
+    display: none;
+  }
+}
