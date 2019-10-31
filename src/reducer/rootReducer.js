@@ -1,7 +1,7 @@
 const initState = {
   searchBackground: '',
   photos: [],
-  favs: JSON.parse(localStorage.getItem('vDanbooru-fav')),//localStorage.removeItem('vDanbooru-fav')
+  favs: localStorage.getItem('vDanbooru-fav') === null?JSON.parse(localStorage.getItem('vDanbooru-fav')):[],//localStorage.removeItem('vDanbooru-fav')
   isLoad: false,
 }
 
