@@ -4,6 +4,8 @@ import { EditableText, H1, Tooltip, NonIdealState } from "@blueprintjs/core";
 import Gallery from 'react-grid-gallery'
 import { defultLst } from '../res/randomDefaultLst'
 import { connect } from 'react-redux'
+// import './Hots.css';
+
 
 class Hots extends React.Component {
   state = {
@@ -15,12 +17,16 @@ class Hots extends React.Component {
     selectAllOnFocus: true,
   }
 
+  constructor(props) {
+    super(props)
+    this.onSelectImage = this.onSelectImage.bind(this);
+  }
+
   componentDidMount() {
     this.updateSearch()
   }
 
   updateSearch = () => {
-    // this.props.updatePhotosLoad()
     this.props.updatePhotos(this.state.keywords)
 
     let tempPlaceholder = this.state.keywords
@@ -51,11 +57,29 @@ class Hots extends React.Component {
           images={this.props.photos}
           backdropClosesModal={true}
           rowHeight={300}
+          onSelectImage={this.onSelectImage}
+          showLightboxThumbnails={true}
         />
       }
     }
 
   }
+
+  onSelectImage(index, image) {
+    let photos = this.props.photos.slice();
+    let img = photos[index];
+
+    if (!img.isSelected) {
+      // img.isSelected = true;
+      this.props.addFavs(img)
+    } else {
+      this.props.delFavs(img)
+    }
+    //console.log(this.props.favs)
+    photos[index].isSelected = !photos[index].isSelected
+
+  }
+
   render() {
     return <div>
       <Tooltip className="bp3-minimal" content="vDanbooru search is here !" position="right">
@@ -81,7 +105,8 @@ class Hots extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     photos: state.photos,
-    isLoad: state.isLoad
+    isLoad: state.isLoad,
+    favs: state.favs
   }
 }
 
@@ -102,7 +127,8 @@ const mapDispatchToProps = (dispatch) => {
           dispatch({ type: 'UPDATE_PHOTOS_SUCCESS', key, photos: [] })
         });
     },
-    // updatePhotosLoad: () => { dispatch({ type: 'UPDATE_PHOTOS' }) }
+    addFavs: (imgObj) => { dispatch({ type: 'ADD_FAVS', imgObj }) },
+    delFavs: (imgObj) => { dispatch({ type: 'DELETE_FAVS', imgObj }) }
   }
 }
 

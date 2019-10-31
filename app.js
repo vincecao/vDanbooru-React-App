@@ -67,9 +67,9 @@ router.get('/mode/:type/tag/:t/num/:n', (req, res) => {
 
   let temp = []
   Booru.search('safebooru', [req.params.t], {
-      limit: req.params.n,
-      random: (req.params.type === 'Random') ? true : false
-    })
+    limit: req.params.n,
+    random: (req.params.type === 'Random') ? true : false
+  })
     .then(posts => {
       if (req.params.type == 'Full') {
         res.json([...posts])
@@ -84,11 +84,11 @@ router.get('/mode/:type/tag/:t/num/:n', (req, res) => {
         //     height: post.height
         // });
         temp.push({
-            src: post.fileUrl, 
-            thumbnail: post.sampleUrl ?  post.sampleUrl : post.fileUrl,
-            thumbnailHeight: post.sampleHeight ? post.sampleHeight : post.height, 
-            thumbnailWidth: post.sampleWidth ? post.sampleWidth : post.width,
-            caption: post.id
+          src: post.fileUrl,
+          thumbnail: post.sampleUrl ? post.sampleUrl : post.fileUrl,
+          thumbnailHeight: post.sampleHeight ? post.sampleHeight : post.height,
+          thumbnailWidth: post.sampleWidth ? post.sampleWidth : post.width,
+          caption: post.id
         });
       }
 

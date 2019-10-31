@@ -1,0 +1,13 @@
+/* div.ReactGridGallery_tile-viewport{
+    margin: 5px !important;
+} */
+
+div.center {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+div.ReactGridGallery_tile-icon-bar svg {
+  fill: red;
+}

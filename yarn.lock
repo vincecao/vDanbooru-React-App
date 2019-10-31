@@ -897,7 +897,7 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@blueprintjs/core@^3.19.1":
+"@blueprintjs/core@^3.19.0", "@blueprintjs/core@^3.19.1":
   version "3.19.1"
   resolved "https://registry.yarnpkg.com/@blueprintjs/core/-/core-3.19.1.tgz#22e929e15147a90ca9ad6285b4627c2e8ed1ba33"
   integrity sha512-O+p/Jbu9kyrTE4Yy5phd7Xp9NJoiHCQ9ycO+QSR2fiuhwnVMO1xjY269QXxylzEswgPyjhST1euqHpyQQ7qnUw==
@@ -914,11 +914,32 @@
     resize-observer-polyfill "^1.5.1"
     tslib "~1.9.0"
 
+"@blueprintjs/docs-theme@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/docs-theme/-/docs-theme-3.4.0.tgz#cb76aa039b79431ef12bb31bfbf11140651604cb"
+  integrity sha512-g5JWo6WSpe7JkcMpx0sXuwX8VouTP69anTvjNAH1XVS87saig4PlsR6OcnpFkaDYw36nvmUdK4AKB4SWPhDnrA==
+  dependencies:
+    "@blueprintjs/core" "^3.19.0"
+    "@blueprintjs/select" "^3.11.0"
+    "@documentalist/client" "^2.1.0"
+    classnames "^2.2"
+    fuzzaldrin-plus "^0.6.0"
+    tslib "~1.9.3"
+
 "@blueprintjs/icons@^3.11.0":
   version "3.11.0"
   resolved "https://registry.yarnpkg.com/@blueprintjs/icons/-/icons-3.11.0.tgz#c104cecef6893f8b7b7d8d8951f51d47f3f08403"
   integrity sha512-HGS652gFc057t9cr8NyuWFyZ1gcSqG3uuexpzhZm81W35hGfh9vdC9GR+mbHJNawAuKXtu+xw4VWWkv1UGQ0Vg==
   dependencies:
+    classnames "^2.2"
+    tslib "~1.9.0"
+
+"@blueprintjs/select@^3.11.0":
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/@blueprintjs/select/-/select-3.11.1.tgz#6cb5b70c31013752a0ccfa205996ab6311d74ef3"
+  integrity sha512-J3IfKq+L9JsKQQbrLdJ9K2621FV2K7iptynklSsCP6owlGDDcsbS6JEu/X2B8n7f5v0bez070+fQTa2JxtKRFg==
+  dependencies:
+    "@blueprintjs/core" "^3.19.0"
     classnames "^2.2"
     tslib "~1.9.0"
 
@@ -939,6 +960,11 @@
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-9.0.1.tgz#c27b391d8457d1e893f1eddeaf5e5412d12ffbb5"
   integrity sha512-6It2EVfGskxZCQhuykrfnALg7oVeiI6KclWSmGDqB0AiInVrTGB9Jp9i4/Ad21u9Jde/voVQz6eFX/eSg/UsPA==
+
+"@documentalist/client@^2.1.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@documentalist/client/-/client-2.2.0.tgz#c7cb46c851cdb8bdc76a625355aebab2aaa9514a"
+  integrity sha512-HlHojNK8Vw044NNcc79h1dPPAfwuPhtUMzU3PwKqjpKmiBxYYf+3qXXjYQklPzhnh2wzUeKH0g3gWq3NpmZtqw==
 
 "@emotion/cache@^10.0.17":
   version "10.0.19"
@@ -4515,6 +4541,11 @@ functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
+
+fuzzaldrin-plus@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/fuzzaldrin-plus/-/fuzzaldrin-plus-0.6.0.tgz#832f6489fbe876769459599c914a670ec22947ee"
+  integrity sha1-gy9kifvodnaUWVmckUpnDsIpR+4=
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -9962,7 +9993,7 @@ tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
 
-tslib@~1.9.0:
+tslib@~1.9.0, tslib@~1.9.3:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
   integrity sha512-4krF8scpejhaOgqzBEcGM7yDIEfi0/8+8zDRZhNZZ2kjmHJ4hv3zCbQWxoJGz1iw5U0Jl0nma13xzHXcncMavQ==

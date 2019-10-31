@@ -3,6 +3,7 @@ import { Alignment, Button, Navbar, Card, Elevation, Menu, MenuItem, Popover, Po
 import './App.css'
 import Search from './SearchComponent/Search'
 import Hots from './HotsComponent/Hots'
+import Favs from './FavComponent/Favs'
 import { BrowserRouter, Route, Redirect, Link } from 'react-router-dom'
 import { FacebookIcon, TwitterIcon, TelegramIcon, PinterestIcon, RedditIcon, TumblrIcon, LineIcon } from 'react-share';
 import { FacebookShareButton, TwitterShareButton, TelegramShareButton, PinterestShareButton, RedditShareButton, TumblrShareButton, LineShareButton } from 'react-share';
@@ -19,6 +20,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { link: '' };
+  }
+
+  componentWillMount() {
+
+  }
+
+  componentWillUnmount() {
+
   }
 
   shareMenu = () => {
@@ -58,8 +67,9 @@ class App extends Component {
                 <Button className="bp3-minimal" icon="heatmap"><a className="desktop-navbar-txt">Hots</a></Button>
 
               </Link>
-
-              <Button className="bp3-minimal" icon="star" disabled><a className="desktop-navbar-txt">Favs</a></Button>
+              <Link to="/Favs">
+                <Button className="bp3-minimal" icon="star"><a className="desktop-navbar-txt">Favs</a></Button>
+              </Link>
               <Popover content={this.aboutMenu()} interactionKind={PopoverInteractionKind.HOVER}>
                 <Button className="bp3-minimal" icon="inbox"><a className="desktop-navbar-txt">About</a></Button>
               </Popover>
@@ -78,6 +88,7 @@ class App extends Component {
           <Redirect from="/" to="/Search" />
           <Route path="/Search" component={Search} />
           <Route path="/Hots" component={Hots} />
+          <Route path="/Favs" component={Favs} />
           <Route path="/tags/:key" component={Hots} />
 
           <Card elevation={Elevation.TWO} className="footer-card" style={{ display: 'flex', justifyContent: 'flex-end', padding: 5, opacity: 0.7 }}>

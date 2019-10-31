@@ -58,7 +58,7 @@ const cssbg = {
   backgroundRepeat: 'no-repeat',
   overflow: 'hidden',
   filter: 'blur(8px)'
-  
+
 }
 
 class Search extends React.Component {
@@ -110,8 +110,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateSearchBackground : (imgSrc) => {
-      return dispatch({ type: 'UPDATE_SEARCH_BACKGROUND', searchBackground: imgSrc})
+    updateSearchBackground: (imgSrc) => {
+      return dispatch({ type: 'UPDATE_SEARCH_BACKGROUND', searchBackground: imgSrc })
     }
   }
 }

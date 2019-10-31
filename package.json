@@ -5,6 +5,7 @@
   "homepage": "http://vince-amazing.us-west-1.elasticbeanstalk.com/vdanbooru-react/",
   "dependencies": {
     "@blueprintjs/core": "^3.19.1",
+    "@blueprintjs/docs-theme": "^3.4.0",
     "@emotion/core": "^10.0.22",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",

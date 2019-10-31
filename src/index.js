@@ -10,14 +10,18 @@ import rootReducer from './reducer/rootReducer'
 import thunk from 'redux-thunk';
 
 const store = createStore(
-    rootReducer,
-    applyMiddleware(thunk)
+  rootReducer,
+  applyMiddleware(thunk)
 )
 
+window.addEventListener("beforeunload", (ev) => {
+  localStorage.setItem('vDanbooru-fav', JSON.stringify(store.getState().favs))
+});
+
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>, document.getElementById('root'));
+  <Provider store={store}>
+    <App />
+  </Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
