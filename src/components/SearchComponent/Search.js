@@ -1,7 +1,8 @@
 import React from 'react'
 import SearchInput from './SearchInput'
 import axios from 'axios'
-import { hidden } from 'ansi-colors'
+import { connect } from 'react-redux'
+
 
 const contentStyle = {
   flex: 1,
@@ -63,7 +64,6 @@ const cssbg = {
 class Search extends React.Component {
 
   state = {
-    backImageSrc: '',
     bg: cssbg
   }
 
@@ -76,17 +76,12 @@ class Search extends React.Component {
     let url = '//vince-amazing.us-west-1.elasticbeanstalk.com/api/mode/Random/tag/scenery/num/1'
     axios.get(url)
       .then(res => {
-        // console.log('url', url)
-        // console.log('json-data', res.data)
         const backImageSrc = res.data
         let newcssbg = Object.assign({}, this.state.bg)
         newcssbg.backgroundImage = 'linear-gradient(to bottom, rgba(247, 247, 247, 0.52), rgba(62, 57, 61, 0.73)), url(' + backImageSrc + ')'
-        this.setState({ backImageSrc, bg: newcssbg })
-        console.log(backImageSrc)
+        this.props.updateSearchBackground(backImageSrc)
+        this.setState({ bg: newcssbg })
       })
-    let tempPlaceholder = this.state.keywords
-    if (tempPlaceholder)
-      this.setState({ keywords: '', placeholder: (tempPlaceholder.charAt(0).toUpperCase() + tempPlaceholder.slice(1)) })
   }
 
   render() {
@@ -95,7 +90,7 @@ class Search extends React.Component {
         <div style={this.state.bg}>
         </div>
         <div style={fg}>
-          <img src={this.state.backImageSrc} style={fgImage} alt="" />
+          <img src={this.props.backImageSrc} style={fgImage} alt="" />
         </div>
         <div style={searchLayer}>
           <h1 style={searchH1}>vDanbooru Search</h1>
@@ -107,4 +102,18 @@ class Search extends React.Component {
   }
 }
 
-export default Search
+const mapStateToProps = (state, ownProps) => {
+  return {
+    backImageSrc: state.searchBackground
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateSearchBackground : (imgSrc) => {
+      return dispatch({ type: 'UPDATE_SEARCH_BACKGROUND', searchBackground: imgSrc})
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search)

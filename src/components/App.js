@@ -1,38 +1,14 @@
 import React, { Component } from 'react'
-import {
-  Alignment,
-  Button,
-  Navbar,
-  Card,
-  Elevation,
-  Menu,
-  MenuItem,
-  Popover,
-  PopoverInteractionKind,
-} from "@blueprintjs/core"
+import { Alignment, Button, Navbar, Card, Elevation, Menu, MenuItem, Popover, PopoverInteractionKind } from "@blueprintjs/core"
 import './App.css'
 import Search from './SearchComponent/Search'
 import Hots from './HotsComponent/Hots'
 import { BrowserRouter, Route, Redirect, Link } from 'react-router-dom'
-import {
-  FacebookIcon,
-  TwitterIcon,
-  TelegramIcon,
-  PinterestIcon,
-  RedditIcon,
-  TumblrIcon,
-  LineIcon
-} from 'react-share';
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  TelegramShareButton,
-  PinterestShareButton,
-  RedditShareButton,
-  TumblrShareButton,
-  LineShareButton
-} from 'react-share';
-export default class extends Component {
+import { FacebookIcon, TwitterIcon, TelegramIcon, PinterestIcon, RedditIcon, TumblrIcon, LineIcon } from 'react-share';
+import { FacebookShareButton, TwitterShareButton, TelegramShareButton, PinterestShareButton, RedditShareButton, TumblrShareButton, LineShareButton } from 'react-share';
+import { connect } from 'react-redux'
+
+class App extends Component {
 
   divStyle = {
     display: 'flex',
@@ -45,23 +21,11 @@ export default class extends Component {
     this.state = { link: '' };
   }
 
-  componentDidMount() {
-  }
-
-  componentWillUnmount() {
-  }
-
-  updateWindowDimensions() {
-  }
-
-  updateBackImageSrc = (src) => {
-  }
-
   shareMenu = () => {
     return <Menu className="bp3-minimal">
       <TwitterShareButton url="http://vince-amazing.us-west-1.elasticbeanstalk.com/vdanbooru-react" children={<MenuItem text="Twitter" icon={<TwitterIcon size={24} round={false} />} />} />
       <FacebookShareButton url="http://vince-amazing.us-west-1.elasticbeanstalk.com/vdanbooru-react" children={<MenuItem text="Facebook" icon={<FacebookIcon size={24} round={false} />} />} />
-      <PinterestShareButton url="http://vince-amazing.us-west-1.elasticbeanstalk.com/vdanbooru-react" children={<MenuItem text="Pinterest" icon={<PinterestIcon size={24} round={false} />} />} />
+      <PinterestShareButton media={this.props.searchBackground} url="http://vince-amazing.us-west-1.elasticbeanstalk.com/vdanbooru-react" children={<MenuItem text="Pinterest" icon={<PinterestIcon size={24} round={false} />} />} />
       <TumblrShareButton url="http://vince-amazing.us-west-1.elasticbeanstalk.com/vdanbooru-react" children={<MenuItem text="Tumblr" icon={<TumblrIcon size={24} round={false} />} />} />
       <RedditShareButton url="http://vince-amazing.us-west-1.elasticbeanstalk.com/vdanbooru-react" children={<MenuItem text="Reddit" icon={<RedditIcon size={24} round={false} />} />} />
       <LineShareButton url="http://vince-amazing.us-west-1.elasticbeanstalk.com/vdanbooru-react" children={<MenuItem text="Line" icon={<LineIcon size={24} round={false} />} />} />
@@ -125,3 +89,10 @@ export default class extends Component {
   }
 
 }
+const mapStateToProps = (state, ownProps) => {
+  return {
+    searchBackground: state.searchBackground
+  }
+}
+
+export default connect(mapStateToProps)(App)
