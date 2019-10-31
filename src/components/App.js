@@ -6,9 +6,17 @@ import Hots from "./HotsComponent/Hots";
 import Favs from "./FavComponent/Favs";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 
+import {
+  Overlay,
+  FormGroup,
+  InputGroup
+} from "@blueprintjs/core";
+
 import { connect } from "react-redux";
 import MyNavbar from "./layout/MyNavbar";
 import MyFooter from "./layout/MyFooter";
+import SignIn from "./auth/SignIn";
+import SignUp from "./auth/SignUp";
 
 class App extends Component {
   divStyle = {
@@ -19,10 +27,16 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { link: "" };
+    this.state = { link: "", isOpen: true};
   }
 
-  underDevText = "Vince is still developing very hard!!";
+  handleSignInWindow = () => {
+    return <SignIn />
+  }
+
+  handleSignUpWindow = () => {
+    return <SignUp />
+  }
 
   render() {
     return (
@@ -38,6 +52,8 @@ class App extends Component {
 
           <MyFooter />
         </BrowserRouter>
+        {this.handleSignInWindow()}
+        {this.handleSignUpWindow()}
       </div>
     );
   }

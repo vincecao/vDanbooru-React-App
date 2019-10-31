@@ -1,8 +1,39 @@
 const initState = {
   searchBackground: "",
   photos: [],
-  favs: JSON.parse(localStorage.getItem("vDanbooru-fav") === "undefined" ? [{}] : localStorage.getItem("vDanbooru-fav")),
-  isLoad: false
+  favs: JSON.parse(localStorage.getItem("vDanbooru-fav") === "undefined" ? "[]" : localStorage.getItem("vDanbooru-fav")),
+  isLoad: false,
+  isSignInOpen: false,
+  signInWindowsState: {
+    autoFocus: true,
+    canEscapeKeyClose: true,
+    canOutsideClickClose: true,
+    enforceFocus: true,
+    hasBackdrop: true,
+    isOpen: false,
+    usePortal: true,
+  },
+  signInHelperMessage: '',
+  signInInfo:{
+    'signin-email': '',
+    'signin-password': ''
+  },
+  isSignUpOpen: false,
+  signUpWindowsState: {
+    autoFocus: true,
+    canEscapeKeyClose: true,
+    canOutsideClickClose: true,
+    enforceFocus: true,
+    hasBackdrop: true,
+    isOpen: false,
+    usePortal: true,
+  },
+  signUpHelperMessage: '',
+  signUpInfo:{
+    'signup-nickname': '',
+    'signup-email': '',
+    'signup-password': ''
+  }
 };
 
 const rootReducer = (state = initState, action) => {
@@ -18,7 +49,7 @@ const rootReducer = (state = initState, action) => {
   ) {
     //let tempPhoto = [...action.photos];
     action.photos.forEach(photo => {
-      if (state.favs != null){
+      if (state.favs != null) {
         for (let i = 0; i < state.favs.length; i++) {
           const fav = state.favs[i];
           if (fav.src === photo.src) {
@@ -55,6 +86,60 @@ const rootReducer = (state = initState, action) => {
       ...state,
       favs
     };
+  }
+  if (action.type === 'SHOW_SIGN_IN_WINDOW') {
+    return {
+      ...state,
+      signInWindowsState: {
+        ...state.signInWindowsState,
+        isOpen: true
+      }
+    }
+  }
+  if (action.type === 'CLOSE_SIGN_IN_WINDOW') {
+    return {
+      ...state,
+      signInWindowsState: {
+        ...state.signInWindowsState,
+        isOpen: false
+      }
+    }
+  }
+  if(action.type === 'CHANGE_IN_SIGN_IN'){
+    return{
+      ...state,
+      signInInfo: {
+        ...state.signInInfo,
+        [action.event.target.id]: action.event.target.value
+      }
+    }
+  }
+  if (action.type === 'SHOW_SIGN_UP_WINDOW') {
+    return {
+      ...state,
+      signUpWindowsState: {
+        ...state.signUpWindowsState,
+        isOpen: true
+      }
+    }
+  }
+  if (action.type === 'CLOSE_SIGN_UP_WINDOW') {
+    return {
+      ...state,
+      signUpWindowsState: {
+        ...state.signUpWindowsState,
+        isOpen: false
+      }
+    }
+  }
+  if(action.type === 'CHANGE_IN_SIGN_UP'){
+    return{
+      ...state,
+      signUpInfo: {
+        ...state.signUpInfo,
+        [action.event.target.id]: action.event.target.value
+      }
+    }
   }
   return state;
 };

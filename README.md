@@ -8,11 +8,13 @@ A React & BlueprintJS implement of vDanbooru, using for searching Image from saf
 ![](screenshots/search.png)
 ![](screenshots/lightbox.png)
 ![](screenshots/favorites.png)
+![](screenshots/signup_login.png)
 
 ### Update Logs
 _10/31/2019_
 - Add Redux data store
 - Add favorite tab features for easy bookmark
+- Add login & sign on page with [firebase](https://firebase.google.com/) database connected
 - Fix some small bugs
 
 _10/30/2019_
