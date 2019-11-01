@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "vDanbooru",
+  "name": "vDanbooru React - Another anime image search webiste",
   "icons": [
     {
       "src": "favicon.ico",

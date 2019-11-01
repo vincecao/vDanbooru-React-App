@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Button } from "@blueprintjs/core";
+import { Button, Tooltip } from "@blueprintjs/core";
 import { connect } from 'react-redux'
 
 const SignoutLinks = (props) => {
@@ -14,20 +14,26 @@ const SignoutLinks = (props) => {
 
   return (
     <Fragment>
-      {/* <NavLink to="/"> */}
-      <Button className="bp3-minimal" icon="hand" onClick={handleSigupBtn} />
-      {/* </NavLink> */}
-      {/* <NavLink to="/"> */}
-      <Button className="bp3-minimal" icon="log-in" onClick={handleLoginBtn} />
-      {/* </NavLink> */}
+      <Tooltip
+        className="bp3-minimal"
+        content="Sign-up"
+        position="bottom">
+        <Button className="bp3-minimal" icon="hand" onClick={handleSigupBtn} />
+      </Tooltip>
+      <Tooltip
+        className="bp3-minimal"
+        content="Log-in"
+        position="bottom">
+        <Button className="bp3-minimal" icon="log-in" onClick={handleLoginBtn} />
+      </Tooltip>
     </Fragment>
   );
 };
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    signInWindowsState: state.signInWindowsState,
-    signUpWindowsState: state.signUpWindowsState
+    signInWindowsState: state.auth.signInWindowsState,
+    signUpWindowsState: state.auth.signUpWindowsState
   };
 };
 

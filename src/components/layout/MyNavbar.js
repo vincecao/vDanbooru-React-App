@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import {
   Alignment,
@@ -31,6 +31,8 @@ import { DOMAIN } from "../res/defaultLst";
 import SignoutLinks from "./SignoutLinks.js";
 import SigninLinks from "./SigninLinks.js";
 import "./MyNavbar.css";
+import { useSelector } from 'react-redux'
+import { isLoaded, isEmpty } from 'react-redux-firebase'
 
 const MyNavbar = props => {
   const shareMenu = () => {
@@ -102,6 +104,8 @@ const MyNavbar = props => {
     );
   };
 
+  const auth = useSelector(state => state.firebase.auth)
+
   const aboutMenu = () => {
     return (
       <Menu className="bp3-minimal">
@@ -111,8 +115,22 @@ const MyNavbar = props => {
     );
   };
 
-  return (
-    <Navbar style={{ opacity: 0.8 }}>
+  const links = () => {
+
+    if (!isLoaded(auth)) {
+      return
+    } else {
+      if (!isEmpty(auth.uid)) {
+        return <SigninLinks />
+      } else {
+        return <SignoutLinks />
+      }
+    }
+
+  }
+
+  const navsLeft = () => {
+    return <Fragment>
       <Navbar.Group align={Alignment.LEFT}>
         <Link to="/Search">
           <Button className="bp3-minimal" icon="home">
@@ -139,6 +157,11 @@ const MyNavbar = props => {
           </Button>
         </Popover>
       </Navbar.Group>
+    </Fragment>
+  }
+
+  const navsRight = () => {
+    return <Fragment>
       <Navbar.Group align={Alignment.RIGHT}>
         <Popover
           content={shareMenu()}
@@ -154,11 +177,22 @@ const MyNavbar = props => {
         </Popover>
         <Navbar.Divider />
 
-        <SignoutLinks />
-        {/* <SigninLinks /> */}
+
+        {links()}
+
       </Navbar.Group>
+    </Fragment>
+  }
+
+  return (
+
+
+    <Navbar style={{ opacity: 0.8 }}>
+      {navsLeft()}
+      {navsRight()}
     </Navbar>
   );
 };
+
 
 export default MyNavbar;

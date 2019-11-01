@@ -54,7 +54,7 @@ class App extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
   return {
-    searchBackground: state.searchBackground
+    searchBackground: state.favorite.searchBackground
   };
 };
 

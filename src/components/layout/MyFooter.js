@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Elevation } from "@blueprintjs/core";
+import { Card, Elevation, Tooltip } from "@blueprintjs/core";
 const MyFooter = () => {
   return (
     <Card
@@ -13,9 +13,14 @@ const MyFooter = () => {
       }}
     >
       vDanbooru @{" "}
-      <a href="//vince-amazing.com" target="_blank" rel="noopener noreferrer">
-        Vince
+      <Tooltip
+        className="bp3-minimal"
+        content="Hei, I am Vince"
+        position="top">
+        <a href="//vince-amazing.com" target="_blank" rel="noopener noreferrer">
+          Vince
       </a>
+      </Tooltip>
     </Card>
   );
 };

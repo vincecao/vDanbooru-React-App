@@ -103,7 +103,7 @@ class Search extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    backImageSrc: state.searchBackground
+    backImageSrc: state.favorite.searchBackground
   };
 };
 

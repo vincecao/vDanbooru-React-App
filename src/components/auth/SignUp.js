@@ -9,6 +9,7 @@ import {
 } from "@blueprintjs/core";
 import classNames from "classnames";
 import { connect } from 'react-redux'
+import { signUp } from '../../actions/authActions'
 
 const OVERLAY_EXAMPLE_CLASS = "docs-overlay-example-transition";
 class SignUp extends Component {
@@ -21,13 +22,12 @@ class SignUp extends Component {
 
   handleClose = () => this.props.closeSignUpWindow();
   handleSubmit = () => {
-    console.log(this.props.signUpInfo)
+    //console.log(this.props.signUpInfo)
+    this.props.signUp(this.props.signUpInfo)
   };
   handleChange = (e) => {
     this.props.onChangeSignUpInfo(e)
   };
-
-  signUpHelperMessage = this.props.signUpHelperMessage;
 
   render() {
     return (
@@ -37,21 +37,21 @@ class SignUp extends Component {
           <h2>Welcome to vDanbooru</h2>
           <h5>Wow, you find me!</h5>
           <FormGroup
-            helperText={this.signUpHelperMessage}
+            helperText={this.props.authError}
             // label="Wow, you find me!"
             labelFor="signup"
             style={{ marginBottom: "15px" }}
           > <label>
               Nick Name
-              <InputGroup id="signup-nickname" style={{ marginBottom: "15px" }} placeholder="VINCE" onChange={this.handleChange} />
+              <InputGroup id="signupNickname" style={{ marginBottom: "15px" }} placeholder="VINCE" onChange={this.handleChange} />
             </label>
             <label>
               Email Address
-              <InputGroup id="signup-email" style={{ marginBottom: "15px" }} placeholder="vvv@vvv.vvv" onChange={this.handleChange} />
+              <InputGroup id="signupEmail" style={{ marginBottom: "15px" }} placeholder="vvv@vvv.vvv" onChange={this.handleChange} />
             </label>
             <label>
               Password
-              <InputGroup type="password" id="signup-password" placeholder="" onChange={this.handleChange} />
+              <InputGroup type="password" id="signupPassword" placeholder="" onChange={this.handleChange} />
             </label>
             <div
               className={Classes.DIALOG_FOOTER_ACTIONS}
@@ -73,9 +73,10 @@ class SignUp extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    signUpWindowsState: state.signUpWindowsState,
-    signUpHelperMessage: state.signUpHelperMessage,
-    signUpInfo: state.signUpInfo
+    signUpWindowsState: state.auth.signUpWindowsState,
+    signUpHelperMessage: state.auth.signUpHelperMessage,
+    signUpInfo: state.auth.signUpInfo,
+    authError: state.auth.signUpauthError
   };
 };
 
@@ -91,7 +92,8 @@ const mapDispatchToProps = dispatch => {
         type: "CHANGE_IN_SIGN_UP",
         event: e
       });
-    }
+    },
+    signUp: (newUser) => dispatch(signUp(newUser))
   };
 };
 

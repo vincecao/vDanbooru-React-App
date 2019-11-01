@@ -83,12 +83,14 @@ router.get('/mode/:type/tag/:t/num/:n', (req, res) => {
         //     width: post.width, 
         //     height: post.height
         // });
+        console.log(post)
         temp.push({
           src: post.fileUrl,
           thumbnail: post.sampleUrl ? post.sampleUrl : post.fileUrl,
           thumbnailHeight: post.sampleHeight ? post.sampleHeight : post.height,
           thumbnailWidth: post.sampleWidth ? post.sampleWidth : post.width,
-          caption: post.id
+          caption: post.id,
+          // tags: 
         });
       }
 

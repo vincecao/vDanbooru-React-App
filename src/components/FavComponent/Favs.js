@@ -11,10 +11,17 @@ import Gallery from "react-grid-gallery";
 import { connect } from "react-redux";
 import "./Favs.css";
 import classNames from "classnames";
+import { deleteSingleAction } from '../../actions/deleteSingleAction.js'
+import { deleteAllAction } from '../../actions/deleteAllAction.js'
+import { replaceAllAction } from '../../actions/replaceAllAction.js'
+import firebase from '../../config/fbConfig';
+import { auth } from "firebase";
+import { isLoaded, isEmpty } from 'react-redux-firebase'
 
 const OVERLAY_EXAMPLE_CLASS = "docs-overlay-example-transition";
 
 class Favs extends Component {
+
   state = {
     isOpen: false,
     index: -1
@@ -27,7 +34,15 @@ class Favs extends Component {
   handleOpen = (index, image) => this.setState({ isOpen: true, index });
   handleClose = () => this.setState({ isOpen: false, index: -1 });
   deleteFav = () => {
-    this.props.delFavs(this.props.favs[this.state.index]);
+    //localStorage way
+    //this.props.delFavs(this.props.favs[this.state.index]);
+
+    //firebase profile way
+    let img = this.props.favs[this.state.index]
+    let favs = this.props.favs.filter(fav => img.src !== fav.src);
+    this.props.replaceFavs(favs)
+    firebase.updateProfile({ favs: favs })
+
     this.setState({ isOpen: false, index: -1 });
   };
 
@@ -53,13 +68,22 @@ class Favs extends Component {
             </Button>
           </div>
         </div>
-        {/* <div style={{flex: '1'}}></div> */}
       </Overlay>
     );
   };
 
   handleRenderFavs = () => {
-    if (this.props.favs === null || this.props.favs.length === 0) {
+    if (isEmpty(auth) || this.props.favs === null || this.props.favs === undefined) {
+      return <div style={{ height: "450px" }}>
+        <NonIdealState
+          style={{ display: "block" }}
+          icon="log-in"
+          title="Haven't Log in"
+          description="Please signup & login for access the favorite!"
+        />
+      </div>
+    }
+    if (this.props.favs.length === 0) {
       return (
         <div style={{ height: "450px" }}>
           <NonIdealState
@@ -87,7 +111,20 @@ class Favs extends Component {
       <Fragment>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <H1 style={{ margin: "30px" }}>Favorites / 気に入り</H1>
-          <Button onClick={() => { localStorage.setItem('vDanbooru-fav', "[]"); this.props.delAllFavs() }} style={{ margin: "", height: '30px', width: '50px', marginRight: '20px' }}> Reset </Button>
+          <Button
+
+            onClick={() => {
+              localStorage.setItem('vDanbooru-fav', "[]");
+              //localStorage way
+              //this.props.delAllFavs()
+
+              //firebase profile way
+
+              firebase.updateProfile({ favs: [] })
+              this.props.replaceFavs([])
+            }}
+
+            style={{ margin: "", height: '30px', width: '50px', marginRight: '20px' }}> Reset </Button>
         </div>
 
         {this.handleRenderFavs()}
@@ -99,21 +136,21 @@ class Favs extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(state)
   return {
-    favs: state.favs
+    favs: state.firebase.profile.favs,
+    stateFavs: state.favs
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    delFavs: imgObj => {
-      dispatch({ type: "DELETE_FAVS", imgObj });
-    },
-    delAllFavs: imgObj => {
-      dispatch({ type: "DELETE_ALL_FAVS" });
-    }
+    replaceFavs: (favs) => dispatch(replaceAllAction(favs)),
+    delFavs: (imgObj) => dispatch(deleteSingleAction(imgObj)),
+    delAllFavs: () => dispatch(deleteAllAction())
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Favs);
+export default
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Favs);

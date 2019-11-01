@@ -4,9 +4,14 @@ import { EditableText, H1, Tooltip, NonIdealState } from "@blueprintjs/core";
 import Gallery from "react-grid-gallery";
 import { DEFAULTLST, DOMAIN } from "../res/defaultLst";
 import { connect } from "react-redux";
-// import './Hots.css';
+import { deleteSingleAction } from '../../actions/deleteSingleAction.js'
+import { addFavAction } from '../../actions/addFavAction.js'
+import { replaceAllAction } from '../../actions/replaceAllAction.js'
+
+import firebase from '../../config/fbConfig';
 
 class Hots extends React.Component {
+
   state = {
     keywords:
       !this.props.match.params.key || this.props.match.params.key === ""
@@ -91,10 +96,23 @@ class Hots extends React.Component {
     let img = photos[index];
 
     if (!img.isSelected) {
-      // img.isSelected = true;
-      this.props.addFavs(img);
+      //localStorage way
+      //this.props.addFavs(img);
+
+      //firebased profile way
+      firebase.updateProfile({ favs: [...this.props.favs, img] })
+      this.props.replaceFavs([...this.props.favs, img])
+
+
     } else {
-      this.props.delFavs(img);
+      //localstrorage way
+      //this.props.delFavs(img);
+
+      //firebase way
+      let favs = this.props.favs.filter(fav => img.src !== fav.src);
+      this.props.replaceFavs(favs)
+      firebase.updateProfile({ favs: favs })
+
     }
     //console.log(this.props.favs)
     photos[index].isSelected = !photos[index].isSelected;
@@ -136,9 +154,12 @@ class Hots extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    photos: state.photos,
-    isLoad: state.isLoad,
-    favs: state.favs
+    photos: state.favorite.photos,
+    isLoad: state.favorite.isLoad,
+    //favs: state.favorite.favs,
+
+    favs: state.firebase.profile.favs,
+    //firebase: state.firebase
   };
 };
 
@@ -152,19 +173,15 @@ const mapDispatchToProps = dispatch => {
         .get(url)
         .then(res => {
           const photos = res.data;
-          // console.log(photos)
           dispatch({ type: "UPDATE_PHOTOS_SUCCESS", key, photos });
         })
         .catch(err => {
           dispatch({ type: "UPDATE_PHOTOS_SUCCESS", key, photos: [] });
         });
     },
-    addFavs: imgObj => {
-      dispatch({ type: "ADD_FAVS", imgObj });
-    },
-    delFavs: imgObj => {
-      dispatch({ type: "DELETE_FAVS", imgObj });
-    }
+    replaceFavs: (favs) => dispatch(replaceAllAction(favs)),
+    addFavs: (imgObj) => dispatch(addFavAction(imgObj)),
+    delFavs: (imgObj) => dispatch(deleteSingleAction(imgObj))
   };
 };
 

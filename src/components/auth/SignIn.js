@@ -9,6 +9,7 @@ import {
 } from "@blueprintjs/core";
 import classNames from "classnames";
 import { connect } from 'react-redux'
+import { signIn } from '../../actions/authActions'
 
 const OVERLAY_EXAMPLE_CLASS = "docs-overlay-example-transition";
 class SignIn extends Component {
@@ -22,13 +23,13 @@ class SignIn extends Component {
   handleClose = () => this.props.closeSignInWindow();
   handleSubmit = () => {
     // this.props.onChangeSignInInfo(e)
-    console.log(this.props.signInInfo)
+    //console.log(this.props.signInInfo)
+    this.props.signIn(this.props.signInInfo)
   };
   handleChange = (e) => {
     this.props.onChangeSignInInfo(e)
   };
 
-  signInHelperMessage = this.props.signInHelperMessage;
 
   render() {
     return (
@@ -38,16 +39,15 @@ class SignIn extends Component {
           <h2>Welcome to vDanbooru</h2>
           <h5>Please login in</h5>
           <FormGroup
-            helperText={this.signInHelperMessage}
-            // label="Please login in"
+            helperText={this.props.authError}
             labelFor="signin"
           ><label>
               Email Address
-            <InputGroup id="signin-email" style={{ marginBottom: "15px" }} placeholder="vvv@vvv.vvv" onChange={this.handleChange} />
+            <InputGroup id="signinEmail" style={{ marginBottom: "15px" }} placeholder="vvv@vvv.vvv" onChange={this.handleChange} />
             </label>
             <label>
               Password
-            <InputGroup type="password" id="signin-password" placeholder="" onChange={this.handleChange} />
+            <InputGroup type="password" id="signinPassword" placeholder="" onChange={this.handleChange} />
             </label>
             <div
               className={Classes.DIALOG_FOOTER_ACTIONS}
@@ -68,10 +68,12 @@ class SignIn extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(state)
   return {
-    signInWindowsState: state.signInWindowsState,
-    signInHelperMessage: state.signInHelperMessage,
-    signInInfo: state.signInInfo
+    signInWindowsState: state.auth.signInWindowsState,
+    signInHelperMessage: state.auth.signInHelperMessage,
+    signInInfo: state.auth.signInInfo,
+    authError: state.auth.authError
   };
 };
 
@@ -87,7 +89,8 @@ const mapDispatchToProps = dispatch => {
         type: "CHANGE_IN_SIGN_IN",
         event: e
       });
-    }
+    },
+    signIn: (creds) => dispatch(signIn(creds))
   };
 };
 
