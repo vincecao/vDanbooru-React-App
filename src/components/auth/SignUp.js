@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {
   Overlay,
   FormGroup,
   InputGroup,
   Classes,
   Button,
-  Intent
+  Intent,
+  Toaster,
+  Position
 } from "@blueprintjs/core";
 import classNames from "classnames";
 import { connect } from 'react-redux'
@@ -21,52 +23,65 @@ class SignUp extends Component {
   );
 
   handleClose = () => this.props.closeSignUpWindow();
-  handleSubmit = () => {
+   handleSubmit = async () => {
     //console.log(this.props.signUpInfo)
     this.props.signUp(this.props.signUpInfo)
+    // this.addToast(this.props.authError)
   };
   handleChange = (e) => {
     this.props.onChangeSignUpInfo(e)
   };
 
+  refHandlers = {
+    toaster: (ref) => this.toaster = ref,
+  };
+
+  addToast = (intent, msg) => {
+    this.toaster.show({ intent, message: msg });
+  }
+
   render() {
     return (
-      <Overlay {...this.props.signUpWindowsState} className="center" onClose={this.handleClose}>
+      <Fragment>
+        <Overlay {...this.props.signUpWindowsState} className="center" onClose={this.handleClose}>
 
-        <div className={this.classes} style={{ width: "350px" }}>
-          <h2>Welcome to vDanbooru</h2>
-          <h5>Wow, you find me!</h5>
-          <FormGroup
-            helperText={this.props.authError}
-            // label="Wow, you find me!"
-            labelFor="signup"
-            style={{ marginBottom: "15px" }}
-          > <label>
-              Nick Name
-              <InputGroup id="signupNickname" style={{ marginBottom: "15px" }} placeholder="VINCE" onChange={this.handleChange} />
-            </label>
-            <label>
-              Email Address
-              <InputGroup id="signupEmail" style={{ marginBottom: "15px" }} placeholder="vvv@vvv.vvv" onChange={this.handleChange} />
-            </label>
-            <label>
-              Password
-              <InputGroup type="password" id="signupPassword" placeholder="" onChange={this.handleChange} />
-            </label>
-            <div
-              className={Classes.DIALOG_FOOTER_ACTIONS}
-              style={{ marginTop: "30px" }}
-            >
-              <Button
-                intent={Intent.DANGER}
-                onClick={this.handleClose}
-                style={{ marginRight: "10px" }}
-              >Cancel</Button>
-              <Button onClick={this.deleteFav} style={{ margin: "" }} onClick={this.handleSubmit}>Sign Up</Button>
-            </div>
-          </FormGroup>
-        </div>
-      </Overlay>
+          <div className={this.classes} style={{ width: "350px" }}>
+            <h2>Welcome to vDanbooru</h2>
+            <h5>Wow, you find me!</h5>
+            <FormGroup
+              helperText={this.props.authError}
+              // label="Wow, you find me!"
+              labelFor="signup"
+              style={{ marginBottom: "15px" }}
+            > <label>
+                Nick Name
+                <InputGroup id="signupNickname" style={{ marginBottom: "15px" }} placeholder="VINCE" onChange={this.handleChange} />
+              </label>
+              <label>
+                Email Address
+                <InputGroup id="signupEmail" style={{ marginBottom: "15px" }} placeholder="vvv@vvv.vvv" onChange={this.handleChange} />
+              </label>
+              <label>
+                Password
+                <InputGroup type="password" id="signupPassword" placeholder="" onChange={this.handleChange} />
+              </label>
+              <div
+                className={Classes.DIALOG_FOOTER_ACTIONS}
+                style={{ marginTop: "30px" }}
+              >
+                <Button
+                  intent={Intent.DANGER}
+                  onClick={this.handleClose}
+                  style={{ marginRight: "10px" }}
+                >Cancel</Button>
+                <Button onClick={this.deleteFav} style={{ margin: "" }} onClick={this.handleSubmit}>Sign Up</Button>
+              </div>
+            </FormGroup>
+          </div>
+        </Overlay>
+        <Toaster position={Position.TOP_RIGHT} ref={this.refHandlers.toaster} />
+      </Fragment>
+
     )
   }
 }

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { BrowserRouter, Route, Redirect, Link } from "react-router-dom";
 import axios from "axios";
-import { EditableText, H1, Tooltip, NonIdealState, PopoverInteractionKind, Popover, Menu, MenuItem, Position } from "@blueprintjs/core";
+import { EditableText, H1, Tooltip, NonIdealState, PopoverInteractionKind, Popover, Menu, MenuItem, Position, Intent, Toaster } from "@blueprintjs/core";
 import Gallery from "react-grid-gallery";
 import { DEFAULTLST, DOMAIN } from "../res/defaultLst";
 import { connect } from "react-redux";
@@ -214,8 +214,13 @@ class Hots extends React.Component {
       //this.props.addFavs(img);
 
       //firebased profile way
-      firebase.updateProfile({ favs: [...this.props.favs, img] })
-      this.props.replaceFavs([...this.props.favs, img])
+      try {
+        firebase.updateProfile({ favs: [...this.props.favs, img] })
+        this.props.replaceFavs([...this.props.favs, img])
+        photos[index].isSelected = !photos[index].isSelected;
+      } catch{
+        this.addToast('please signin to save favorite')
+      }
 
 
     } else {
@@ -223,13 +228,27 @@ class Hots extends React.Component {
       //this.props.delFavs(img);
 
       //firebase way
-      let favs = this.props.favs.filter(fav => img.src !== fav.src);
-      this.props.replaceFavs(favs)
-      firebase.updateProfile({ favs: favs })
-
+      try {
+        let favs = this.props.favs.filter(fav => img.src !== fav.src);
+        this.props.replaceFavs(favs)
+        firebase.updateProfile({ favs: favs })
+        photos[index].isSelected = !photos[index].isSelected;
+      } catch{
+        this.addToast('please signin to save favorite')
+      }
     }
     //console.log(this.props.favs)
-    photos[index].isSelected = !photos[index].isSelected;
+    
+  }
+
+
+  // toaster: Toaster;
+  refHandlers = {
+    toaster: (ref) => this.toaster = ref,
+  };
+
+  addToast = (msg) => {
+    this.toaster.show({ intent: Intent.DANGER, message: msg });
   }
 
   render() {
@@ -262,7 +281,7 @@ class Hots extends React.Component {
           </H1>
         </Tooltip>
         {this.handleResult()}
-
+        <Toaster position={Position.TOP_RIGHT} ref={this.refHandlers.toaster} />
       </div>
     );
   }
