@@ -12,10 +12,12 @@ A React & BlueprintJS implement of vDanbooru, using for searching Image from saf
 
 ### Update Logs
 _10/31/2019_
-- Add Redux data store
+- Add Redux Data Store
 - Add favorite tab features for easy bookmark
-- Add login & sign on page with [firebase](https://firebase.google.com/) database connected
-- Fix some small bugs
+- Support new user to signup and login
+- Add connection to [Firebase](https://firebase.google.com/) authenticate and Firestore database
+- Now favorite images will be linked to your account
+- Fix bugs on both moblie and desktop
 
 _10/30/2019_
 - Add progress bar and non-ideal state
