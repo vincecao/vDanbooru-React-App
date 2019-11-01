@@ -14,7 +14,7 @@ const initState = {
     usePortal: true,
   },
   signInHelperMessage: '',
-  signInInfo:{
+  signInInfo: {
     'signin-email': '',
     'signin-password': ''
   },
@@ -29,7 +29,7 @@ const initState = {
     usePortal: true,
   },
   signUpHelperMessage: '',
-  signUpInfo:{
+  signUpInfo: {
     'signup-nickname': '',
     'signup-email': '',
     'signup-password': ''
@@ -87,6 +87,14 @@ const rootReducer = (state = initState, action) => {
       favs
     };
   }
+  if (action.type === "DELETE_ALL_FAVS") {
+    let favs = [];
+    localStorage.setItem("vDanbooru-fav", "[]");
+    return {
+      ...state,
+      favs
+    };
+  }
   if (action.type === 'SHOW_SIGN_IN_WINDOW') {
     return {
       ...state,
@@ -105,8 +113,8 @@ const rootReducer = (state = initState, action) => {
       }
     }
   }
-  if(action.type === 'CHANGE_IN_SIGN_IN'){
-    return{
+  if (action.type === 'CHANGE_IN_SIGN_IN') {
+    return {
       ...state,
       signInInfo: {
         ...state.signInInfo,
@@ -132,8 +140,8 @@ const rootReducer = (state = initState, action) => {
       }
     }
   }
-  if(action.type === 'CHANGE_IN_SIGN_UP'){
-    return{
+  if (action.type === 'CHANGE_IN_SIGN_UP') {
+    return {
       ...state,
       signUpInfo: {
         ...state.signUpInfo,

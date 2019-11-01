@@ -85,9 +85,14 @@ class Favs extends Component {
   render() {
     return (
       <Fragment>
-        <H1 style={{ margin: "30px" }}>Favorites / 気に入り</H1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <H1 style={{ margin: "30px" }}>Favorites / 気に入り</H1>
+          <Button onClick={() => { localStorage.setItem('vDanbooru-fav', "[]"); this.props.delAllFavs() }} style={{ margin: "", height: '30px', width: '50px', marginRight: '20px' }}> Reset </Button>
+        </div>
+
         {this.handleRenderFavs()}
         {this.openOverLay()}
+
       </Fragment>
     );
   }
@@ -102,6 +107,9 @@ const mapDispatchToProps = dispatch => {
   return {
     delFavs: imgObj => {
       dispatch({ type: "DELETE_FAVS", imgObj });
+    },
+    delAllFavs: imgObj => {
+      dispatch({ type: "DELETE_ALL_FAVS" });
     }
   };
 };

@@ -6,12 +6,6 @@ import Hots from "./HotsComponent/Hots";
 import Favs from "./FavComponent/Favs";
 import { BrowserRouter, Route, Redirect } from "react-router-dom";
 
-import {
-  Overlay,
-  FormGroup,
-  InputGroup
-} from "@blueprintjs/core";
-
 import { connect } from "react-redux";
 import MyNavbar from "./layout/MyNavbar";
 import MyFooter from "./layout/MyFooter";
@@ -27,7 +21,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { link: "", isOpen: true};
+    this.state = { link: "", isOpen: true };
   }
 
   handleSignInWindow = () => {

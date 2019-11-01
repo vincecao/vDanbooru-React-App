@@ -1,13 +1,18 @@
-a.desktop-navbar-txt {
+p.desktop-navbar-txt {
   text-decoration: none;
   color: #182026;
   background: none;
   border: none;
   padding: 0;
+  margin: auto;
+  text-decoration: none;
 }
 
 @media screen and (max-width: 650px) {
-  a.desktop-navbar-txt {
+  p.desktop-navbar-txt {
     display: none;
+  }
+  span.bp3-icon{
+    margin: 0;
   }
 }

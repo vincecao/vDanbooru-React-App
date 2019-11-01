@@ -105,16 +105,8 @@ const MyNavbar = props => {
   const aboutMenu = () => {
     return (
       <Menu className="bp3-minimal">
-        <a
-          href="//github.com/vincecao/vdanbooru-react-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <MenuItem text="Github" icon="paragraph" />
-        </a>
-        <a href="//vince-amazing.com" target="_blank" rel="noopener noreferrer">
-          <MenuItem text="Me!!" icon="mugshot" />
-        </a>
+        <MenuItem text="Github" icon="paragraph" href="//github.com/vincecao/vdanbooru-react-app" target="_blank" />
+        <MenuItem text="Me!!" icon="mugshot" href="//vince-amazing.com" target="_blank" />
       </Menu>
     );
   };
@@ -123,17 +115,19 @@ const MyNavbar = props => {
     <Navbar style={{ opacity: 0.8 }}>
       <Navbar.Group align={Alignment.LEFT}>
         <Link to="/Search">
-          <Button className="bp3-minimal" icon="home" text="vDanbooru" />
+          <Button className="bp3-minimal" icon="home">
+            <p className="desktop-navbar-txt">vDanbooru</p>
+          </Button>
         </Link>
         <Navbar.Divider />
         <Link to="/Hots">
           <Button className="bp3-minimal" icon="heatmap">
-            <a className="desktop-navbar-txt">Hots</a>
+            <p className="desktop-navbar-txt">Hots</p>
           </Button>
         </Link>
         <Link to="/Favs">
           <Button className="bp3-minimal" icon="star">
-            <a className="desktop-navbar-txt">Favs</a>
+            <p className="desktop-navbar-txt">Favs</p>
           </Button>
         </Link>
         <Popover
@@ -141,7 +135,7 @@ const MyNavbar = props => {
           interactionKind={PopoverInteractionKind.HOVER}
         >
           <Button className="bp3-minimal" icon="inbox">
-            <a className="desktop-navbar-txt">About</a>
+            <p className="desktop-navbar-txt">About</p>
           </Button>
         </Popover>
       </Navbar.Group>
@@ -155,13 +149,13 @@ const MyNavbar = props => {
             rightIcon="caret-down"
             icon="social-media"
           >
-            <a className="desktop-navbar-txt">Share</a>
+            <p className="desktop-navbar-txt">Share</p>
           </Button>
         </Popover>
         <Navbar.Divider />
 
         <SignoutLinks />
-        <SigninLinks />
+        {/* <SigninLinks /> */}
       </Navbar.Group>
     </Navbar>
   );

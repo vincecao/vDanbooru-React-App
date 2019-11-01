@@ -12,7 +12,7 @@ import { connect } from 'react-redux'
 
 const OVERLAY_EXAMPLE_CLASS = "docs-overlay-example-transition";
 class SignIn extends Component {
-  
+
   classes = classNames(
     Classes.CARD,
     Classes.ELEVATION_4,

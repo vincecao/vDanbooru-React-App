@@ -42,15 +42,15 @@ class SignUp extends Component {
             labelFor="signup"
             style={{ marginBottom: "15px" }}
           > <label>
-            Nick Name
+              Nick Name
               <InputGroup id="signup-nickname" style={{ marginBottom: "15px" }} placeholder="VINCE" onChange={this.handleChange} />
             </label>
             <label>
-            Email Address
+              Email Address
               <InputGroup id="signup-email" style={{ marginBottom: "15px" }} placeholder="vvv@vvv.vvv" onChange={this.handleChange} />
             </label>
             <label>
-            Password
+              Password
               <InputGroup type="password" id="signup-password" placeholder="" onChange={this.handleChange} />
             </label>
             <div
