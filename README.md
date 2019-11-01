@@ -9,6 +9,7 @@ A React & BlueprintJS implement of vDanbooru, using for searching Image from saf
 ![](screenshots/lightbox.png)
 ![](screenshots/favorites.png)
 ![](screenshots/signup_login.png)
+![](screenshots/tags.png)
 
 ### Update Logs
 _10/31/2019_
@@ -17,6 +18,7 @@ _10/31/2019_
 - Support new user to signup and login
 - Add connection to [Firebase](https://firebase.google.com/) authenticate and Firestore database
 - Now favorite images will be linked to your account
+- Support tags search
 - Fix bugs on both moblie and desktop
 
 _10/30/2019_

@@ -68,7 +68,7 @@ class SignIn extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state)
+  // console.log(state)
   return {
     signInWindowsState: state.auth.signInWindowsState,
     signInHelperMessage: state.auth.signInHelperMessage,

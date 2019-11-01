@@ -99,32 +99,42 @@ class Favs extends Component {
         <Gallery
           images={this.props.favs}
           backdropClosesModal={true}
-          rowHeight={300}
+          rowHeight={400}
           onSelectImage={this.handleOpen}
           showLightboxThumbnails={true}
+          tagStyle={{ display: 'none' }}
         />
       );
     }
   };
+
+  resetBtn = () => {
+    if (!isEmpty(auth) && this.props.favs !== null && this.props.favs !== undefined && this.props.favs.length > 0) {
+      return <Button
+
+        onClick={() => {
+          localStorage.setItem('vDanbooru-fav', "[]");
+          //localStorage way
+          //this.props.delAllFavs()
+
+          //firebase profile way
+
+          firebase.updateProfile({ favs: [] })
+          this.props.replaceFavs([])
+        }}
+
+        style={{ margin: "", height: '30px', width: '50px', marginRight: '20px' }}> Reset </Button>
+    } else {
+      return
+    }
+
+  }
   render() {
     return (
       <Fragment>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <H1 style={{ margin: "30px" }}>Favorites / 気に入り</H1>
-          <Button
-
-            onClick={() => {
-              localStorage.setItem('vDanbooru-fav', "[]");
-              //localStorage way
-              //this.props.delAllFavs()
-
-              //firebase profile way
-
-              firebase.updateProfile({ favs: [] })
-              this.props.replaceFavs([])
-            }}
-
-            style={{ margin: "", height: '30px', width: '50px', marginRight: '20px' }}> Reset </Button>
+          {this.resetBtn()}
         </div>
 
         {this.handleRenderFavs()}
@@ -136,10 +146,9 @@ class Favs extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state)
+  // console.log(state)
   return {
-    favs: state.firebase.profile.favs,
-    stateFavs: state.favs
+    favs: state.firebase.profile.favs
   };
 };
 const mapDispatchToProps = (dispatch) => {

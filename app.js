@@ -84,13 +84,18 @@ router.get('/mode/:type/tag/:t/num/:n', (req, res) => {
         //     height: post.height
         // });
         console.log(post)
+        let newTags = []
+        const shuffled = post.tags.sort(() => 0.5 - Math.random());
+        shuffled.slice(0, 25).forEach(tag => {
+          newTags.push({value: tag, title: tag})
+        })
         temp.push({
           src: post.fileUrl,
           thumbnail: post.sampleUrl ? post.sampleUrl : post.fileUrl,
           thumbnailHeight: post.sampleHeight ? post.sampleHeight : post.height,
           thumbnailWidth: post.sampleWidth ? post.sampleWidth : post.width,
           caption: post.id,
-          // tags: 
+          tags: newTags
         });
       }
 

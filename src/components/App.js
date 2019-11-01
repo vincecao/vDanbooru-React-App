@@ -43,6 +43,7 @@ class App extends Component {
           <Route path="/Hots" component={Hots} />
           <Route path="/Favs" component={Favs} />
           <Route path="/tags/:key" component={Hots} />
+          <Redirect to="/Search"/>
 
           <MyFooter />
         </BrowserRouter>

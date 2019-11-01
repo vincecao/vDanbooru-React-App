@@ -28,21 +28,7 @@ export const signUp = (newUser) => {
     ).then((resp) => {
       return firebase.firestore().collection('users').doc(resp.user.uid).set({
         nickName: newUser.signupNickname,
-        favs: [{
-          src: 'https://safebooru.org/images/2821/71c10ac8199f7e03cd17fbc3c9495d22c6a10d81.jpg',
-          thumbnail: 'https://safebooru.org/images/2821/71c10ac8199f7e03cd17fbc3c9495d22c6a10d81.jpg',
-          thumbnailHeight: 1415,
-          thumbnailWidth: 1000,
-          isSelected: true,
-          caption: '2928983'
-        }, {
-          src: 'https://safebooru.org/images/2821/71c10ac8199f7e03cd17fbc3c9495d22c6a10d81.jpg',
-          thumbnail: 'https://safebooru.org/images/2821/71c10ac8199f7e03cd17fbc3c9495d22c6a10d81.jpg',
-          thumbnailHeight: 1415,
-          thumbnailWidth: 1000,
-          isSelected: true,
-          caption: '2928983'
-        }],
+        favs: [],
         avatar: '',
         gender: ''
       })
