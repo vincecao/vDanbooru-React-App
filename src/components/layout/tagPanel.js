@@ -36,6 +36,7 @@ export const tagPanel = (isTagPanelOpen, isInHots, tagPanelMenu, shareMenuUrl, s
       <Popover
         content={shareMenu(shareMenuUrl, shareMenuItem.img)}
         interactionKind={PopoverInteractionKind.HOVER}
+        position={Position.bottom}
       >
         <Button className="bp3-minimal" style={{ border: '1px black solid', background: 'white', marginRight: 10 }} icon="share" rightIcon="caret-down">
           <p className="desktop-navbar-txt">Share</p>

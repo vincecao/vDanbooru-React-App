@@ -5,9 +5,11 @@ import {
   Button,
   Navbar,
   Popover,
+  Position,
   PopoverInteractionKind,
   MenuItem,
-  Menu
+  Menu,
+  Position
 } from "@blueprintjs/core";
 
 import { DOMAIN } from "../res/defaultRes";
@@ -68,6 +70,7 @@ const MyNavbar = props => {
         <Popover
           content={aboutMenu()}
           interactionKind={PopoverInteractionKind.HOVER}
+          position={Position.bottom}
         >
           <Button
             className="bp3-minimal"
@@ -86,6 +89,7 @@ const MyNavbar = props => {
         <Popover
           content={shareMenu(shareMenuUrl, props.searchBackground)}
           interactionKind={PopoverInteractionKind.HOVER}
+          position={Position.bottom}
         >
           <Button
             className="bp3-minimal"

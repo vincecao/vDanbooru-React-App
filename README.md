@@ -39,3 +39,12 @@ _10/27/2019_
 - Connect with api with backend Express with [booru](https://www.npmjs.com/package/booru), ~~[danbooru-node](https://www.npmjs.com/package/danbooru)~~
 - Implement index, hot search page, with [react-grid-gallery](https://www.npmjs.com/package/react-grid-gallery)
 
+### TODO
+- ~~Add search features with tags~~
+- ~~Add Favorite & share~~ 
+- ~~Add login&signup Page~~ 
+- Add favorite in search lightbox
+- Pagination from Server side
+- Multi-tag search support
+- Chat / comment board
+- ...
