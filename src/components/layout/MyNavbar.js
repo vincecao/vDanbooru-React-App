@@ -8,8 +8,7 @@ import {
   Position,
   PopoverInteractionKind,
   MenuItem,
-  Menu,
-  Position
+  Menu
 } from "@blueprintjs/core";
 
 import { DOMAIN } from "../res/defaultRes";
