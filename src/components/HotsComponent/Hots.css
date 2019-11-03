@@ -7,27 +7,6 @@ div.ReactGridGallery_tile-bottom-bar {
   transition: 1s;
 }
 
-div.tagPoints-lg {
-  position: fixed;
-  left: 25px;
-  top: 25px;
-  border-radius: 100px;
-  z-index: 12;
-  height: 50px;
-  width: 50px;
-  background: #d0643e;
-}
-
-/* div.tagPoints-sm {
-  left: 35px;
-  top: 35px;
-  position: fixed;
-  border-radius: 100px;
-  z-index: 12;
-  height: 65px;
-  width: 65px;
-} */
-
 div#lightboxBackdrop {
   z-index: 10;
   background: #ffffffc9;
@@ -35,8 +14,4 @@ div#lightboxBackdrop {
 
 div#lightboxBackdrop img {
   box-shadow: 5px 10px 18px #888888;
-}
-
-.popover-tagPanel {
-  left: 100;
 }

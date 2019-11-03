@@ -4,6 +4,14 @@ import { connect } from 'react-redux'
 
 const SignoutLinks = (props) => {
 
+  // refHandlers = {
+  //   toaster: (ref) => this.toaster = ref,
+  // };
+
+  // const addToast = (msg) => {
+  //   this.toaster.show({ intent: Intent.DANGER, message: msg });
+  // }
+
   const handleLoginBtn = () => {
     props.showSignInWindow()
   }
@@ -18,13 +26,17 @@ const SignoutLinks = (props) => {
         className="bp3-minimal"
         content="Sign-up"
         position="bottom">
-        <Button className="bp3-minimal" icon="hand" onClick={handleSigupBtn} />
+        <Button className="bp3-minimal" icon="hand" onClick={handleSigupBtn}>
+          <p className="desktop-navbar-txt">Sign-up</p>
+        </Button>
       </Tooltip>
       <Tooltip
         className="bp3-minimal"
         content="Log-in"
         position="bottom">
-        <Button className="bp3-minimal" icon="log-in" onClick={handleLoginBtn} />
+        <Button className="bp3-minimal" icon="log-in" onClick={handleLoginBtn}>
+          {/* <p className="desktop-navbar-txt">Log-in</p> */}
+        </Button>
       </Tooltip>
     </Fragment>
   );

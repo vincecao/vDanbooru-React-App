@@ -13,7 +13,18 @@ p.desktop-navbar-txt {
     display: none;
   }
 
-  span.bp3-icon {
+  span.bp3-icon.bp3-icon-star,
+  span.bp3-icon.bp3-icon-heatmap,
+  span.bp3-icon.bp3-icon-inbox,
+  span.bp3-icon.bp3-icon-home,
+  span.bp3-icon.bp3-icon-social-media,
+  span.bp3-icon.bp3-icon-user,
+  span.bp3-icon.bp3-icon-log-out,
+  span.bp3-icon.bp3-icon-log-in,
+  span.bp3-icon.bp3-icon-hand,
+  span.bp3-icon.bp3-icon-tag,
+  span.bp3-icon.bp3-icon-share,
+  span.bp3-icon.bp3-icon-download {
     margin: 0;
   }
 }

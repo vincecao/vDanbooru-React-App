@@ -5,52 +5,74 @@ import {
   Classes,
   Overlay,
   Button,
-  Intent
+  Intent,
+  Position,
+  Toaster
 } from "@blueprintjs/core";
 import Gallery from "react-grid-gallery";
 import { connect } from "react-redux";
 import "./Favs.css";
 import classNames from "classnames";
+import { DEFAULTLST, DOMAIN } from "../res/defaultRes";
 import { deleteSingleAction } from '../../actions/deleteSingleAction.js'
 import { deleteAllAction } from '../../actions/deleteAllAction.js'
 import { replaceAllAction } from '../../actions/replaceAllAction.js'
 import firebase from '../../config/fbConfig';
 import { auth } from "firebase";
 import { isLoaded, isEmpty } from 'react-redux-firebase'
+import { tagPanel } from '../layout/tagPanel'
+
 
 const OVERLAY_EXAMPLE_CLASS = "docs-overlay-example-transition";
 
 class Favs extends Component {
-
-  state = {
-    isOpen: false,
-    index: -1
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOneOverLayOpen: false,
+      isAllOverLayOpen: false,
+      index: -100,
+      isTagPanelOpen: false,
+      focusingImgObject: {},
+    }
+  }
+  shareMenuUrl = "http:" + DOMAIN + "/vdanbooru-react"
   classes = classNames(
     Classes.CARD,
     Classes.ELEVATION_4,
     OVERLAY_EXAMPLE_CLASS
-  );
-  handleOpen = (index, image) => this.setState({ isOpen: true, index });
-  handleClose = () => this.setState({ isOpen: false, index: -1 });
-  deleteFav = () => {
+  )
+  handleOneOpen = (index, image) => this.setState({ isOneOverLayOpen: true, index });
+  handleOneClose = () => this.setState({ isOneOverLayOpen: false, index: -100 });
+  handleAllOpen = (index, image) => this.setState({ isAllOverLayOpen: true });
+  handleAllClose = () => this.setState({ isAllOverLayOpen: false, index: -100 });
+  deleteOneFav = () => {
     //localStorage way
     //this.props.delFavs(this.props.favs[this.state.index]);
 
     //firebase profile way
     let img = this.props.favs[this.state.index]
     let favs = this.props.favs.filter(fav => img.src !== fav.src);
-    this.props.replaceFavs(favs)
     firebase.updateProfile({ favs: favs })
-
-    this.setState({ isOpen: false, index: -1 });
+    this.setState({ isOneOverLayOpen: false, index: -100 });
+    this.addToast(Intent.default, "Remove one successfully")
   };
 
-  openOverLay = () => {
+  deleteAllFav = () => {
+    //localStorage way
+    //this.props.delFavs(this.props.favs[this.state.index]);
+
+    //firebase profile way
+    firebase.updateProfile({ favs: [] })
+    this.setState({ isAllOverLayOpen: false, index: -100 });
+    this.addToast(Intent.default, "Remove All Favorite")
+  };
+
+  openDeleteOneOverLay = () => {
     return (
-      <Overlay onClose={this.handleClose} className="center" {...this.state}>
+      <Overlay onClose={this.handleOneClose} className="center" isOpen={this.state.isOneOverLayOpen}>
         <div className={this.classes} style={{ width: "380px" }}>
-          <p>Are you sure to delete / 削除してもよろしいですか</p>
+          <p>Delete this one? / これを削除しますか？ </p>
 
           <div
             className={Classes.DIALOG_FOOTER_ACTIONS}
@@ -58,12 +80,38 @@ class Favs extends Component {
           >
             <Button
               intent={Intent.DANGER}
-              onClick={this.handleClose}
+              onClick={()=> {this.handleOneClose()}}
               style={{ marginRight: "10px" }}
             >
               Close
             </Button>
-            <Button onClick={this.deleteFav} style={{ margin: "" }}>
+            <Button onClick={()=>{this.deleteOneFav()}} style={{ margin: "" }}>
+              Comfirm
+            </Button>
+          </div>
+        </div>
+      </Overlay>
+    );
+  };
+
+  openDeleteAllOverLay = () => {
+    return (
+      <Overlay onClose={this.handleAllClose} className="center" isOpen={this.state.isAllOverLayOpen}>
+        <div className={this.classes} style={{ width: "380px" }}>
+          <p>Are you sure to delete all? / すべて削除してもよろしいですか？</p>
+
+          <div
+            className={Classes.DIALOG_FOOTER_ACTIONS}
+            style={{ marginTop: "30px" }}
+          >
+            <Button
+              intent={Intent.DANGER}
+              onClick={()=>{this.handleAllClose()}}
+              style={{ marginRight: "10px" }}
+            >
+              Close
+            </Button>
+            <Button onClick={()=>{this.deleteAllFav()}} style={{ margin: "" }}>
               Comfirm
             </Button>
           </div>
@@ -100,9 +148,13 @@ class Favs extends Component {
           images={this.props.favs}
           backdropClosesModal={true}
           rowHeight={400}
-          onSelectImage={this.handleOpen}
+          onSelectImage={this.handleOneOpen}
           showLightboxThumbnails={true}
           tagStyle={{ display: 'none' }}
+          lightboxWillOpen={this.handleLightboxWillOpen}
+          lightboxWillClose={this.handleLightboxWillClose}
+          currentImageWillChange={this.handleCurrentImageWillChange}
+          enableKeyboardInput={true}
         />
       );
     }
@@ -112,16 +164,7 @@ class Favs extends Component {
     if (!isEmpty(auth) && this.props.favs !== null && this.props.favs !== undefined && this.props.favs.length > 0) {
       return <Button
 
-        onClick={() => {
-          localStorage.setItem('vDanbooru-fav', "[]");
-          //localStorage way
-          //this.props.delAllFavs()
-
-          //firebase profile way
-
-          firebase.updateProfile({ favs: [] })
-          this.props.replaceFavs([])
-        }}
+        onClick={()=>{this.handleAllOpen()}}
 
         style={{ margin: "", height: '30px', width: '50px', marginRight: '20px' }}> Reset </Button>
     } else {
@@ -129,37 +172,60 @@ class Favs extends Component {
     }
 
   }
+
+  refHandlers = {
+    toaster: (ref) => this.toaster = ref,
+  };
+
+  addToast = (intent, message) => {
+    this.toaster.show({ intent, message });
+  }
+
+
+  //tag panel
+  handleLightboxWillOpen = (event) => {
+    this.setState({
+      isTagPanelOpen: true
+    })
+  }
+
+  handleLightboxWillClose = () => {
+    this.setState({
+      isTagPanelOpen: false
+    })
+  }
+
+  handleCurrentImageWillChange = (index, image) => {
+    this.setState({
+      focusingImgObject: this.props.favs[index]
+    })
+  }
+
   render() {
     return (
-      <Fragment>
+      <div>
+        {tagPanel(this.state.isTagPanelOpen, false, null, this.shareMenuUrl, { img: this.state.focusingImgObject.src, caption: this.state.focusingImgObject.caption })}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <H1 style={{ margin: "30px" }}>Favorites / 気に入り</H1>
+          <H1 style={{ margin: "30px" }}>Favorites / 気に入り </H1>
           {this.resetBtn()}
         </div>
 
         {this.handleRenderFavs()}
-        {this.openOverLay()}
-
-      </Fragment>
+        {this.openDeleteOneOverLay()}
+        {this.openDeleteAllOverLay()}
+        <Toaster position={Position.TOP_RIGHT} ref={this.refHandlers.toaster} />
+      </div>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log(state)
   return {
     favs: state.firebase.profile.favs
   };
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    replaceFavs: (favs) => dispatch(replaceAllAction(favs)),
-    delFavs: (imgObj) => dispatch(deleteSingleAction(imgObj)),
-    delAllFavs: () => dispatch(deleteAllAction())
-  };
-};
+
 export default
   connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
   )(Favs);

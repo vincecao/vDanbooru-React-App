@@ -1,8 +1,7 @@
 import React from "react";
 import SearchInput from "./SearchInput";
-import axios from "axios";
 import { connect } from "react-redux";
-import { DOMAIN } from "../res/defaultLst";
+import { updateBackgroundImageAction } from '../../actions/updateBackgroundImageAction'
 
 const contentStyle = {
   flex: 1,
@@ -47,48 +46,41 @@ const searchH1 = {
     "0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 6px 1px rgba(0, 0, 0, .6), 0 0 5px rgba(0, 0, 0, .6)"
 };
 
-const cssbg = {
-  position: "absolute",
-  width: "100%",
-  height: "100%",
-  top: "0",
-  left: "0",
-  backgroundImage: "none",
-  backgroundPosition: "top",
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
-  overflow: "hidden",
-  filter: "blur(8px)"
-};
-
 class Search extends React.Component {
-  state = {
-    bg: cssbg
-  };
 
-  componentDidMount() {
-    this.updateRandom();
+
+  constructor(props) {
+    super(props)
+
+    if (this.props.backImageSrc === null) {
+      this.updateBackground()
+    }
+
   }
 
-  updateRandom = () => {
-    //let url = 'http://localhost:8080/api/mode/Random/tag/scenery/num/1'
-    let url = DOMAIN + "/api/mode/Random/tag/scenery/num/1";
-    axios.get(url).then(res => {
-      const backImageSrc = res.data;
-      let newcssbg = Object.assign({}, this.state.bg);
-      newcssbg.backgroundImage =
-        "linear-gradient(to bottom, rgba(247, 247, 247, 0.52), rgba(62, 57, 61, 0.73)), url(" +
-        backImageSrc +
-        ")";
-      this.props.updateSearchBackground(backImageSrc);
-      this.setState({ bg: newcssbg });
-    });
-  };
+  updateBackground() {
+    return new Promise(resolve => {
+      this.props.updateBackImageSrc()
+      resolve(this.props.backImageSrc)
+    })
+  }
 
   render() {
     return (
       <div style={contentStyle}>
-        <div style={this.state.bg} />
+        <div style={{
+          position: "absolute",
+          width: "100%",
+          height: "100%",
+          top: "0",
+          left: "0",
+          backgroundImage: "linear-gradient(to bottom, rgba(247, 247, 247, 0.52), rgba(62, 57, 61, 0.73)), url(" + this.props.backImageSrc + ")",
+          backgroundPosition: "top",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          overflow: "hidden",
+          filter: "blur(8px)"
+        }} />
         <div style={fg}>
           <img src={this.props.backImageSrc} style={fgImage} alt="" />
         </div>
@@ -109,11 +101,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateSearchBackground: imgSrc => {
-      return dispatch({
-        type: "UPDATE_SEARCH_BACKGROUND",
-        searchBackground: imgSrc
-      });
+    updateBackImageSrc: () => {
+      return dispatch(updateBackgroundImageAction());
     }
   };
 };

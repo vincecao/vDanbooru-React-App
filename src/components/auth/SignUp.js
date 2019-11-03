@@ -74,7 +74,7 @@ class SignUp extends Component {
                   onClick={this.handleClose}
                   style={{ marginRight: "10px" }}
                 >Cancel</Button>
-                <Button onClick={this.deleteFav} style={{ margin: "" }} onClick={this.handleSubmit}>Sign Up</Button>
+                <Button style={{ margin: "" }} onClick={this.handleSubmit}>Sign Up</Button>
               </div>
             </FormGroup>
           </div>

@@ -1,15 +1,12 @@
-import { firestoreReducer } from 'redux-firestore'
-import { combineReducers } from 'redux';
-
 const initState = {
-  searchBackground: "",
+  searchBackground: null,
   photos: [],
-  favs: JSON.parse(localStorage.getItem("vDanbooru-fav") === "undefined" ? "[]" : localStorage.getItem("vDanbooru-fav")),
-  isLoad: false,
+  favs: [],//firebase.profile.favs,
+  isLoad: false
 };
 
 const favoriteReducer = (state = initState, action) => {
-  if (action.type === "UPDATE_PHOTOS") {
+  if (action.type === "UPDATE_PHOTOS_LOAD") {
     return {
       ...state,
       isLoad: true
@@ -19,18 +16,6 @@ const favoriteReducer = (state = initState, action) => {
     action.type === "UPDATE_PHOTOS_SUCCESS" ||
     action.type === "UPDATE_PHOTOS_FAILURE"
   ) {
-    //let tempPhoto = [...action.photos];
-    action.photos.forEach(photo => {
-      if (state.favs != null) {
-        for (let i = 0; i < state.favs.length; i++) {
-          const fav = state.favs[i];
-          if (fav.src === photo.src) {
-            photo.isSelected = true;
-            break;
-          }
-        }
-      }
-    });
     return {
       ...state,
       photos: action.photos,
@@ -42,6 +27,9 @@ const favoriteReducer = (state = initState, action) => {
       ...state,
       searchBackground: action.searchBackground
     };
+  }
+  if (action.type === "UPDATE_SEARCH_BACKGROUND_IMAGE_SRC") {
+
   }
   if (action.type === "ADD_FAVS") {
     let favs = [...state.favs, action.imgObj];

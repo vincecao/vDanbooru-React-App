@@ -9,108 +9,25 @@ import {
   MenuItem,
   Menu
 } from "@blueprintjs/core";
-import {
-  FacebookIcon,
-  TwitterIcon,
-  TelegramIcon,
-  PinterestIcon,
-  RedditIcon,
-  TumblrIcon,
-  LineIcon
-} from "react-share";
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  TelegramShareButton,
-  PinterestShareButton,
-  RedditShareButton,
-  TumblrShareButton,
-  LineShareButton
-} from "react-share";
-import { DOMAIN } from "../res/defaultLst";
+
+import { DOMAIN } from "../res/defaultRes";
 import SignoutLinks from "./SignoutLinks.js";
 import SigninLinks from "./SigninLinks.js";
 import "./MyNavbar.css";
 import { useSelector } from 'react-redux'
 import { isLoaded, isEmpty } from 'react-redux-firebase'
+import { shareMenu } from '../layout/shareMenu'
 
 const MyNavbar = props => {
-  const shareMenu = () => {
-    return (
-      <Menu className="bp3-minimal">
-        <TwitterShareButton
-          url={"http:" + DOMAIN + "/vdanbooru-react"}
-          children={
-            <MenuItem
-              text="Twitter"
-              icon={<TwitterIcon size={24} round={false} />}
-            />
-          }
-        />
-        <FacebookShareButton
-          url={"http:" + DOMAIN + "/vdanbooru-react"}
-          children={
-            <MenuItem
-              text="Facebook"
-              icon={<FacebookIcon size={24} round={false} />}
-            />
-          }
-        />
-        <PinterestShareButton
-          media={props.searchBackground}
-          url={"http:" + DOMAIN + "/vdanbooru-react"}
-          children={
-            <MenuItem
-              text="Pinterest"
-              icon={<PinterestIcon size={24} round={false} />}
-            />
-          }
-        />
-        <TumblrShareButton
-          url={"http:" + DOMAIN + "/vdanbooru-react"}
-          children={
-            <MenuItem
-              text="Tumblr"
-              icon={<TumblrIcon size={24} round={false} />}
-            />
-          }
-        />
-        <RedditShareButton
-          url={"http:" + DOMAIN + "/vdanbooru-react"}
-          children={
-            <MenuItem
-              text="Reddit"
-              icon={<RedditIcon size={24} round={false} />}
-            />
-          }
-        />
-        <LineShareButton
-          url={"http:" + DOMAIN + "/vdanbooru-react"}
-          children={
-            <MenuItem text="Line" icon={<LineIcon size={24} round={false} />} />
-          }
-        />
-        <TelegramShareButton
-          url={"http:" + DOMAIN + "/vdanbooru-react"}
-          children={
-            <MenuItem
-              text="Telegram"
-              icon={<TelegramIcon size={24} round={false} />}
-            />
-          }
-        />
-        {/* <MenuDivider /> */}
-      </Menu>
-    );
-  };
 
+  const shareMenuUrl = "http:" + DOMAIN + "/vdanbooru-react"
   const auth = useSelector(state => state.firebase.auth)
 
   const aboutMenu = () => {
     return (
       <Menu className="bp3-minimal">
-        <MenuItem text="Github" icon="paragraph" href="//github.com/vincecao/vdanbooru-react-app" target="_blank" />
-        <MenuItem text="Me!!" icon="mugshot" href="//vince-amazing.com" target="_blank" />
+        <MenuItem text="Github" icon="paragraph" href="//github.com/vincecao/vdanbooru-react-app" target="_blank" rel="noopener noreferrer"/>
+        <MenuItem text="Me!!" icon="mugshot" href="//vince-amazing.com" target="_blank" rel="noopener noreferrer"/>
       </Menu>
     );
   };
@@ -152,7 +69,10 @@ const MyNavbar = props => {
           content={aboutMenu()}
           interactionKind={PopoverInteractionKind.HOVER}
         >
-          <Button className="bp3-minimal" icon="inbox">
+          <Button
+            className="bp3-minimal"
+            rightIcon="caret-down"
+            icon="inbox">
             <p className="desktop-navbar-txt">About</p>
           </Button>
         </Popover>
@@ -164,7 +84,7 @@ const MyNavbar = props => {
     return <Fragment>
       <Navbar.Group align={Alignment.RIGHT}>
         <Popover
-          content={shareMenu()}
+          content={shareMenu(shareMenuUrl, props.searchBackground)}
           interactionKind={PopoverInteractionKind.HOVER}
         >
           <Button

@@ -1,16 +1,16 @@
-import React, { Fragment } from "react";
-import { BrowserRouter, Route, Redirect, Link } from "react-router-dom";
-import axios from "axios";
-import { EditableText, H1, Tooltip, NonIdealState, PopoverInteractionKind, Popover, Menu, MenuItem, Position, Intent, Toaster } from "@blueprintjs/core";
+import React from "react";
+import { EditableText, H1, Tooltip, NonIdealState, Menu, MenuItem, Position, Intent, Toaster } from "@blueprintjs/core";
 import Gallery from "react-grid-gallery";
-import { DEFAULTLST, DOMAIN } from "../res/defaultLst";
+import { DEFAULTLST, DOMAIN } from "../res/defaultRes";
 import { connect } from "react-redux";
 import { deleteSingleAction } from '../../actions/deleteSingleAction.js'
 import { addFavAction } from '../../actions/addFavAction.js'
 import { replaceAllAction } from '../../actions/replaceAllAction.js'
+import { updatePhotoAction } from '../../actions/updatePhotoAction'
 
 import firebase from '../../config/fbConfig';
 import './Hots.css'
+import { tagPanel } from '../layout/tagPanel'
 
 const tagStyle = {
   display: 'inline',
@@ -28,6 +28,7 @@ const tagStyle = {
 class Hots extends React.Component {
 
 
+  shareMenuUrl = "http:" + DOMAIN + "/vdanbooru-react"
 
   constructor(props) {
     super(props);
@@ -43,21 +44,29 @@ class Hots extends React.Component {
       maxLength: 20,
       selectAllOnFocus: true,
       isTagPanelOpen: false,
-      focusingImgObject: {}
+      focusingImgObject: {},
+      showIndicate: true
     };
   }
 
   componentDidMount() {
     try {
-      this.updateSearch();
+      this.updateSearch(this.state.keywords);
+      setInterval(() => {
+        this.setState({
+          showIndicate: !this.state.showIndicate
+        })
+      }, 1000)
     } catch{ }
 
   }
 
-  updateSearch = () => {
-    this.props.updatePhotos(this.state.keywords);
 
-    let tempPlaceholder = this.state.keywords;
+
+  updateSearch = (keywords) => {
+    this.props.updatePhotos(keywords);
+
+    let tempPlaceholder = keywords;
     let placeholder =
       tempPlaceholder.charAt(0).toUpperCase() + tempPlaceholder.slice(1);
     this.setState({ keywords: "", placeholder });
@@ -68,7 +77,6 @@ class Hots extends React.Component {
   };
 
   tagPanelMenu = () => {
-
     return <Menu className="bp3-minimal">
       {this.tagPanelMenuItem()}
     </Menu>
@@ -77,35 +85,17 @@ class Hots extends React.Component {
   tagPanelMenuItem = () => {
     return (
       this.state.focusingImgObject.tags.map((tag, index) => {
-        return <MenuItem key={index} text={tag.value} onClick={() => { this.setState({ keywords: tag.value, isTagPanelOpen: false }); this.props.updatePhotos(tag.value) }} />
+        return <MenuItem key={index} text={tag.value} onClick={() => { this.setState({ isTagPanelOpen: false }); this.updateSearch(tag.value) }} />
       })
     )
   }
 
-  tagPanel = () => {
-    if (this.state.isTagPanelOpen) {
-      return <div style={{ position: 'fixed', left: 100, top: 50, zIndex: 13 }}>
-        <Popover
-          content={this.tagPanelMenu()}
-          interactionKind={PopoverInteractionKind.HOVER}
-          position="bottom"
-          style={{ position: 'fixed', left: 100, top: 100, zIndex: 13 }}
-        >
-          <div className="bp3-card bp3-interactive tagPoints-lg"></div>
-        </Popover>
-        {/* <Tooltip
-          className="bp3-minimal"
-          content="Favorite"
-          position="right"
-        >
-          <div className="bp3-card bp3-interactive tagPoints-bookmark"></div>
-        </Tooltip> */}
-
-      </div>
+  showIndicator = (flag) => {
+    if (flag === true) {
+      return <span style={{ opacity: 1 }}>:</span>
     } else {
-      return
+      return <span style={{ opacity: 0 }}>:</span>
     }
-
   }
 
   handleResult = () => {
@@ -152,59 +142,30 @@ class Hots extends React.Component {
             lightboxWillClose={this.handleLightboxWillClose}
             currentImageWillChange={this.handleCurrentImageWillChange}
             enableKeyboardInput={true}
-          // customControls={[this.tagPanel()]}
           />
         );
       }
     }
   };
 
-  // handleOnClickImage = (event) => {
-  //   console.log('handleOnClickImage', event)
-  // }
-
   handleLightboxWillOpen = (event) => {
-    this.TagPanelPointsToogle(1)
-    console.log('handleLightboxWillOpen', event)
+    this.setState({
+      isTagPanelOpen: true
+    })
   }
 
   handleLightboxWillClose = () => {
-    this.TagPanelPointsToogle(0)
+    this.setState({
+      isTagPanelOpen: false
+    })
   }
 
   handleCurrentImageWillChange = (index, image) => {
-
     this.setState({
       focusingImgObject: this.props.photos[index]
     })
-    console.log('focusingImgObject', this.state.focusingImgObject)
   }
 
-  TagPanelPointsToogle = (index) => {
-    if (index === 0) {
-      this.setState({
-        isTagPanelOpen: false
-      })
-    } else {
-      this.setState({
-        isTagPanelOpen: true
-      })
-    }
-    // let temp = !this.state.isTagPanelOpen
-    // this.setState({
-    //   isTagPanelOpen: temp
-    // })
-  }
-
-  updateTagPanel = (imgObject) => {
-
-  }
-
-  handleOnClick = (index, image) => {
-    console.log('handleOnClick', index, image)
-  };
-
-  // myTileViewportStyleFn.call(this);
   onSelectImage(index, image) {
     let photos = this.props.photos.slice();
     let img = photos[index];
@@ -238,11 +199,9 @@ class Hots extends React.Component {
       }
     }
     //console.log(this.props.favs)
-    
+
   }
 
-
-  // toaster: Toaster;
   refHandlers = {
     toaster: (ref) => this.toaster = ref,
   };
@@ -252,21 +211,23 @@ class Hots extends React.Component {
   }
 
   render() {
+    // console.log('this.state.focusingImgObject.caption', this.state.focusingImgObject.caption)
     return (
       <div>
-        {this.tagPanel()}
+        {tagPanel(this.state.isTagPanelOpen, true, this.tagPanelMenu, this.shareMenuUrl, {img: this.state.focusingImgObject.src, caption: this.state.focusingImgObject.caption})}
         <Tooltip
           className="bp3-minimal"
           content="vDanbooru search is here !"
           position="right"
         >
           <H1 style={{ margin: "30px" }}>
+            {this.showIndicator(this.state.showIndicate)}
             <EditableText
               intent={this.state.intent}
               maxLength={this.state.maxLength}
               placeholder={
                 this.state.placeholder === ""
-                  ? "Type something interested"
+                  ? "Type something..."
                   : this.state.placeholder
               }
               selectAllOnFocus={this.state.selectAllOnFocus}
@@ -276,7 +237,7 @@ class Hots extends React.Component {
                 .toLowerCase()
                 .replace(" ", "")}
               confirmOnEnterKey={this.state.confirmOnEnterKey}
-              onConfirm={() => this.updateSearch()}
+              onConfirm={() => this.updateSearch(this.state.keywords)}
             />
           </H1>
         </Tooltip>
@@ -300,20 +261,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updatePhotos: key => {
-      dispatch({ type: "UPDATE_PHOTOS" });
-      let url = DOMAIN + "/api/mode/Normal/tag/" + key + "/num/15";
-      // console.log(url)
-      axios
-        .get(url)
-        .then(res => {
-          const photos = res.data;
-          dispatch({ type: "UPDATE_PHOTOS_SUCCESS", key, photos });
-        })
-        .catch(err => {
-          dispatch({ type: "UPDATE_PHOTOS_SUCCESS", key, photos: [] });
-        });
-    },
+    updatePhotos: (keyword) => dispatch(updatePhotoAction(keyword)),
     replaceFavs: (favs) => dispatch(replaceAllAction(favs)),
     addFavs: (imgObj) => dispatch(addFavAction(imgObj)),
     delFavs: (imgObj) => dispatch(deleteSingleAction(imgObj))

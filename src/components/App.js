@@ -11,6 +11,7 @@ import MyNavbar from "./layout/MyNavbar";
 import MyFooter from "./layout/MyFooter";
 import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
+import {updateBackgroundImageAction} from "../actions/updateBackgroundImageAction"
 
 class App extends Component {
   divStyle = {
@@ -32,6 +33,10 @@ class App extends Component {
     return <SignUp />
   }
 
+  handleSwitch = () => {
+    this.props.updateBackImageSrc()
+  }
+
   render() {
     return (
       <div style={this.divStyle}>
@@ -45,7 +50,7 @@ class App extends Component {
           <Route path="/tags/:key" component={Hots} />
           <Redirect to="/Search"/>
 
-          <MyFooter />
+          <MyFooter handleSwitch={this.handleSwitch}/>
         </BrowserRouter>
         {this.handleSignInWindow()}
         {this.handleSignUpWindow()}
@@ -59,4 +64,12 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    updateBackImageSrc: () => {
+      return dispatch(updateBackgroundImageAction());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

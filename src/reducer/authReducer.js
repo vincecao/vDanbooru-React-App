@@ -1,6 +1,3 @@
-import { firestoreReducer } from 'redux-firestore'
-import { combineReducers } from 'redux';
-
 const initState = {
   authError: null,
   isSignInOpen: false,

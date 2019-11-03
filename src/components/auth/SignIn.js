@@ -58,7 +58,7 @@ class SignIn extends Component {
                 onClick={this.handleClose}
                 style={{ marginRight: "10px" }}
               >Cancel</Button>
-              <Button onClick={this.deleteFav} style={{ margin: "" }} onClick={this.handleSubmit}>Log in</Button>
+              <Button style={{ margin: "" }} onClick={this.handleSubmit}>Log in</Button>
             </div>
           </FormGroup>
         </div>
