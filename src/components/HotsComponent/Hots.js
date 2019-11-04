@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { EditableText, H1, Tooltip, NonIdealState, Position, Intent, Toaster } from "@blueprintjs/core";
 import Gallery from "react-grid-gallery";
-import { DEFAULTLST } from "../res/defaultRes";
+import { DEFAULTLST } from "../res/env";
 import { connect } from "react-redux";
 import { deleteSingleAction } from '../../actions/deleteSingleAction.js'
 import { addFavAction } from '../../actions/addFavAction.js'
@@ -58,12 +58,18 @@ class Hots extends React.Component {
   }
 
   updateSearch = (keywords) => {
-    this.props.updatePhotos(keywords);
+    if (keywords) {
+      this.props.updatePhotos(keywords);
 
-    let tempPlaceholder = keywords;
-    let placeholder =
-      tempPlaceholder.charAt(0).toUpperCase() + tempPlaceholder.slice(1);
-    this.setState({ keywords: "", placeholder });
+      let tempPlaceholder = keywords;
+      let placeholder =
+        tempPlaceholder.charAt(0).toUpperCase() + tempPlaceholder.slice(1);
+      this.setState({ keywords: "", placeholder });
+    }else{
+      this.props.updatePhotos(-1);
+      this.setState({ keywords: "", placeholder: ''});
+    }
+
   };
 
   handleReportChange = keywords => {
@@ -98,6 +104,7 @@ class Hots extends React.Component {
         </div>
       );
     } else {
+      console.log(this.props.photos)
       if (this.props.photos === null || this.props.photos === undefined || this.props.photos.length === 0) {
         return (
           <div style={{ height: "450px" }}>
@@ -226,7 +233,7 @@ const mapStateToProps = (state, ownProps) => {
     //favs: state.favorite.favs,
     focusingImgObject: state.favorite.focusingImgObject,
 
-    favs: state.firebase.profile.favs,
+    favs: state.firebase.profile ? state.firebase.profile.favs : [],
 
     //firebase: state.firebase
   };

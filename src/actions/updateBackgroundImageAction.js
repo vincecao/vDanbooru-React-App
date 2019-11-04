@@ -1,5 +1,5 @@
 
-import { DOMAIN, DEFAULT_BACKGROUND } from "../components/res/defaultRes";
+import { DOMAIN, DEFAULT_BACKGROUND } from "../components/res/env";
 import axios from "axios";
 
 export const updateBackgroundImageAction = (imgObj) => {

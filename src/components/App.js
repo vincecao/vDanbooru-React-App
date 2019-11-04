@@ -13,7 +13,7 @@ import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import { updateBackgroundImageAction } from "../actions/updateBackgroundImageAction"
 import { tagPanel } from './layout/tagPanel'
-import { DOMAIN } from "./res/defaultRes";
+import { DOMAIN } from "./res/env";
 
 class App extends Component {
 

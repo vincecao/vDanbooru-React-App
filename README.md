@@ -22,6 +22,9 @@ _Sign-up & Login-in Support_
 _Search by tags_
 ![](screenshots/tags.png)
 
+_Mobile_
+![](screenshots/phone.jpg)
+
 ### Update Logs
 
 _11/03/2019_
@@ -67,6 +70,6 @@ _10/27/2019_
 
 ### Sample Build Instruction
 - Run a backend process as `nodemon app` connect with  
-- Need configure two file, `/src/config/fbConfig.js` connect with Firebase account as well as `/src/components/res/defaultRes.js` for setting up the ground default environment variable
+- Need configure two file, `/src/config/fbConfig.js` connect with Firebase account as well as `/src/components/res/env.js` for setting up the ground default environment variable
 - Use script `react-scripts start` or `yarn run` testing in your development
 - Use `npm build` or `yarn build` to build your project

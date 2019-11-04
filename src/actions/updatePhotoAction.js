@@ -1,8 +1,9 @@
 import axios from "axios";
-import { DOMAIN } from "../components/res/defaultRes";
+import { DOMAIN } from "../components/res/env";
 
 export const updatePhotoAction = (keyword) => {
   return (dispatch, getState, firebase) => {
+    if(keyword === -1) {dispatch({ type: "UPDATE_PHOTOS_SUCCESS", photos: [] }); return;}
     dispatch({ type: "UPDATE_PHOTOS_LOAD" });
     let url = DOMAIN + "/api/mode/Normal/tag/" + keyword + "/num/15";
     axios

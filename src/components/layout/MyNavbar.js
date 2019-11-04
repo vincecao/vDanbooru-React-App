@@ -11,7 +11,7 @@ import {
   Menu
 } from "@blueprintjs/core";
 
-import { DOMAIN } from "../res/defaultRes";
+import { DOMAIN } from "../res/env";
 import SignoutLinks from "./SignoutLinks.js";
 import SigninLinks from "./SigninLinks.js";
 import "./MyNavbar.css";

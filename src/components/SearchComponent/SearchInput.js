@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Link } from "react-router-dom";
 import Hots from "../HotsComponent/Hots";
-import { DEFAULTLST } from "../res/defaultRes";
+import { DEFAULTLST } from "../res/env";
 
 const searchStyle = {
   maxWidth: "1000px",
