@@ -11,19 +11,19 @@ import MyNavbar from "./layout/MyNavbar";
 import MyFooter from "./layout/MyFooter";
 import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
-import {updateBackgroundImageAction} from "../actions/updateBackgroundImageAction"
+import { updateBackgroundImageAction } from "../actions/updateBackgroundImageAction"
+import { tagPanel } from './layout/tagPanel'
+import { DOMAIN } from "./res/defaultRes";
 
 class App extends Component {
-  divStyle = {
-    display: "flex",
-    flexDirection: "column",
-    height: "100vh"
-  };
 
   constructor(props) {
     super(props);
     this.state = { link: "", isOpen: true };
+
   }
+
+  shareMenuUrl = "http:" + DOMAIN + "/vdanbooru-react"
 
   handleSignInWindow = () => {
     return <SignIn />
@@ -37,20 +37,39 @@ class App extends Component {
     this.props.updateBackImageSrc()
   }
 
+
   render() {
     return (
-      <div style={this.divStyle}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh'
+      }}>
         <BrowserRouter basename={"/vdanbooru-react"}>
-          <MyNavbar searchBackground={this.props.searchBackground} />
+          <MyNavbar searchBackground={this.props.searchBackground} isLightBoxOpen={this.props.isLightBoxOpen} />
+
 
           <Redirect from="/" to="/Search" />
           <Route path="/Search" component={Search} />
-          <Route path="/Hots" component={Hots} />
-          <Route path="/Favs" component={Favs} />
-          <Route path="/tags/:key" component={Hots} />
-          <Redirect to="/Search"/>
 
-          <MyFooter handleSwitch={this.handleSwitch}/>
+          {tagPanel(
+            this.props.isLightBoxOpen,
+            this.props.isInHotPage,
+            this.shareMenuUrl,
+            {
+              img: this.props.focusingImgObject.src,
+              caption: this.props.focusingImgObject.caption
+            },
+            this.props
+          )}
+
+          <div style={{ filter: (this.props.isLightBoxOpen) ? 'blur(0.5rem) saturate(200%)' : 'none' }}>
+            <Route path="/Hots" component={Hots} />
+            <Route path="/Favs" component={Favs} />
+            <Route path="/tags/:key" component={Hots} />
+            <Redirect to="/Search" />
+          </div>
+          <MyFooter handleSwitch={this.handleSwitch} isLightBoxOpen={this.props.isLightBoxOpen} />
         </BrowserRouter>
         {this.handleSignInWindow()}
         {this.handleSignUpWindow()}
@@ -60,7 +79,12 @@ class App extends Component {
 }
 const mapStateToProps = (state, ownProps) => {
   return {
-    searchBackground: state.favorite.searchBackground
+    searchBackground: state.favorite.searchBackground,
+    blurEffect: state.favorite.blurEffect,
+    focusingImgObject: state.favorite.focusingImgObject,
+    isLightBoxOpen: state.favorite.isLightBoxOpen,
+    isInHotPage: state.favorite.isInHotPage,
+    onSearchInHot: state.favorite.onSearchInHot
   };
 };
 
@@ -68,7 +92,10 @@ const mapDispatchToProps = dispatch => {
   return {
     updateBackImageSrc: () => {
       return dispatch(updateBackgroundImageAction());
-    }
+    },
+    closeLightBox: () => {
+      return dispatch({ type: 'CLOSE_LIGHT_BOX' });
+    },
   };
 };
 

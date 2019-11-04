@@ -2,7 +2,16 @@ const initState = {
   searchBackground: null,
   photos: [],
   favs: [],//firebase.profile.favs,
-  isLoad: false
+  isLoad: false,
+  blurEffect: 'none',//blur(0.5rem) saturate(200%),
+  isLightBoxOpen: false,
+  isInHotPage: false,
+  focusingImgObject: {
+    src: '',
+    caption: '',
+    tags: []
+  },
+  onSearchInHot: null
 };
 
 const favoriteReducer = (state = initState, action) => {
@@ -60,6 +69,48 @@ const favoriteReducer = (state = initState, action) => {
     return {
       ...state,
       favs
+    };
+  }
+  if (action.type === "SET_BLUR") {
+    return {
+      ...state,
+      blurEffect: 'blur(0.5rem) saturate(200%)'
+    };
+  }
+  if (action.type === "CANCEL_BLUR") {
+    return {
+      ...state,
+      blurEffect: 'none'
+    };
+  }
+  if (action.type === "CLOSE_LIGHT_BOX") {
+    return {
+      ...state,
+      isLightBoxOpen: false
+    };
+  }
+  if (action.type === "OPEN_LIGHT_BOX") {
+    return {
+      ...state,
+      isLightBoxOpen: true
+    };
+  }
+  if (action.type === "UPDATE_FOCUS_IMG") {
+    return {
+      ...state,
+      focusingImgObject: action.focusingImgObject
+    };
+  }
+  if (action.type === "CHECK_IS_IN_HOT") {
+    return {
+      ...state,
+      isInHotPage: action.isInHot
+    };
+  }
+  if (action.type === "MOUNT_ON_SEARCH") {
+    return {
+      ...state,
+      onSearchInHot: action.onSearchInHot
     };
   }
   return state;

@@ -3,19 +3,39 @@ import {
   Popover,
   Button,
   Position,
-  PopoverInteractionKind
+  PopoverInteractionKind,
+  Menu,
+  MenuItem
 } from "@blueprintjs/core";
 import { shareMenu } from './shareMenu'
 
+export const tagPanel = (isTagPanelOpen, isInHots, shareMenuUrl, shareMenuItem, props) => {
 
-export const tagPanel = (isTagPanelOpen, isInHots, tagPanelMenu, shareMenuUrl, shareMenuItem) => {
+  const tagPanelMenu = () => {
+    return <Menu className="bp3-minimal">
+      {tagPanelMenuItem()}
+    </Menu>
+  }
+
+  const tagPanelMenuItem = () => {
+    return (
+      props.focusingImgObject.tags.map((tag, index) => {
+        return <MenuItem key={index} text={tag.value}
+          onClick={() => {
+            props.closeLightBox()
+            props.onSearchInHot(tag.value)
+          }
+          } />
+      })
+    )
+  }
 
   const TagButton = () => {
     if (isInHots) {
       return <Popover
         content={tagPanelMenu()}
         interactionKind={PopoverInteractionKind.HOVER}
-        position={Position.bottom}
+        position={Position.BOTTOM}
       >
         <Button className="bp3-minimal" style={{ border: '1px black solid', background: 'white', marginRight: 10 }} icon="tag">
           <p className="desktop-navbar-txt">Tags</p>
@@ -28,7 +48,7 @@ export const tagPanel = (isTagPanelOpen, isInHots, tagPanelMenu, shareMenuUrl, s
   }
 
   if (isTagPanelOpen) {
-    return <div style={{ position: 'fixed', left: 20, top: 20, zIndex: 13, display: 'flex' }}>
+    return <div style={{ position: 'fixed', left: 0, top: 0, zIndex: 13, marginTop: 10, marginLeft: 20 }}>
       {TagButton()}
       {/* <Button className="bp3-minimal" style={{ border: '1px black solid', background: 'white', marginRight: 10 }} icon="star" disabled>
         <p className="desktop-navbar-txt">Add Favs</p>
@@ -36,7 +56,7 @@ export const tagPanel = (isTagPanelOpen, isInHots, tagPanelMenu, shareMenuUrl, s
       <Popover
         content={shareMenu(shareMenuUrl, shareMenuItem.img)}
         interactionKind={PopoverInteractionKind.HOVER}
-        position={Position.bottom}
+        position={Position.BOTTOM}
       >
         <Button className="bp3-minimal" style={{ border: '1px black solid', background: 'white', marginRight: 10 }} icon="share" rightIcon="caret-down">
           <p className="desktop-navbar-txt">Share</p>
@@ -59,6 +79,4 @@ export const tagPanel = (isTagPanelOpen, isInHots, tagPanelMenu, shareMenuUrl, s
   }
 }
 
-export default {
-  tagPanel
-};
+export default { tagPanel };

@@ -1,17 +1,33 @@
 # vDanbooru React App
 
-A React & BlueprintJS implement of vDanbooru, using for searching Image from safe danbooru lib.
+A React & BlueprintJS implement of Anime Image search web application, using for searching Image from safe danbooru lib.
 
 [vDanbooru React Portal](http://vince-amazing.us-west-1.elasticbeanstalk.com/vdanbooru-react)
 
+_Index of vDanbooru_
 ![](screenshots/index.png)
+
+_Search & Hots Page_
 ![](screenshots/search.png)
+
+_Lightbox_
 ![](screenshots/lightbox.png)
+
+_Favorite Collection for Loginin Users_
 ![](screenshots/favorites.png)
+
+_Sign-up & Login-in Support_
 ![](screenshots/signup_login.png)
+
+_Search by tags_
 ![](screenshots/tags.png)
 
 ### Update Logs
+
+_11/03/2019_
+- Add blur effects to lightbox mode
+- Fix popover position error
+- Remove some of redundant code and improve code in module of tagPanel
 
 _11/02/2019_
 - Clean some of code in lightbox and popover effects
@@ -48,3 +64,9 @@ _10/27/2019_
 - Multi-tag search support
 - Chat / comment board
 - ...
+
+### Sample Build Instruction
+- Run a backend process as `nodemon app` connect with  
+- Need configure two file, `/src/config/fbConfig.js` connect with Firebase account as well as `/src/components/res/defaultRes.js` for setting up the ground default environment variable
+- Use script `react-scripts start` or `yarn run` testing in your development
+- Use `npm build` or `yarn build` to build your project

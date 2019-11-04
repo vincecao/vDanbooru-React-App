@@ -15,19 +15,10 @@ var corsOptions = {
 }
 app.use(cors(corsOptions))
 
-app.use("/search-product", express.static(__dirname + '/search-product'));
-app.get("/search-product-php", (req, res) => res.redirect('http://vince-amazing-php.us-west-1.elasticbeanstalk.com/'));
-app.use("/vdanbooru-web", express.static(__dirname + '/vdanbooru-web'));
-
 app.use(bp.urlencoded({
   extended: true
 }));
 app.use(bp.json());
-app.use('/api', router);
-
-app.get('/*', (req, res) => res.redirect('//vince-amazing.com'));
-
-
 
 // *********************************** router for vDanbooru
 
@@ -49,7 +40,7 @@ router.get('/mode/:type', (req, res) => {
   //     res.json(url.href)
   // })
   if (req.params.type == 'Random') {
-    res.redirect('/api/mode/Random/tag/scenery/num/1');
+    res.redirect('/mode/Random/tag/scenery/num/1');
   } else {
     res.send('error type')
   }

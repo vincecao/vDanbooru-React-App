@@ -13,15 +13,12 @@ import Gallery from "react-grid-gallery";
 import { connect } from "react-redux";
 import "./Favs.css";
 import classNames from "classnames";
-import { DEFAULTLST, DOMAIN } from "../res/defaultRes";
 import { deleteSingleAction } from '../../actions/deleteSingleAction.js'
 import { deleteAllAction } from '../../actions/deleteAllAction.js'
 import { replaceAllAction } from '../../actions/replaceAllAction.js'
 import firebase from '../../config/fbConfig';
 import { auth } from "firebase";
-import { isLoaded, isEmpty } from 'react-redux-firebase'
-import { tagPanel } from '../layout/tagPanel'
-
+import { isEmpty } from 'react-redux-firebase'
 
 const OVERLAY_EXAMPLE_CLASS = "docs-overlay-example-transition";
 
@@ -32,16 +29,20 @@ class Favs extends Component {
       isOneOverLayOpen: false,
       isAllOverLayOpen: false,
       index: -100,
-      isTagPanelOpen: false,
-      focusingImgObject: {},
     }
   }
-  shareMenuUrl = "http:" + DOMAIN + "/vdanbooru-react"
+
+  componentDidMount() {
+    this.props.checkIsInHot()
+
+  }
+
   classes = classNames(
     Classes.CARD,
     Classes.ELEVATION_4,
     OVERLAY_EXAMPLE_CLASS
   )
+
   handleOneOpen = (index, image) => this.setState({ isOneOverLayOpen: true, index });
   handleOneClose = () => this.setState({ isOneOverLayOpen: false, index: -100 });
   handleAllOpen = (index, image) => this.setState({ isAllOverLayOpen: true });
@@ -70,7 +71,7 @@ class Favs extends Component {
 
   openDeleteOneOverLay = () => {
     return (
-      <Overlay onClose={this.handleOneClose} className="center" isOpen={this.state.isOneOverLayOpen}>
+      <Overlay key={2} onClose={this.handleOneClose} className="center" isOpen={this.state.isOneOverLayOpen}>
         <div className={this.classes} style={{ width: "380px" }}>
           <p>Delete this one? / これを削除しますか？ </p>
 
@@ -80,12 +81,12 @@ class Favs extends Component {
           >
             <Button
               intent={Intent.DANGER}
-              onClick={()=> {this.handleOneClose()}}
+              onClick={() => { this.handleOneClose() }}
               style={{ marginRight: "10px" }}
             >
               Close
             </Button>
-            <Button onClick={()=>{this.deleteOneFav()}} style={{ margin: "" }}>
+            <Button onClick={() => { this.deleteOneFav() }} style={{ margin: "" }}>
               Comfirm
             </Button>
           </div>
@@ -96,7 +97,7 @@ class Favs extends Component {
 
   openDeleteAllOverLay = () => {
     return (
-      <Overlay onClose={this.handleAllClose} className="center" isOpen={this.state.isAllOverLayOpen}>
+      <Overlay key={1} onClose={this.handleAllClose} className="center" isOpen={this.state.isAllOverLayOpen}>
         <div className={this.classes} style={{ width: "380px" }}>
           <p>Are you sure to delete all? / すべて削除してもよろしいですか？</p>
 
@@ -106,12 +107,12 @@ class Favs extends Component {
           >
             <Button
               intent={Intent.DANGER}
-              onClick={()=>{this.handleAllClose()}}
+              onClick={() => { this.handleAllClose() }}
               style={{ marginRight: "10px" }}
             >
               Close
             </Button>
-            <Button onClick={()=>{this.deleteAllFav()}} style={{ margin: "" }}>
+            <Button onClick={() => { this.deleteAllFav() }} style={{ margin: "" }}>
               Comfirm
             </Button>
           </div>
@@ -163,14 +164,11 @@ class Favs extends Component {
   resetBtn = () => {
     if (!isEmpty(auth) && this.props.favs !== null && this.props.favs !== undefined && this.props.favs.length > 0) {
       return <Button
-
-        onClick={()=>{this.handleAllOpen()}}
-
+        onClick={() => { this.handleAllOpen() }}
         style={{ margin: "", height: '30px', width: '50px', marginRight: '20px' }}> Reset </Button>
     } else {
       return
     }
-
   }
 
   refHandlers = {
@@ -181,30 +179,22 @@ class Favs extends Component {
     this.toaster.show({ intent, message });
   }
 
-
   //tag panel
   handleLightboxWillOpen = (event) => {
-    this.setState({
-      isTagPanelOpen: true
-    })
+    this.props.openLightBox()
   }
 
   handleLightboxWillClose = () => {
-    this.setState({
-      isTagPanelOpen: false
-    })
+    this.props.closeLightBox()
   }
 
   handleCurrentImageWillChange = (index, image) => {
-    this.setState({
-      focusingImgObject: this.props.favs[index]
-    })
+    this.props.updateFocusImg(this.props.favs[index])
   }
 
   render() {
     return (
-      <div>
-        {tagPanel(this.state.isTagPanelOpen, false, null, this.shareMenuUrl, { img: this.state.focusingImgObject.src, caption: this.state.focusingImgObject.caption })}
+      <Fragment>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <H1 style={{ margin: "30px" }}>Favorites / 気に入り </H1>
           {this.resetBtn()}
@@ -214,7 +204,7 @@ class Favs extends Component {
         {this.openDeleteOneOverLay()}
         {this.openDeleteAllOverLay()}
         <Toaster position={Position.TOP_RIGHT} ref={this.refHandlers.toaster} />
-      </div>
+      </Fragment>
     );
   }
 }
@@ -225,7 +215,27 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    // replaceFavs: (favs) => dispatch(replaceAllAction(favs)),
+    // delFavs: (imgObj) => dispatch(deleteSingleAction(imgObj)),
+    closeLightBox: () => {
+      return dispatch({ type: 'CLOSE_LIGHT_BOX' });
+    },
+    openLightBox: () => {
+      return dispatch({ type: 'OPEN_LIGHT_BOX' });
+    },
+    updateFocusImg: (focusingImgObject) => {
+      return dispatch({ type: 'UPDATE_FOCUS_IMG', focusingImgObject });
+    },
+    checkIsInHot: () => {
+      return dispatch({ type: 'CHECK_IS_IN_HOT', isInHot: false });
+    }
+  };
+};
+
 export default
   connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
   )(Favs);

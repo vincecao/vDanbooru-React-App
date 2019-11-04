@@ -1,7 +1,7 @@
-import React from "react";
-import { EditableText, H1, Tooltip, NonIdealState, Menu, MenuItem, Position, Intent, Toaster } from "@blueprintjs/core";
+import React, { Fragment } from "react";
+import { EditableText, H1, Tooltip, NonIdealState, Position, Intent, Toaster } from "@blueprintjs/core";
 import Gallery from "react-grid-gallery";
-import { DEFAULTLST, DOMAIN } from "../res/defaultRes";
+import { DEFAULTLST } from "../res/defaultRes";
 import { connect } from "react-redux";
 import { deleteSingleAction } from '../../actions/deleteSingleAction.js'
 import { addFavAction } from '../../actions/addFavAction.js'
@@ -10,7 +10,6 @@ import { updatePhotoAction } from '../../actions/updatePhotoAction'
 
 import firebase from '../../config/fbConfig';
 import './Hots.css'
-import { tagPanel } from '../layout/tagPanel'
 
 const tagStyle = {
   display: 'inline',
@@ -27,9 +26,6 @@ const tagStyle = {
 }
 class Hots extends React.Component {
 
-
-  shareMenuUrl = "http:" + DOMAIN + "/vdanbooru-react"
-
   constructor(props) {
     super(props);
     this.onSelectImage = this.onSelectImage.bind(this);
@@ -43,8 +39,6 @@ class Hots extends React.Component {
       intent: "none",
       maxLength: 20,
       selectAllOnFocus: true,
-      isTagPanelOpen: false,
-      focusingImgObject: {},
       showIndicate: true
     };
   }
@@ -57,11 +51,11 @@ class Hots extends React.Component {
           showIndicate: !this.state.showIndicate
         })
       }, 1000)
+      this.props.checkIsInHot()
+      this.props.mountOnSearch(this.updateSearch)
     } catch{ }
 
   }
-
-
 
   updateSearch = (keywords) => {
     this.props.updatePhotos(keywords);
@@ -75,20 +69,6 @@ class Hots extends React.Component {
   handleReportChange = keywords => {
     this.setState({ keywords });
   };
-
-  tagPanelMenu = () => {
-    return <Menu className="bp3-minimal">
-      {this.tagPanelMenuItem()}
-    </Menu>
-  }
-
-  tagPanelMenuItem = () => {
-    return (
-      this.state.focusingImgObject.tags.map((tag, index) => {
-        return <MenuItem key={index} text={tag.value} onClick={() => { this.setState({ isTagPanelOpen: false }); this.updateSearch(tag.value) }} />
-      })
-    )
-  }
 
   showIndicator = (flag) => {
     if (flag === true) {
@@ -149,21 +129,15 @@ class Hots extends React.Component {
   };
 
   handleLightboxWillOpen = (event) => {
-    this.setState({
-      isTagPanelOpen: true
-    })
+    this.props.openLightBox()
   }
 
   handleLightboxWillClose = () => {
-    this.setState({
-      isTagPanelOpen: false
-    })
+    this.props.closeLightBox()
   }
 
   handleCurrentImageWillChange = (index, image) => {
-    this.setState({
-      focusingImgObject: this.props.photos[index]
-    })
+    this.props.updateFocusImg(this.props.photos[index])
   }
 
   onSelectImage(index, image) {
@@ -177,7 +151,7 @@ class Hots extends React.Component {
       //firebased profile way
       try {
         firebase.updateProfile({ favs: [...this.props.favs, img] })
-        this.props.replaceFavs([...this.props.favs, img])
+        // this.props.replaceFavs([...this.props.favs, img])
         photos[index].isSelected = !photos[index].isSelected;
       } catch{
         this.addToast('please signin to save favorite')
@@ -191,14 +165,13 @@ class Hots extends React.Component {
       //firebase way
       try {
         let favs = this.props.favs.filter(fav => img.src !== fav.src);
-        this.props.replaceFavs(favs)
+        // this.props.replaceFavs(favs)
         firebase.updateProfile({ favs: favs })
         photos[index].isSelected = !photos[index].isSelected;
       } catch{
         this.addToast('please signin to save favorite')
       }
     }
-    //console.log(this.props.favs)
 
   }
 
@@ -211,10 +184,8 @@ class Hots extends React.Component {
   }
 
   render() {
-    // console.log('this.state.focusingImgObject.caption', this.state.focusingImgObject.caption)
     return (
-      <div>
-        {tagPanel(this.state.isTagPanelOpen, true, this.tagPanelMenu, this.shareMenuUrl, {img: this.state.focusingImgObject.src, caption: this.state.focusingImgObject.caption})}
+      <Fragment>
         <Tooltip
           className="bp3-minimal"
           content="vDanbooru search is here !"
@@ -243,7 +214,7 @@ class Hots extends React.Component {
         </Tooltip>
         {this.handleResult()}
         <Toaster position={Position.TOP_RIGHT} ref={this.refHandlers.toaster} />
-      </div>
+      </Fragment>
     );
   }
 }
@@ -253,8 +224,10 @@ const mapStateToProps = (state, ownProps) => {
     photos: state.favorite.photos,
     isLoad: state.favorite.isLoad,
     //favs: state.favorite.favs,
+    focusingImgObject: state.favorite.focusingImgObject,
 
     favs: state.firebase.profile.favs,
+
     //firebase: state.firebase
   };
 };
@@ -262,9 +235,24 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return {
     updatePhotos: (keyword) => dispatch(updatePhotoAction(keyword)),
-    replaceFavs: (favs) => dispatch(replaceAllAction(favs)),
-    addFavs: (imgObj) => dispatch(addFavAction(imgObj)),
-    delFavs: (imgObj) => dispatch(deleteSingleAction(imgObj))
+    // replaceFavs: (favs) => dispatch(replaceAllAction(favs)),
+    // addFavs: (imgObj) => dispatch(addFavAction(imgObj)),
+    // delFavs: (imgObj) => dispatch(deleteSingleAction(imgObj)),
+    closeLightBox: () => {
+      return dispatch({ type: 'CLOSE_LIGHT_BOX' });
+    },
+    openLightBox: () => {
+      return dispatch({ type: 'OPEN_LIGHT_BOX' });
+    },
+    updateFocusImg: (focusingImgObject) => {
+      return dispatch({ type: 'UPDATE_FOCUS_IMG', focusingImgObject });
+    },
+    mountOnSearch: (onSearchInHot) => {
+      return dispatch({ type: 'MOUNT_ON_SEARCH', onSearchInHot });
+    },
+    checkIsInHot: () => {
+      return dispatch({ type: 'CHECK_IS_IN_HOT', isInHot: true });
+    }
   };
 };
 

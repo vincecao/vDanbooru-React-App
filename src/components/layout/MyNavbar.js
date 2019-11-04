@@ -69,7 +69,7 @@ const MyNavbar = props => {
         <Popover
           content={aboutMenu()}
           interactionKind={PopoverInteractionKind.HOVER}
-          position={Position.bottom}
+          position={Position.BOTTOM}
         >
           <Button
             className="bp3-minimal"
@@ -88,7 +88,7 @@ const MyNavbar = props => {
         <Popover
           content={shareMenu(shareMenuUrl, props.searchBackground)}
           interactionKind={PopoverInteractionKind.HOVER}
-          position={Position.bottom}
+          position={Position.BOTTOM}
         >
           <Button
             className="bp3-minimal"
@@ -108,9 +108,7 @@ const MyNavbar = props => {
   }
 
   return (
-
-
-    <Navbar style={{ opacity: 0.8 }}>
+    <Navbar style={{ opacity: 0.8, filter: (props.isLightBoxOpen)? 'blur(0.5rem) saturate(200%)': 'none' }}>
       {navsLeft()}
       {navsRight()}
     </Navbar>

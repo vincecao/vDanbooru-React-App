@@ -1,7 +1,7 @@
 import React from "react";
-import { Card, Elevation, Tooltip, Intent, Button, buttonProps } from "@blueprintjs/core";
+import { Card, Elevation, Tooltip, Button } from "@blueprintjs/core";
 
-const MyFooter = ({handleSwitch}) => {
+const MyFooter = ({ handleSwitch, isLightBoxOpen }) => {
   return (
     <Card
       elevation={Elevation.TWO}
@@ -10,13 +10,14 @@ const MyFooter = ({handleSwitch}) => {
         display: "flex",
         justifyContent: "space-between",
         padding: 5,
-        opacity: 0.7
+        opacity: 0.7,
+        filter: (isLightBoxOpen) ? 'blur(0.5rem) saturate(200%)' : 'none'
       }}
     >
       <span>
         <Button
           icon="refresh"
-        onClick={()=>{handleSwitch()}}
+          onClick={() => { handleSwitch() }}
         >
           Switch a Image
         </Button>
