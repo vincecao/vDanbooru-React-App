@@ -20,25 +20,14 @@ app.use(bp.urlencoded({
 }));
 app.use(bp.json());
 
+app.use('/api', router)
+
 // *********************************** router for vDanbooru
 
-const Danbooru = require('danbooru')
-//const booru = new Danbooru()
-//const booru = new Danbooru(`https://${login}:${key}@danbooru.donmai.us`)
 const Booru = require('booru')
 
 router.get('/mode/:type', (req, res) => {
-  // booru.posts({ tags: 'rating:safe scenery' }).then(posts => {
-  //     // Select a random post from posts array
-  //     const index = Math.floor(Math.random() * posts.length)
-  //     const post = posts[index]
 
-  //     // Get post's url and create a filetype for it
-  //     const url = booru.url(post.file_url)
-  //     const type = `${post.md5}.${post.file_ext}`
-  //     console.log('ramdon url', url.href)
-  //     res.json(url.href)
-  // })
   if (req.params.type == 'Random') {
     res.redirect('/mode/Random/tag/scenery/num/1');
   } else {
@@ -50,6 +39,8 @@ router.get('/mode/:type', (req, res) => {
 router.get('/mode/:type/tag/:t/num/:n', (req, res) => {
 
   const TYPE = req.params.type;
+  const TAG = req.params.t;
+  const NUMBER = req.params.n;
   if (TYPE != 'Random' && TYPE != 'Full' && TYPE != 'Normal') {
     res.status(400).send({
       success: 'false'
@@ -57,32 +48,37 @@ router.get('/mode/:type/tag/:t/num/:n', (req, res) => {
   }
 
   let temp = []
-  Booru.search('safebooru', [req.params.t], {
-    limit: req.params.n,
-    random: (req.params.type === 'Random') ? true : false
+  Booru.search('safebooru', [TAG/*, 'score:>=1'*/], {
+    limit: NUMBER,
+    random: true
+    //random: (req.params.type === 'Random') ? true : false
   })
     .then(posts => {
-      if (req.params.type == 'Full') {
+      if (TYPE == 'Full') {
         res.json([...posts])
         return
       }
 
       for (let post of posts) {
-        // console.log(post.fileUrl, post.postView)
-        // temp.push({
-        //     src: post.fileUrl, 
-        //     width: post.width, 
-        //     height: post.height
-        // });
         console.log(post)
+        // res.json(post)
+        // return
+
         let newTags = []
         const shuffled = post.tags.sort(() => 0.5 - Math.random());
         shuffled.slice(0, 25).forEach(tag => {
-          newTags.push({value: tag, title: tag})
+          newTags.push({ value: tag, title: tag })
         })
+
+        const src = '//safebooru.org//images/' + post.data.directory + '/' + post.data.image + '?' + post.data.id
+        let thumbnail = src
+        if (post.data.sample === true) {
+          thumbnail = '//safebooru.org//samples/' + post.data.directory + '/sample_' + post.data.image.replace('.png', '.jpg').replace('.jpeg', '.jpg') + '?' + post.data.id
+        }
+
         temp.push({
-          src: post.fileUrl,
-          thumbnail: post.sampleUrl ? post.sampleUrl : post.fileUrl,
+          src,
+          thumbnail,
           thumbnailHeight: post.sampleHeight ? post.sampleHeight : post.height,
           thumbnailWidth: post.sampleWidth ? post.sampleWidth : post.width,
           caption: post.id,
@@ -90,12 +86,12 @@ router.get('/mode/:type/tag/:t/num/:n', (req, res) => {
         });
       }
 
-      if (req.params.type == 'Random') {
+      if (TYPE == 'Random') {
         res.json(temp[0].src)
         return
       }
 
-      if (req.params.type == 'Normal') {
+      if (TYPE == 'Normal') {
         res.json(temp)
         return
       }

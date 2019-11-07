@@ -5,7 +5,7 @@ export const updatePhotoAction = (keyword) => {
   return (dispatch, getState, firebase) => {
     if(keyword === -1) {dispatch({ type: "UPDATE_PHOTOS_SUCCESS", photos: [] }); return;}
     dispatch({ type: "UPDATE_PHOTOS_LOAD" });
-    let url = DOMAIN + "/api/mode/Normal/tag/" + keyword + "/num/15";
+    let url = DOMAIN + "/api/mode/Normal/tag/" + keyword + "/num/25";
     axios
       .get(url)
       .then(res => {
