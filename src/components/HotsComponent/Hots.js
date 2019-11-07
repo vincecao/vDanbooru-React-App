@@ -104,7 +104,7 @@ class Hots extends React.Component {
         </div>
       );
     } else {
-      console.log(this.props.photos)
+      //console.log(this.props.photos)
       if (this.props.photos === null || this.props.photos === undefined || this.props.photos.length === 0) {
         return (
           <div style={{ height: "450px" }}>
