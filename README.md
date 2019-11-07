@@ -27,6 +27,9 @@ _Mobile_
 
 ### Update Logs
 
+_11/06/2019_
+- Improve gallery image load speed
+
 _11/03/2019_
 - Add blur effects to lightbox mode
 - Fix popover position error
@@ -41,7 +44,7 @@ _11/02/2019_
 
 _10/31/2019_
 - Add Redux Data Store
-- Add favorite tab features for easy bookmark
+- Add favorite tab features for easy bookmarking
 - Support new user to signup and login
 - Add a connection to [Firebase](https://firebase.google.com/) authentication and Firestore database
 - Now favorite images will be linked to your account
