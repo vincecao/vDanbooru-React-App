@@ -26,6 +26,8 @@ _Mobile_
 ![](screenshots/phone.jpg)
 
 ### Update Logs
+_11/22/2019_
+- Handle 'return' button action in searching page and minor codes tweaking
 
 _11/06/2019_
 - Improve gallery image load speed
