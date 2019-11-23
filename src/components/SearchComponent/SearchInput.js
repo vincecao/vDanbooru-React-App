@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Link } from "react-router-dom";
+import { withRouter, Route, Link } from "react-router-dom";
 import Hots from "../HotsComponent/Hots";
 import { DEFAULTLST } from "../res/env";
 
@@ -9,10 +9,17 @@ const searchStyle = {
   margin: "0 auto"
 };
 
-export default class SearchInput extends Component {
+class SearchInput extends Component {
   state = {
     value: ""
   };
+
+  handleComfirm = () => {
+    return '/tags/' +
+      (this.state.value.toString() === ""
+        ? DEFAULTLST[Math.floor(Math.random() * DEFAULTLST.length)]
+        : this.state.value.toString())
+  }
   render() {
     return (
       <div className="bp3-input-group bp3-large" style={searchStyle}>
@@ -24,19 +31,20 @@ export default class SearchInput extends Component {
           onChange={e => {
             this.setState({ value: e.currentTarget.value });
           }}
-          required
+          onKeyDown={e => {
+            if (e.keyCode === 13) {
+              return this.props.history.push(this.handleComfirm())
+            }
+          }}
         />
         <Link
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-arrow-right"
-          to={
-            "/tags/" +
-            (this.state.value.toString() === ""
-              ? DEFAULTLST[Math.floor(Math.random() * DEFAULTLST.length)]
-              : this.state.value.toString())
-          }
+          to={this.handleComfirm()}
         />
         <Route path="/tags/:key" component={Hots} />
       </div>
     );
   }
 }
+
+export default withRouter(SearchInput)
