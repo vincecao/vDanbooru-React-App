@@ -20,7 +20,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = { link: "", isOpen: true };
-
   }
 
   shareMenuUrl = "http:" + DOMAIN + "/vdanbooru-react"
@@ -48,13 +47,12 @@ class App extends Component {
         <BrowserRouter basename={"/vdanbooru-react"}>
           <MyNavbar searchBackground={this.props.searchBackground} isLightBoxOpen={this.props.isLightBoxOpen} />
 
-
           <Redirect from="/" to="/Search" />
           <Route path="/Search" component={Search} />
 
           {tagPanel(
             this.props.isLightBoxOpen,
-            this.props.isInHotPage,
+            this.props.currentPage === 'hots',
             this.shareMenuUrl,
             {
               img: this.props.focusingImgObject.src,
@@ -69,7 +67,12 @@ class App extends Component {
             <Route path="/tags/:key" component={Hots} />
             <Redirect to="/Search" />
           </div>
-          <MyFooter handleSwitch={this.handleSwitch} isLightBoxOpen={this.props.isLightBoxOpen} />
+          <MyFooter
+            currentPage={this.props.currentPage}
+            handleSwitch={this.handleSwitch}
+            isLightBoxOpen={this.props.isLightBoxOpen}
+            searchBackground={this.props.searchBackground}
+          />
         </BrowserRouter>
         {this.handleSignInWindow()}
         {this.handleSignUpWindow()}
@@ -83,8 +86,8 @@ const mapStateToProps = (state, ownProps) => {
     blurEffect: state.favorite.blurEffect,
     focusingImgObject: state.favorite.focusingImgObject,
     isLightBoxOpen: state.favorite.isLightBoxOpen,
-    isInHotPage: state.favorite.isInHotPage,
-    onSearchInHot: state.favorite.onSearchInHot
+    onSearchInHot: state.favorite.onSearchInHot,
+    currentPage: state.favorite.currentPage
   };
 };
 

@@ -5,13 +5,13 @@ const initState = {
   isLoad: false,
   blurEffect: 'none',//blur(0.5rem) saturate(200%),
   isLightBoxOpen: false,
-  isInHotPage: false,
   focusingImgObject: {
     src: '',
     caption: '',
     tags: []
   },
-  onSearchInHot: null
+  onSearchInHot: null,
+  currentPage: 'search'
 };
 
 const favoriteReducer = (state = initState, action) => {
@@ -101,17 +101,17 @@ const favoriteReducer = (state = initState, action) => {
       focusingImgObject: action.focusingImgObject
     };
   }
-  if (action.type === "CHECK_IS_IN_HOT") {
-    return {
-      ...state,
-      isInHotPage: action.isInHot
-    };
-  }
   if (action.type === "MOUNT_ON_SEARCH") {
     return {
       ...state,
       onSearchInHot: action.onSearchInHot
     };
+  }
+  if (action.type === "UPDATE_CURRENT_PAGE") {
+    return {
+      ...state,
+      currentPage: action.currentPage
+    }
   }
   return state;
 };

@@ -41,6 +41,7 @@ class Hots extends React.Component {
       selectAllOnFocus: true,
       showIndicate: true
     };
+    this.props.updateCurrentPage('hots')
   }
 
   componentDidMount() {
@@ -65,9 +66,9 @@ class Hots extends React.Component {
       let placeholder =
         tempPlaceholder.charAt(0).toUpperCase() + tempPlaceholder.slice(1);
       this.setState({ keywords: "", placeholder });
-    }else{
+    } else {
       this.props.updatePhotos(-1);
-      this.setState({ keywords: "", placeholder: ''});
+      this.setState({ keywords: "", placeholder: '' });
     }
 
   };
@@ -230,12 +231,14 @@ const mapStateToProps = (state, ownProps) => {
   return {
     photos: state.favorite.photos,
     isLoad: state.favorite.isLoad,
+    currentPage: state.favorite.currentPage,
+
     //favs: state.favorite.favs,
     focusingImgObject: state.favorite.focusingImgObject,
 
-    favs: state.firebase.profile ? state.firebase.profile.favs : [],
-
+    favs: state.firebase.profile ? state.firebase.profile.favs : []
     //firebase: state.firebase
+
   };
 };
 
@@ -257,8 +260,8 @@ const mapDispatchToProps = dispatch => {
     mountOnSearch: (onSearchInHot) => {
       return dispatch({ type: 'MOUNT_ON_SEARCH', onSearchInHot });
     },
-    checkIsInHot: () => {
-      return dispatch({ type: 'CHECK_IS_IN_HOT', isInHot: true });
+    updateCurrentPage: (currentPage) => {
+      return dispatch({ type: 'UPDATE_CURRENT_PAGE', currentPage });
     }
   };
 };

@@ -30,11 +30,7 @@ class Favs extends Component {
       isAllOverLayOpen: false,
       index: -100,
     }
-  }
-
-  componentDidMount() {
-    this.props.checkIsInHot()
-
+    this.props.updateCurrentPage('favs')
   }
 
   classes = classNames(
@@ -211,6 +207,7 @@ class Favs extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    currentPage: state.favorite.currentPage,
     favs: state.firebase.profile.favs
   };
 };
@@ -228,8 +225,8 @@ const mapDispatchToProps = dispatch => {
     updateFocusImg: (focusingImgObject) => {
       return dispatch({ type: 'UPDATE_FOCUS_IMG', focusingImgObject });
     },
-    checkIsInHot: () => {
-      return dispatch({ type: 'CHECK_IS_IN_HOT', isInHot: false });
+    updateCurrentPage: (currentPage) => {
+      return dispatch({ type: 'UPDATE_CURRENT_PAGE', currentPage });
     }
   };
 };
