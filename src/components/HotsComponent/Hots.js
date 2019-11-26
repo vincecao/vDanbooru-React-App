@@ -52,7 +52,6 @@ class Hots extends React.Component {
           showIndicate: !this.state.showIndicate
         })
       }, 1000)
-      this.props.checkIsInHot()
       this.props.mountOnSearch(this.updateSearch)
     } catch{ }
 
