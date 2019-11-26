@@ -16,7 +16,7 @@ _Lightbox_
 _Favorite Collection for Loginin Users_
 ![](screenshots/favorites.png)
 
-_Sign-up & Login-in Support_
+_Sign-up & Login Support_
 ![](screenshots/signup_login.png)
 
 _Search by tags_
@@ -26,6 +26,9 @@ _Mobile_
 ![](screenshots/phone.jpg)
 
 ### Update Logs
+_11/25/2019_
+- Fix tag searching not working issue
+
 _11/22/2019_
 - Handle 'return' button action in searching page and minor codes tweaking
 
@@ -78,3 +81,7 @@ _10/27/2019_
 - Need configure two file, `/src/config/fbConfig.js` connect with Firebase account as well as `/src/components/res/env.js` for setting up the ground default environment variable
 - Use script `react-scripts start` or `yarn run` testing in your development
 - Use `npm build` or `yarn build` to build your project
+
+## LICENSE
+
+MIT @ [Vince](//vince-amazing.com)
