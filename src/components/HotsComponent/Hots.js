@@ -3,12 +3,12 @@ import { EditableText, H1, Tooltip, NonIdealState, Position, Intent, Toaster } f
 import Gallery from "react-grid-gallery";
 import { DEFAULTLST } from "../res/env";
 import { connect } from "react-redux";
-import { deleteSingleAction } from '../../actions/deleteSingleAction.js'
-import { addFavAction } from '../../actions/addFavAction.js'
-import { replaceAllAction } from '../../actions/replaceAllAction.js'
 import { updatePhotoAction } from '../../actions/updatePhotoAction'
 
 import firebase from '../../config/fbConfig';
+import "firebase/auth";
+import "firebase/firestore";
+
 import './Hots.css'
 
 const tagStyle = {

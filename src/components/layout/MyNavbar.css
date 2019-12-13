@@ -24,7 +24,8 @@ p.desktop-navbar-txt {
   span.bp3-icon.bp3-icon-hand,
   span.bp3-icon.bp3-icon-tag,
   span.bp3-icon.bp3-icon-share,
-  span.bp3-icon.bp3-icon-download {
+  span.bp3-icon.bp3-icon-download,
+  span.bp3-icon.bp3-icon-refresh {
     margin: 0;
   }
 }

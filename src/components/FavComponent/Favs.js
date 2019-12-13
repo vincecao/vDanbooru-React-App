@@ -13,14 +13,14 @@ import Gallery from "react-grid-gallery";
 import { connect } from "react-redux";
 import "./Favs.css";
 import classNames from "classnames";
-import { deleteSingleAction } from '../../actions/deleteSingleAction.js'
-import { deleteAllAction } from '../../actions/deleteAllAction.js'
-import { replaceAllAction } from '../../actions/replaceAllAction.js'
 import firebase from '../../config/fbConfig';
-import { auth } from "firebase";
+import "firebase/auth";
+import "firebase/firestore";
+
 import { isEmpty } from 'react-redux-firebase'
 
 const OVERLAY_EXAMPLE_CLASS = "docs-overlay-example-transition";
+const auth = firebase.auth()
 
 class Favs extends Component {
   constructor(props) {

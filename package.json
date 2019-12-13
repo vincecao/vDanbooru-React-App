@@ -38,6 +38,7 @@
   "scripts": {
     "dev": "BROWSER=none react-scripts start",
     "build": "react-scripts build",
+    "build-aws": "react-scripts build && rm -rf ~/aws/vdanbooru-react && mv build ~/aws/vdanbooru-react",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

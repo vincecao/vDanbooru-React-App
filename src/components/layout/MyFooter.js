@@ -20,14 +20,15 @@ const MyFooter = ({ currentPage, handleSwitch, isLightBoxOpen, searchBackground 
           onClick={() => { handleSwitch() }}
           style={{ marginRight: 5 }}
         >
-          Switch a Image
-      </Button>
+          <p className="desktop-navbar-txt">Switch a Image</p>
+        </Button>
         <Button
+          // className="bp3-minimal"
           icon="download"
           onClick={() => { handleDownload() }}
         >
-          Download Features
-      </Button>
+          <p className="desktop-navbar-txt">Download Features</p>
+        </Button>
       </span>
     } else {
       return <span><p style={{ margin: 'auto 0', marginRight: 5 }} className="bp3-minimal">{currentPage.toString().toUpperCase()}</p></span>

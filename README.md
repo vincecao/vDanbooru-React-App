@@ -26,6 +26,10 @@ _Mobile_
 ![](screenshots/phone.jpg)
 
 ### Update Logs
+_12/12/2019_
+- Fix mobile layout, and firebase warning
+- Add Envorinment
+
 _11/25/2019_
 - Fix tag searching not working issue
 
@@ -77,11 +81,22 @@ _10/27/2019_
 - ...
 
 ### Sample Build Instruction
-- Run a backend process as `nodemon app` connect with  
-- Need configure two file, `/src/config/fbConfig.js` connect with Firebase account as well as `/src/components/res/env.js` for setting up the ground default environment variable
-- Use script `react-scripts start` or `yarn run` testing in your development
+- `yarn install` or `npm install` to install the dependencies.
+- Run a backend process as `nodemon app` or `node app` to connect app as backend.
+- Need create `.env` file in the root for setting up the default environment variable including.
+  ``` js
+  //API related
+  REACT_APP_BASE_URL_PROD = //prod api domain
+  REACT_APP_BASE_URL_DEV = //localhost:8000
+
+  //firebase related
+  REACT_APP_FIREBASE_APIKEY
+  REACT_APP_FIREBASE_MSGSENDERID
+  REACT_APP_FIREBASE_APPID
+  REACT_APP_FIREBASE_MEASUREID
+  ```
+- Use script `react-scripts start` or `yarn dev` testing in your development
 - Use `npm build` or `yarn build` to build your project
 
 ## LICENSE
-
 MIT @ [Vince](//vince-amazing.com)
