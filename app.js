@@ -1,12 +1,8 @@
 const express = require('express');
 const http = require('http');
-
-const request = require('request');
 const bp = require('body-parser');
 const router = express.Router();
-
 const app = express();
-
 const cors = require('cors')
 
 var corsOptions = {
@@ -14,12 +10,10 @@ var corsOptions = {
   optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions))
-
 app.use(bp.urlencoded({
   extended: true
 }));
 app.use(bp.json());
-
 app.use('/api', router)
 
 // *********************************** router for vDanbooru
