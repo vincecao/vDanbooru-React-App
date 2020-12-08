@@ -19,7 +19,7 @@ import { useSelector } from "react-redux";
 import { isLoaded, isEmpty } from "react-redux-firebase";
 
 const MyNavbar = (props) => {
-  const shareMenuUrl = `http:${DOMAIN}/vdanbooru-react`;
+  const shareMenuUrl = `http:${DOMAIN}/`;
   const auth = useSelector((state) => state.firebase.auth);
 
   const AboutMenu = () => (

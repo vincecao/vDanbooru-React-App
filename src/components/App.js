@@ -21,7 +21,7 @@ class App extends Component {
     this.state = { link: "", isOpen: true };
   }
 
-  shareMenuUrl = "http:" + DOMAIN + "/vdanbooru-react";
+  shareMenuUrl = "http:" + DOMAIN + "/";
 
   handleSignInWindow = () => {
     return <SignIn />;
@@ -48,7 +48,7 @@ class App extends Component {
           height: "100vh",
         }}
       >
-        <BrowserRouter basename={"/vdanbooru-react"}>
+        <BrowserRouter basename={"/"}>
           <MyNavbar
             searchBackground={searchBackground}
             isLightBoxOpen={isLightBoxOpen}
