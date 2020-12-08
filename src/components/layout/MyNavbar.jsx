@@ -11,8 +11,8 @@ import {
   Menu,
 } from "@blueprintjs/core";
 import { DOMAIN } from "../res/env";
-import SignoutLinks from "./SignoutLinks.js";
-import SigninLinks from "./SigninLinks.js";
+import SignoutLinks from "./SignoutLinks";
+import SigninLinks from "./SigninLinks";
 import ShareMenu from "./ShareMenu";
 import "./MyNavbar.css";
 import { useSelector } from "react-redux";
