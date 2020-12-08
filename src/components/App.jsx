@@ -13,15 +13,12 @@ import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import { updateBackgroundImageAction } from "../actions/updateBackgroundImageAction";
 import TagPanel from "./layout/TagPanel";
-import { DOMAIN } from "./res/env";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = { link: "", isOpen: true };
   }
-
-  shareMenuUrl = "http:" + DOMAIN + "/";
 
   handleSignInWindow = () => {
     return <SignIn />;
@@ -48,7 +45,7 @@ class App extends Component {
           height: "100vh",
         }}
       >
-        <BrowserRouter basename={"/"}>
+        <BrowserRouter basename={process.env.REACT_APP_ROUTER_BASENAME}>
           <MyNavbar
             searchBackground={searchBackground}
             isLightBoxOpen={isLightBoxOpen}
@@ -60,7 +57,7 @@ class App extends Component {
           <TagPanel
             isTagPanelOpen={isLightBoxOpen}
             isInHots={currentPage === "hots"}
-            shareMenuUrl={this.shareMenuUrl}
+            shareMenuUrl={window.location.href}
             shareMenuItem={{
               img: focusingImgObject.src || "",
               caption: focusingImgObject.caption || "",
