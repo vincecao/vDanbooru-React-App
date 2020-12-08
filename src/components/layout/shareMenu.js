@@ -7,7 +7,7 @@ import {
   PinterestIcon,
   RedditIcon,
   TumblrIcon,
-  LineIcon
+  LineIcon,
 } from "react-share";
 import {
   FacebookShareButton,
@@ -16,16 +16,16 @@ import {
   PinterestShareButton,
   RedditShareButton,
   TumblrShareButton,
-  LineShareButton
+  LineShareButton,
 } from "react-share";
-import {
-  MenuItem,
-  Menu
-} from "@blueprintjs/core";
+import { MenuItem, Menu } from "@blueprintjs/core";
 
-export const shareMenu = (url, imgsrc) => {
+const ShareMenu = ({ url, imgSrc }) => {
   return (
-    <Menu className="bp3-minimal">
+    <Menu
+      className="bp3-minimal"
+      style={{ display: "flex", flexDirection: "column" }}
+    >
       <TwitterShareButton
         url={url}
         children={
@@ -45,7 +45,7 @@ export const shareMenu = (url, imgsrc) => {
         }
       />
       <PinterestShareButton
-        media={imgsrc === null ? "" : imgsrc}
+        media={imgSrc === null ? "" : imgSrc}
         url={url}
         children={
           <MenuItem
@@ -92,6 +92,4 @@ export const shareMenu = (url, imgsrc) => {
   );
 };
 
-export default {
-  shareMenu
-};
+export default ShareMenu;

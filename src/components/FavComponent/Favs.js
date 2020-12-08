@@ -7,20 +7,20 @@ import {
   Button,
   Intent,
   Position,
-  Toaster
+  Toaster,
 } from "@blueprintjs/core";
 import Gallery from "react-grid-gallery";
 import { connect } from "react-redux";
 import "./Favs.css";
 import classNames from "classnames";
-import firebase from '../../config/fbConfig';
+import firebase from "../../config/fbConfig";
 import "firebase/auth";
 import "firebase/firestore";
 
-import { isEmpty } from 'react-redux-firebase'
+import { isEmpty } from "react-redux-firebase";
 
 const OVERLAY_EXAMPLE_CLASS = "docs-overlay-example-transition";
-const auth = firebase.auth()
+const auth = firebase.auth();
 
 class Favs extends Component {
   constructor(props) {
@@ -29,30 +29,33 @@ class Favs extends Component {
       isOneOverLayOpen: false,
       isAllOverLayOpen: false,
       index: -100,
-    }
-    this.props.updateCurrentPage('favs')
+    };
+    this.props.updateCurrentPage("favs");
   }
 
   classes = classNames(
     Classes.CARD,
     Classes.ELEVATION_4,
     OVERLAY_EXAMPLE_CLASS
-  )
+  );
 
-  handleOneOpen = (index, image) => this.setState({ isOneOverLayOpen: true, index });
-  handleOneClose = () => this.setState({ isOneOverLayOpen: false, index: -100 });
+  handleOneOpen = (index, image) =>
+    this.setState({ isOneOverLayOpen: true, index });
+  handleOneClose = () =>
+    this.setState({ isOneOverLayOpen: false, index: -100 });
   handleAllOpen = (index, image) => this.setState({ isAllOverLayOpen: true });
-  handleAllClose = () => this.setState({ isAllOverLayOpen: false, index: -100 });
+  handleAllClose = () =>
+    this.setState({ isAllOverLayOpen: false, index: -100 });
   deleteOneFav = () => {
     //localStorage way
     //this.props.delFavs(this.props.favs[this.state.index]);
 
     //firebase profile way
-    let img = this.props.favs[this.state.index]
-    let favs = this.props.favs.filter(fav => img.src !== fav.src);
-    firebase.updateProfile({ favs: favs })
+    let img = this.props.favs[this.state.index];
+    let favs = this.props.favs.filter((fav) => img.src !== fav.src);
+    firebase.updateProfile({ favs: favs });
     this.setState({ isOneOverLayOpen: false, index: -100 });
-    this.addToast(Intent.default, "Remove one successfully")
+    this.addToast(Intent.default, "Remove one successfully");
   };
 
   deleteAllFav = () => {
@@ -60,66 +63,68 @@ class Favs extends Component {
     //this.props.delFavs(this.props.favs[this.state.index]);
 
     //firebase profile way
-    firebase.updateProfile({ favs: [] })
+    firebase.updateProfile({ favs: [] });
     this.setState({ isAllOverLayOpen: false, index: -100 });
-    this.addToast(Intent.default, "Remove All Favorite")
+    this.addToast(Intent.default, "Remove All Favorite");
   };
 
-  openDeleteOneOverLay = () => {
-    return (
-      <Overlay key={2} onClose={this.handleOneClose} className="center" isOpen={this.state.isOneOverLayOpen}>
-        <div className={this.classes} style={{ width: "380px" }}>
-          <p>Delete this one? / これを削除しますか？ </p>
-
-          <div
-            className={Classes.DIALOG_FOOTER_ACTIONS}
-            style={{ marginTop: "30px" }}
+  OpenDeleteOneOverLay = () => (
+    <Overlay
+      key={2}
+      onClose={this.handleOneClose}
+      className="center"
+      isOpen={this.state.isOneOverLayOpen}
+    >
+      <div className={this.classes} style={{ width: "380px" }}>
+        <p>{"Delete this one? / これを削除しますか？"}</p>
+        <div
+          className={Classes.DIALOG_FOOTER_ACTIONS}
+          style={{ marginTop: 30 }}
+        >
+          <Button
+            intent={Intent.DANGER}
+            onClick={this.handleOneClose}
+            style={{ marginRight: 10 }}
           >
-            <Button
-              intent={Intent.DANGER}
-              onClick={() => { this.handleOneClose() }}
-              style={{ marginRight: "10px" }}
-            >
-              Close
-            </Button>
-            <Button onClick={() => { this.deleteOneFav() }} style={{ margin: "" }}>
-              Comfirm
-            </Button>
-          </div>
+            Close
+          </Button>
+          <Button onClick={this.deleteOneFav} text="Confirm" />
         </div>
-      </Overlay>
-    );
-  };
+      </div>
+    </Overlay>
+  );
 
-  openDeleteAllOverLay = () => {
-    return (
-      <Overlay key={1} onClose={this.handleAllClose} className="center" isOpen={this.state.isAllOverLayOpen}>
-        <div className={this.classes} style={{ width: "380px" }}>
-          <p>Are you sure to delete all? / すべて削除してもよろしいですか？</p>
+  OpenDeleteAllOverLay = () => (
+    <Overlay
+      key={1}
+      onClose={this.handleAllClose}
+      className="center"
+      isOpen={this.state.isAllOverLayOpen}
+    >
+      <div className={this.classes} style={{ width: "380px" }}>
+        <p>Are you sure to delete all? / すべて削除してもよろしいですか？</p>
+        <div
+          className={Classes.DIALOG_FOOTER_ACTIONS}
+          style={{ marginTop: 30 }}
+        >
+          <Button
+            intent={Intent.DANGER}
+            onClick={this.handleAllClose}
+            style={{ marginRight: 10 }}
+            text="Close"
+          />
 
-          <div
-            className={Classes.DIALOG_FOOTER_ACTIONS}
-            style={{ marginTop: "30px" }}
-          >
-            <Button
-              intent={Intent.DANGER}
-              onClick={() => { this.handleAllClose() }}
-              style={{ marginRight: "10px" }}
-            >
-              Close
-            </Button>
-            <Button onClick={() => { this.deleteAllFav() }} style={{ margin: "" }}>
-              Comfirm
-            </Button>
-          </div>
+          <Button onClick={this.deleteAllFav} text="Confirm" />
         </div>
-      </Overlay>
-    );
-  };
+      </div>
+    </Overlay>
+  );
 
-  handleRenderFavs = () => {
-    if (isEmpty(auth) || this.props.favs === null || this.props.favs === undefined) {
-      return <div style={{ height: "450px" }}>
+  Favs = () =>
+    isEmpty(auth) ||
+    this.props.favs === null ||
+    this.props.favs === undefined ? (
+      <div style={{ height: "450px" }}>
         <NonIdealState
           style={{ display: "block" }}
           icon="log-in"
@@ -127,78 +132,87 @@ class Favs extends Component {
           description="Please signup & login for access the favorite!"
         />
       </div>
-    }
-    if (this.props.favs.length === 0) {
-      return (
-        <div style={{ height: "450px" }}>
-          <NonIdealState
-            style={{ display: "block" }}
-            icon="star"
-            title="No favorite"
-            description="No record found, please add some!"
-          />
-        </div>
-      );
-    } else {
-      return (
-        <Gallery
-          images={this.props.favs}
-          backdropClosesModal={true}
-          rowHeight={400}
-          onSelectImage={this.handleOneOpen}
-          showLightboxThumbnails={true}
-          tagStyle={{ display: 'none' }}
-          lightboxWillOpen={this.handleLightboxWillOpen}
-          lightboxWillClose={this.handleLightboxWillClose}
-          currentImageWillChange={this.handleCurrentImageWillChange}
-          enableKeyboardInput={true}
+    ) : this.props.favs.length === 0 ? (
+      <div style={{ height: "450px" }}>
+        <NonIdealState
+          style={{ display: "block" }}
+          icon="star"
+          title="No favorite"
+          description="No record found, please add some!"
         />
-      );
-    }
-  };
+      </div>
+    ) : (
+      <Gallery
+        images={this.props.favs}
+        backdropClosesModal={true}
+        rowHeight={400}
+        onSelectImage={this.handleOneOpen}
+        showLightboxThumbnails={true}
+        tagStyle={{ display: "none" }}
+        lightboxWillOpen={this.handleLightboxWillOpen}
+        lightboxWillClose={this.handleLightboxWillClose}
+        currentImageWillChange={this.handleCurrentImageWillChange}
+        enableKeyboardInput={true}
+      />
+    );
 
-  resetBtn = () => {
-    if (!isEmpty(auth) && this.props.favs !== null && this.props.favs !== undefined && this.props.favs.length > 0) {
-      return <Button
-        onClick={() => { this.handleAllOpen() }}
-        style={{ margin: "", height: '30px', width: '50px', marginRight: '20px' }}> Reset </Button>
-    } else {
-      return
-    }
-  }
+  ResetBtn = () =>
+    !isEmpty(auth) &&
+    this.props.favs !== null &&
+    this.props.favs !== undefined &&
+    this.props.favs.length > 0 ? (
+      <Button
+        onClick={this.handleAllOpen}
+        style={{
+          margin: "",
+          height: "30px",
+          width: "50px",
+          marginRight: "20px",
+        }}
+        text="Reset"
+      />
+    ) : (
+      <></>
+    );
 
   refHandlers = {
-    toaster: (ref) => this.toaster = ref,
+    toaster: (ref) => (this.toaster = ref),
   };
 
   addToast = (intent, message) => {
     this.toaster.show({ intent, message });
-  }
+  };
 
   //tag panel
   handleLightboxWillOpen = (event) => {
-    this.props.openLightBox()
-  }
+    this.props.openLightBox();
+  };
 
   handleLightboxWillClose = () => {
-    this.props.closeLightBox()
-  }
+    this.props.closeLightBox();
+  };
 
   handleCurrentImageWillChange = (index, image) => {
-    this.props.updateFocusImg(this.props.favs[index])
-  }
+    this.props.updateFocusImg(this.props.favs[index]);
+  };
 
   render() {
     return (
       <Fragment>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <H1 style={{ margin: "30px" }}>Favorites / 気に入り </H1>
-          {this.resetBtn()}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <H1 style={{ margin: "30px" }}>{"Favorites / 気に入り"}</H1>
+          <this.ResetBtn />
         </div>
 
-        {this.handleRenderFavs()}
-        {this.openDeleteOneOverLay()}
-        {this.openDeleteAllOverLay()}
+        <this.Favs />
+        <this.OpenDeleteOneOverLay />
+        <this.OpenDeleteAllOverLay />
         <Toaster position={Position.TOP_RIGHT} ref={this.refHandlers.toaster} />
       </Fragment>
     );
@@ -208,31 +222,27 @@ class Favs extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     currentPage: state.favorite.currentPage,
-    favs: state.firebase.profile.favs
+    favs: state.firebase.profile.favs,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     // replaceFavs: (favs) => dispatch(replaceAllAction(favs)),
     // delFavs: (imgObj) => dispatch(deleteSingleAction(imgObj)),
     closeLightBox: () => {
-      return dispatch({ type: 'CLOSE_LIGHT_BOX' });
+      return dispatch({ type: "CLOSE_LIGHT_BOX" });
     },
     openLightBox: () => {
-      return dispatch({ type: 'OPEN_LIGHT_BOX' });
+      return dispatch({ type: "OPEN_LIGHT_BOX" });
     },
     updateFocusImg: (focusingImgObject) => {
-      return dispatch({ type: 'UPDATE_FOCUS_IMG', focusingImgObject });
+      return dispatch({ type: "UPDATE_FOCUS_IMG", focusingImgObject });
     },
     updateCurrentPage: (currentPage) => {
-      return dispatch({ type: 'UPDATE_CURRENT_PAGE', currentPage });
-    }
+      return dispatch({ type: "UPDATE_CURRENT_PAGE", currentPage });
+    },
   };
 };
 
-export default
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Favs);
+export default connect(mapStateToProps, mapDispatchToProps)(Favs);
