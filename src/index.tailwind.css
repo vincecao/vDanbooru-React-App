@@ -1,0 +1,95 @@
+@tailwind base;
+
+h1 {
+  @apply text-4xl font-bold mt-6 mb-6;
+}
+
+h2 {
+  @apply text-3xl font-bold mt-6 mb-6;
+}
+
+h3 {
+  @apply text-2xl font-bold mt-6 mb-6;
+}
+
+h4 {
+  @apply text-xl font-bold mt-6 mb-6;
+}
+
+h5 {
+  @apply text-lg font-bold mt-6 mb-6;
+}
+
+@tailwind components;
+@tailwind utilities;
+
+@import '~@blueprintjs/core/lib/css/blueprint.css';
+@import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
+
+/* SEARCH */
+.text-shadow-display {
+  text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 6px 1px rgba(0, 0, 0, 0.6), 0 0 5px rgba(0, 0, 0, 0.6);
+}
+
+/* FAVS */
+div.center {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+div.ReactGridGallery_tile-icon-bar svg {
+  fill: #ff8879;
+}
+
+/* HOTS */
+div.ReactGridGallery_tile-bottom-bar:hover {
+  opacity: 1;
+}
+
+div.ReactGridGallery_tile-bottom-bar {
+  opacity: 0;
+  transition: 1s;
+}
+
+div#lightboxBackdrop {
+  z-index: 10;
+  background: #ffffffc9;
+}
+
+div#lightboxBackdrop img {
+  box-shadow: 5px 10px 18px #888888;
+}
+
+/* MyNavBar */
+p.desktop-navbar-txt {
+  text-decoration: none;
+  color: #182026;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: auto;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 650px) {
+  p.desktop-navbar-txt {
+    display: none;
+  }
+
+  span.bp3-icon.bp3-icon-star,
+  span.bp3-icon.bp3-icon-heatmap,
+  span.bp3-icon.bp3-icon-inbox,
+  span.bp3-icon.bp3-icon-home,
+  span.bp3-icon.bp3-icon-social-media,
+  span.bp3-icon.bp3-icon-user,
+  span.bp3-icon.bp3-icon-log-out,
+  span.bp3-icon.bp3-icon-log-in,
+  span.bp3-icon.bp3-icon-hand,
+  span.bp3-icon.bp3-icon-tag,
+  span.bp3-icon.bp3-icon-share,
+  span.bp3-icon.bp3-icon-download,
+  span.bp3-icon.bp3-icon-refresh {
+    margin: 0;
+  }
+}

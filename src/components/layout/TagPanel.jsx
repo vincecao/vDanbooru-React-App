@@ -1,21 +1,8 @@
-import React from "react";
-import {
-  Popover,
-  Button,
-  Position,
-  PopoverInteractionKind,
-  Menu,
-  MenuItem,
-} from "@blueprintjs/core";
-import ShareMenu from "./ShareMenu";
+import React from 'react';
+import { Popover, Button, Position, PopoverInteractionKind, Menu, MenuItem } from '@blueprintjs/core';
+import ShareMenu from './ShareMenu';
 
-const TagPanel = ({
-  isTagPanelOpen,
-  isInHots,
-  shareMenuUrl,
-  shareMenuItem,
-  parentProps = {},
-}) => {
+const TagPanel = ({ isTagPanelOpen, isInHots, shareMenuUrl, shareMenuItem, parentProps = {} }) => {
   const { focusingImgObject, closeLightBox, onSearchInHot } = parentProps;
   const TagPanelMenu = () => (
     <Menu className="bp3-minimal">
@@ -39,16 +26,12 @@ const TagPanel = ({
 
   const TagButton = () =>
     isInHots ? (
-      <Popover
-        content={<TagPanelMenu />}
-        interactionKind={PopoverInteractionKind.HOVER}
-        position={Position.BOTTOM}
-      >
+      <Popover content={<TagPanelMenu />} interactionKind={PopoverInteractionKind.HOVER} position={Position.BOTTOM}>
         <Button
           className="bp3-minimal"
           style={{
-            border: "1px black solid",
-            background: "white",
+            border: '1px black solid',
+            background: 'white',
             marginRight: 10,
           }}
           icon="tag"
@@ -63,7 +46,7 @@ const TagPanel = ({
   return isTagPanelOpen ? (
     <div
       style={{
-        position: "fixed",
+        position: 'fixed',
         left: 0,
         top: 0,
         zIndex: 13,
@@ -80,8 +63,8 @@ const TagPanel = ({
         <Button
           className="bp3-minimal"
           style={{
-            border: "1px black solid",
-            background: "white",
+            border: '1px black solid',
+            background: 'white',
             marginRight: 10,
           }}
           icon="share"
@@ -94,8 +77,8 @@ const TagPanel = ({
       <a
         className="bp3-button bp3-minimal"
         style={{
-          border: "1px black solid",
-          background: "white",
+          border: '1px black solid',
+          background: 'white',
           marginRight: 10,
         }}
         icon="download"
@@ -104,10 +87,7 @@ const TagPanel = ({
         rel="noopener noreferrer"
         download={
           shareMenuItem.caption +
-          shareMenuItem.img.substring(
-            shareMenuItem.img.lastIndexOf("."),
-            shareMenuItem.img.length
-          )
+          shareMenuItem.img.substring(shareMenuItem.img.lastIndexOf('.'), shareMenuItem.img.length)
         }
       >
         <span icon="star" className="bp3-icon bp3-icon-download" />

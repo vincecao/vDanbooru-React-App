@@ -1,23 +1,23 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
-import "./App.css";
-import Search from "./SearchComponent/Search";
-import Hots from "./HotsComponent/Hots";
-import Favs from "./FavComponent/Favs";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { updateBackgroundImageAction } from '../actions/updateBackgroundImageAction';
+import MyNavbar from './layout/MyNavbar';
+import MyFooter from './layout/MyFooter';
+import SignIn from './auth/SignIn';
+import SignUp from './auth/SignUp';
+import Search from './SearchComponent/Search';
+import Hots from './HotsComponent/Hots';
+import Favs from './FavComponent/Favs';
+import TagPanel from './layout/TagPanel';
 
-import { connect } from "react-redux";
-import MyNavbar from "./layout/MyNavbar";
-import MyFooter from "./layout/MyFooter";
-import SignIn from "./auth/SignIn";
-import SignUp from "./auth/SignUp";
-import { updateBackgroundImageAction } from "../actions/updateBackgroundImageAction";
-import TagPanel from "./layout/TagPanel";
+const ROUTER_BASENAME = process.env.REACT_APP_ROUTER_BASENAME || '/';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { link: "", isOpen: true };
+    this.state = { link: '', isOpen: true };
   }
 
   handleSignInWindow = () => {
@@ -31,43 +31,29 @@ class App extends Component {
   handleSwitch = () => this.props.updateBackImageSrc();
 
   render() {
-    const {
-      focusingImgObject = {},
-      searchBackground = "",
-      isLightBoxOpen = false,
-      currentPage = "",
-    } = this.props || {};
+    const { focusingImgObject = {}, searchBackground = '', isLightBoxOpen = false, currentPage = '' } =
+      this.props || {};
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          height: "100vh",
-        }}
-      >
-        <BrowserRouter basename={process.env.REACT_APP_ROUTER_BASENAME}>
-          <MyNavbar
-            searchBackground={searchBackground}
-            isLightBoxOpen={isLightBoxOpen}
-          />
+      <div className="flex flex-col h-screen">
+        <BrowserRouter basename={ROUTER_BASENAME}>
+          <MyNavbar searchBackground={searchBackground} isLightBoxOpen={isLightBoxOpen} />
 
-          <Redirect from="/" to="/Search" />
           <Route path="/Search" component={Search} />
 
           <TagPanel
             isTagPanelOpen={isLightBoxOpen}
-            isInHots={currentPage === "hots"}
+            isInHots={currentPage === 'hots'}
             shareMenuUrl={window.location.href}
             shareMenuItem={{
-              img: focusingImgObject.src || "",
-              caption: focusingImgObject.caption || "",
+              img: focusingImgObject.src || '',
+              caption: focusingImgObject.caption || '',
             }}
             parentProps={this.props}
           />
 
           <div
             style={{
-              filter: isLightBoxOpen ? "blur(0.5rem) saturate(200%)" : "none",
+              filter: isLightBoxOpen ? 'blur(0.5rem) saturate(200%)' : 'none',
             }}
           >
             <Route path="/Hots" component={Hots} />
@@ -102,7 +88,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     updateBackImageSrc: () => dispatch(updateBackgroundImageAction()),
-    closeLightBox: () => dispatch({ type: "CLOSE_LIGHT_BOX" }),
+    closeLightBox: () => dispatch({ type: 'CLOSE_LIGHT_BOX' }),
   };
 };
 

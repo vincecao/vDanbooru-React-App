@@ -18,7 +18,7 @@
     "csstype": "^3.0.5",
     "danbooru": "^3.1.0",
     "express": "^4.17.1",
-    "firebase": "^8.1.2",
+    "firebase": "^8.2.0",
     "http": "^0.0.1-security",
     "nodemon": "^2.0.6",
     "normalize.css": "^8.0.1",
@@ -41,7 +41,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build:styles": "npx tailwindcss build ./src/index.tailwind.css -c ./tailwind.config.js -o ./src/tailwind.css",
+    "prebuild": "yarn build:styles",
+    "prestart": "yarn build:styles"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,5 +58,14 @@
   "main": "index.js",
   "repository": "git@github.com:vincecao/vdanbooru-react-app.git",
   "author": "Lineng Cao <linengca@usc.edu>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.1.0",
+    "husky": "^4.3.5",
+    "lint-staged": "^10.5.3",
+    "postcss": "^8.2.1",
+    "postcss-cli": "^8.3.1",
+    "prettier": "^2.2.1",
+    "tailwindcss": "^2.0.2"
+  }
 }

@@ -1,50 +1,36 @@
-import React, { Component } from "react";
-import { withRouter, Route, Link } from "react-router-dom";
-import Hots from "../HotsComponent/Hots";
-import { DEFAULTLST } from "../res/env";
-
-const searchStyle = {
-  maxWidth: "1000px",
-  width: "65%",
-  margin: "0 auto"
-};
+import React, { Component } from 'react';
+import { withRouter, Link } from 'react-router-dom';
+import { DEFAULTLST } from '../../const/data';
 
 class SearchInput extends Component {
   state = {
-    value: ""
+    value: '',
   };
 
-  handleComfirm = () => {
-    return '/tags/' +
-      (this.state.value.toString() === ""
-        ? DEFAULTLST[Math.floor(Math.random() * DEFAULTLST.length)]
-        : this.state.value.toString())
-  }
+  handleKeyDown = ({ nativeEvent }, searchTerm) => {
+    if (nativeEvent.keyCode === 13) this.props.history.push(`/tags/${searchTerm}`);
+  };
+
+  handleInputOnChange = ({ nativeEvent }) => this.setState({ value: nativeEvent.target.value });
+
   render() {
+    const { value } = this.state;
+    const searchTerm = value || DEFAULTLST[Math.floor(Math.random() * DEFAULTLST.length)];
+
     return (
-      <div className="bp3-input-group bp3-large" style={searchStyle}>
+      <div className="bp3-input-group bp3-large w-4/5 md:w-3/5 mx-auto max-w-xl">
         <span className="bp3-icon bp3-icon-search" />
         <input
           type="text"
           className="bp3-input"
-          placeholder="Search"
-          onChange={e => {
-            this.setState({ value: e.currentTarget.value });
-          }}
-          onKeyDown={e => {
-            if (e.keyCode === 13) {
-              return this.props.history.push(this.handleComfirm())
-            }
-          }}
+          placeholder="Enter something to search..."
+          onChange={this.handleInputOnChange}
+          onKeyDown={(e) => this.handleKeyDown(e, searchTerm)}
         />
-        <Link
-          className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-arrow-right"
-          to={this.handleComfirm()}
-        />
-        <Route path="/tags/:key" component={Hots} />
+        <Link className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-arrow-right" to={`/tags/${searchTerm}`} />
       </div>
     );
   }
 }
 
-export default withRouter(SearchInput)
+export default withRouter(SearchInput);

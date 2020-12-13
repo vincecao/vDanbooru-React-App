@@ -1,5 +1,5 @@
-import React from "react";
-
+import React from 'react';
+import { MenuItem, Menu } from '@blueprintjs/core';
 import {
   FacebookIcon,
   TwitterIcon,
@@ -8,8 +8,6 @@ import {
   RedditIcon,
   TumblrIcon,
   LineIcon,
-} from "react-share";
-import {
   FacebookShareButton,
   TwitterShareButton,
   TelegramShareButton,
@@ -17,77 +15,44 @@ import {
   RedditShareButton,
   TumblrShareButton,
   LineShareButton,
-} from "react-share";
-import { MenuItem, Menu } from "@blueprintjs/core";
+} from 'react-share';
 
-const ShareMenu = ({ url, imgSrc }) => {
+const ROUTER_BASENAME = process.env.REACT_APP_ROUTER_BASENAME || '/';
+
+const ShareMenu = ({ imgSrc }) => {
+  const url = `${window.location.protocol}//${window.location.hostname}${ROUTER_BASENAME}`;
+
   return (
-    <Menu
-      className="bp3-minimal"
-      style={{ display: "flex", flexDirection: "column" }}
-    >
+    <Menu className="bp3-minimal flex flex-col">
       <TwitterShareButton
         url={url}
-        children={
-          <MenuItem
-            text="Twitter"
-            icon={<TwitterIcon size={24} round={false} />}
-          />
-        }
+        children={<MenuItem className="text-left" text="Twitter" icon={<TwitterIcon size={24} round />} />}
       />
       <FacebookShareButton
         url={url}
-        children={
-          <MenuItem
-            text="Facebook"
-            icon={<FacebookIcon size={24} round={false} />}
-          />
-        }
+        children={<MenuItem className="text-left" text="Facebook" icon={<FacebookIcon size={24} round />} />}
       />
       <PinterestShareButton
-        media={imgSrc === null ? "" : imgSrc}
+        media={imgSrc === null ? '' : imgSrc}
         url={url}
-        children={
-          <MenuItem
-            text="Pinterest"
-            icon={<PinterestIcon size={24} round={false} />}
-          />
-        }
+        children={<MenuItem className="text-left" text="Pinterest" icon={<PinterestIcon size={24} round />} />}
       />
       <TumblrShareButton
         url={url}
-        children={
-          <MenuItem
-            text="Tumblr"
-            icon={<TumblrIcon size={24} round={false} />}
-          />
-        }
+        children={<MenuItem className="text-left" text="Tumblr" icon={<TumblrIcon size={24} round />} />}
       />
       <RedditShareButton
         url={url}
-        children={
-          <MenuItem
-            text="Reddit"
-            icon={<RedditIcon size={24} round={false} />}
-          />
-        }
+        children={<MenuItem className="text-left" text="Reddit" icon={<RedditIcon size={24} round />} />}
       />
       <LineShareButton
         url={url}
-        children={
-          <MenuItem text="Line" icon={<LineIcon size={24} round={false} />} />
-        }
+        children={<MenuItem className="text-left" text="Line" icon={<LineIcon size={24} round />} />}
       />
       <TelegramShareButton
         url={url}
-        children={
-          <MenuItem
-            text="Telegram"
-            icon={<TelegramIcon size={24} round={false} />}
-          />
-        }
+        children={<MenuItem className="text-left" text="Telegram" icon={<TelegramIcon size={24} round />} />}
       />
-      {/* <MenuDivider /> */}
     </Menu>
   );
 };

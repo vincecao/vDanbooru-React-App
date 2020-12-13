@@ -1,18 +1,21 @@
-import axios from "axios";
-import { DOMAIN } from "../components/res/env";
+import axios from 'axios';
+import { DOMAIN } from '../const/data';
 
 export const updatePhotoAction = (keyword) => {
   return (dispatch, getState, firebase) => {
-    if(keyword === -1) {dispatch({ type: "UPDATE_PHOTOS_SUCCESS", photos: [] }); return;}
-    dispatch({ type: "UPDATE_PHOTOS_LOAD" });
-    let url = DOMAIN + "/api/mode/Normal/tag/" + keyword + "/num/25";
+    if (keyword === -1) {
+      dispatch({ type: 'UPDATE_PHOTOS_SUCCESS', photos: [] });
+      return;
+    }
+    dispatch({ type: 'UPDATE_PHOTOS_LOAD' });
+    let url = DOMAIN + '/api/mode/Normal/tag/' + keyword + '/num/25';
     axios
       .get(url)
-      .then(res => {
+      .then((res) => {
         const photos = res.data;
         if (!getState().firebase.profile.isEmpty) {
-          photos.forEach(photo => {
-            let favs = getState().firebase.profile.favs
+          photos.forEach((photo) => {
+            let favs = getState().firebase.profile.favs;
             if (favs !== null) {
               for (let i = 0; i < favs.length; i++) {
                 if (favs[i].src === photo.src) {
@@ -23,10 +26,10 @@ export const updatePhotoAction = (keyword) => {
             }
           });
         }
-        dispatch({ type: "UPDATE_PHOTOS_SUCCESS", photos });
+        dispatch({ type: 'UPDATE_PHOTOS_SUCCESS', photos });
       })
-      .catch(err => {
-        dispatch({ type: "UPDATE_PHOTOS_SUCCESS", photos: [] });
+      .catch((err) => {
+        dispatch({ type: 'UPDATE_PHOTOS_SUCCESS', photos: [] });
       });
-  }
-}
+  };
+};

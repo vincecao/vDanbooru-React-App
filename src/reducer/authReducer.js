@@ -13,7 +13,7 @@ const initState = {
   signInHelperMessage: '',
   signInInfo: {
     'signin-email': '',
-    'signin-password': ''
+    'signin-password': '',
   },
   signUpauthError: null,
   isSignUpOpen: false,
@@ -28,10 +28,10 @@ const initState = {
   },
   signUpHelperMessage: '',
   signUpInfo: {
-    'signupNickname': '',
-    'signupEmail': '',
-    'signupPassword': ''
-  }
+    signupNickname: '',
+    signupEmail: '',
+    signupPassword: '',
+  },
 };
 
 const authReducer = (state = initState, action) => {
@@ -41,49 +41,49 @@ const authReducer = (state = initState, action) => {
       ...state,
       signInWindowsState: {
         ...state.signInWindowsState,
-        isOpen: true
-      }
-    }
+        isOpen: true,
+      },
+    };
   }
   if (action.type === 'CLOSE_SIGN_IN_WINDOW') {
     return {
       ...state,
       signInWindowsState: {
         ...state.signInWindowsState,
-        isOpen: false
-      }
-    }
+        isOpen: false,
+      },
+    };
   }
   if (action.type === 'CHANGE_IN_SIGN_IN') {
     return {
       ...state,
       signInInfo: {
         ...state.signInInfo,
-        [action.event.target.id]: action.event.target.value
-      }
-    }
+        [action.event.target.id]: action.event.target.value,
+      },
+    };
   }
   if (action.type === 'LOGIN_FAIL') {
-    console.log('login fail')
+    console.log('login fail');
     return {
       ...state,
-      authError: 'Login Failed'
-    }
+      authError: 'Login Failed',
+    };
   }
   if (action.type === 'LOGIN_SUCCESS') {
-    console.log('login success')
+    console.log('login success');
     return {
       ...state,
       authError: '',
       signInWindowsState: {
         ...state.signInWindowsState,
-        isOpen: false
-      }
-    }
+        isOpen: false,
+      },
+    };
   }
   if (action.type === 'SIGNOUT_SUCCESS') {
-    console.log('sign out')
-    return state
+    console.log('sign out');
+    return state;
   }
 
   //sign up
@@ -92,53 +92,52 @@ const authReducer = (state = initState, action) => {
       ...state,
       signUpWindowsState: {
         ...state.signUpWindowsState,
-        isOpen: true
-      }
-    }
+        isOpen: true,
+      },
+    };
   }
   if (action.type === 'CLOSE_SIGN_UP_WINDOW') {
     return {
       ...state,
       signUpWindowsState: {
         ...state.signUpWindowsState,
-        isOpen: false
-      }
-    }
+        isOpen: false,
+      },
+    };
   }
   if (action.type === 'CHANGE_IN_SIGN_UP') {
     return {
       ...state,
       signUpInfo: {
         ...state.signUpInfo,
-        [action.event.target.id]: action.event.target.value
-      }
-    }
+        [action.event.target.id]: action.event.target.value,
+      },
+    };
   }
   if (action.type === 'SIGNUP_SUCCESS') {
-    console.log('signup success')
+    console.log('signup success');
     return {
       ...state,
       signUpauthError: '',
       signUpWindowsState: {
         ...state.signUpWindowsState,
-        isOpen: false
+        isOpen: false,
       },
       // signInWindowsState: {
       //   ...state.signUpWindowsState,
       //   isOpen: true
       // }
-    }
+    };
   }
   if (action.type === 'SIGNUP_ERROR') {
-    console.log('signup error')
+    console.log('signup error');
     return {
       ...state,
-      signUpauthError: action.err.message
-
-    }
+      signUpauthError: action.err.message,
+    };
   }
 
   return state;
 };
 
-export default authReducer
+export default authReducer;

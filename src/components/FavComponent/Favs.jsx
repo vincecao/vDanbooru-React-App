@@ -1,25 +1,15 @@
-import React, { Component, Fragment } from "react";
-import {
-  H1,
-  NonIdealState,
-  Classes,
-  Overlay,
-  Button,
-  Intent,
-  Position,
-  Toaster,
-} from "@blueprintjs/core";
-import Gallery from "react-grid-gallery";
-import { connect } from "react-redux";
-import "./Favs.css";
-import classNames from "classnames";
-import firebase from "../../config/fbConfig";
-import "firebase/auth";
-import "firebase/firestore";
+import React, { Component, Fragment } from 'react';
+import { H1, NonIdealState, Classes, Overlay, Button, Intent, Position, Toaster } from '@blueprintjs/core';
+import Gallery from 'react-grid-gallery';
+import { connect } from 'react-redux';
+import classNames from 'classnames';
+import firebase from '../../const/fbConfig';
+import 'firebase/auth';
+import 'firebase/firestore';
 
-import { isEmpty } from "react-redux-firebase";
+import { isEmpty } from 'react-redux-firebase';
 
-const OVERLAY_EXAMPLE_CLASS = "docs-overlay-example-transition";
+const OVERLAY_EXAMPLE_CLASS = 'docs-overlay-example-transition';
 const auth = firebase.auth();
 
 class Favs extends Component {
@@ -30,22 +20,15 @@ class Favs extends Component {
       isAllOverLayOpen: false,
       index: -100,
     };
-    this.props.updateCurrentPage("favs");
+    this.props.updateCurrentPage('favs');
   }
 
-  classes = classNames(
-    Classes.CARD,
-    Classes.ELEVATION_4,
-    OVERLAY_EXAMPLE_CLASS
-  );
+  classes = classNames(Classes.CARD, Classes.ELEVATION_4, OVERLAY_EXAMPLE_CLASS);
 
-  handleOneOpen = (index, image) =>
-    this.setState({ isOneOverLayOpen: true, index });
-  handleOneClose = () =>
-    this.setState({ isOneOverLayOpen: false, index: -100 });
+  handleOneOpen = (index, image) => this.setState({ isOneOverLayOpen: true, index });
+  handleOneClose = () => this.setState({ isOneOverLayOpen: false, index: -100 });
   handleAllOpen = (index, image) => this.setState({ isAllOverLayOpen: true });
-  handleAllClose = () =>
-    this.setState({ isAllOverLayOpen: false, index: -100 });
+  handleAllClose = () => this.setState({ isAllOverLayOpen: false, index: -100 });
   deleteOneFav = () => {
     //localStorage way
     //this.props.delFavs(this.props.favs[this.state.index]);
@@ -55,7 +38,7 @@ class Favs extends Component {
     let favs = this.props.favs.filter((fav) => img.src !== fav.src);
     firebase.updateProfile({ favs: favs });
     this.setState({ isOneOverLayOpen: false, index: -100 });
-    this.addToast(Intent.default, "Remove one successfully");
+    this.addToast(Intent.default, 'Remove one successfully');
   };
 
   deleteAllFav = () => {
@@ -65,27 +48,15 @@ class Favs extends Component {
     //firebase profile way
     firebase.updateProfile({ favs: [] });
     this.setState({ isAllOverLayOpen: false, index: -100 });
-    this.addToast(Intent.default, "Remove All Favorite");
+    this.addToast(Intent.default, 'Remove All Favorite');
   };
 
   OpenDeleteOneOverLay = () => (
-    <Overlay
-      key={2}
-      onClose={this.handleOneClose}
-      className="center"
-      isOpen={this.state.isOneOverLayOpen}
-    >
-      <div className={this.classes} style={{ width: "380px" }}>
-        <p>{"Delete this one? / これを削除しますか？"}</p>
-        <div
-          className={Classes.DIALOG_FOOTER_ACTIONS}
-          style={{ marginTop: 30 }}
-        >
-          <Button
-            intent={Intent.DANGER}
-            onClick={this.handleOneClose}
-            style={{ marginRight: 10 }}
-          >
+    <Overlay key={2} onClose={this.handleOneClose} className="center" isOpen={this.state.isOneOverLayOpen}>
+      <div className={this.classes} style={{ width: '380px' }}>
+        <p>{'Delete this one? / これを削除しますか？'}</p>
+        <div className={Classes.DIALOG_FOOTER_ACTIONS} style={{ marginTop: 30 }}>
+          <Button intent={Intent.DANGER} onClick={this.handleOneClose} style={{ marginRight: 10 }}>
             Close
           </Button>
           <Button onClick={this.deleteOneFav} text="Confirm" />
@@ -95,24 +66,11 @@ class Favs extends Component {
   );
 
   OpenDeleteAllOverLay = () => (
-    <Overlay
-      key={1}
-      onClose={this.handleAllClose}
-      className="center"
-      isOpen={this.state.isAllOverLayOpen}
-    >
-      <div className={this.classes} style={{ width: "380px" }}>
+    <Overlay key={1} onClose={this.handleAllClose} className="center" isOpen={this.state.isAllOverLayOpen}>
+      <div className={this.classes} style={{ width: '380px' }}>
         <p>Are you sure to delete all? / すべて削除してもよろしいですか？</p>
-        <div
-          className={Classes.DIALOG_FOOTER_ACTIONS}
-          style={{ marginTop: 30 }}
-        >
-          <Button
-            intent={Intent.DANGER}
-            onClick={this.handleAllClose}
-            style={{ marginRight: 10 }}
-            text="Close"
-          />
+        <div className={Classes.DIALOG_FOOTER_ACTIONS} style={{ marginTop: 30 }}>
+          <Button intent={Intent.DANGER} onClick={this.handleAllClose} style={{ marginRight: 10 }} text="Close" />
 
           <Button onClick={this.deleteAllFav} text="Confirm" />
         </div>
@@ -121,21 +79,19 @@ class Favs extends Component {
   );
 
   Favs = () =>
-    isEmpty(auth) ||
-    this.props.favs === null ||
-    this.props.favs === undefined ? (
-      <div style={{ height: "450px" }}>
+    isEmpty(auth) || this.props.favs === null || this.props.favs === undefined ? (
+      <div style={{ height: '450px' }}>
         <NonIdealState
-          style={{ display: "block" }}
+          style={{ display: 'block' }}
           icon="log-in"
           title="Haven't Log in"
           description="Please signup & login for access the favorite!"
         />
       </div>
     ) : this.props.favs.length === 0 ? (
-      <div style={{ height: "450px" }}>
+      <div style={{ height: '450px' }}>
         <NonIdealState
-          style={{ display: "block" }}
+          style={{ display: 'block' }}
           icon="star"
           title="No favorite"
           description="No record found, please add some!"
@@ -148,7 +104,7 @@ class Favs extends Component {
         rowHeight={400}
         onSelectImage={this.handleOneOpen}
         showLightboxThumbnails={true}
-        tagStyle={{ display: "none" }}
+        tagStyle={{ display: 'none' }}
         lightboxWillOpen={this.handleLightboxWillOpen}
         lightboxWillClose={this.handleLightboxWillClose}
         currentImageWillChange={this.handleCurrentImageWillChange}
@@ -157,17 +113,14 @@ class Favs extends Component {
     );
 
   ResetBtn = () =>
-    !isEmpty(auth) &&
-    this.props.favs !== null &&
-    this.props.favs !== undefined &&
-    this.props.favs.length > 0 ? (
+    !isEmpty(auth) && this.props.favs !== null && this.props.favs !== undefined && this.props.favs.length > 0 ? (
       <Button
         onClick={this.handleAllOpen}
         style={{
-          margin: "",
-          height: "30px",
-          width: "50px",
-          marginRight: "20px",
+          margin: '',
+          height: '30px',
+          width: '50px',
+          marginRight: '20px',
         }}
         text="Reset"
       />
@@ -201,12 +154,12 @@ class Favs extends Component {
       <Fragment>
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          <H1 style={{ margin: "30px" }}>{"Favorites / 気に入り"}</H1>
+          <H1 style={{ margin: '30px' }}>{'Favorites / 気に入り'}</H1>
           <this.ResetBtn />
         </div>
 
@@ -231,16 +184,16 @@ const mapDispatchToProps = (dispatch) => {
     // replaceFavs: (favs) => dispatch(replaceAllAction(favs)),
     // delFavs: (imgObj) => dispatch(deleteSingleAction(imgObj)),
     closeLightBox: () => {
-      return dispatch({ type: "CLOSE_LIGHT_BOX" });
+      return dispatch({ type: 'CLOSE_LIGHT_BOX' });
     },
     openLightBox: () => {
-      return dispatch({ type: "OPEN_LIGHT_BOX" });
+      return dispatch({ type: 'OPEN_LIGHT_BOX' });
     },
     updateFocusImg: (focusingImgObject) => {
-      return dispatch({ type: "UPDATE_FOCUS_IMG", focusingImgObject });
+      return dispatch({ type: 'UPDATE_FOCUS_IMG', focusingImgObject });
     },
     updateCurrentPage: (currentPage) => {
-      return dispatch({ type: "UPDATE_CURRENT_PAGE", currentPage });
+      return dispatch({ type: 'UPDATE_CURRENT_PAGE', currentPage });
     },
   };
 };
