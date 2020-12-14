@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 
 import { updateBackgroundImageAction } from '../actions/updateBackgroundImageAction';
-import MyNavbar from './layout/MyNavbar';
-import MyFooter from './layout/MyFooter';
+import Nav from './layout/nav/Nav';
+import Footer from './layout/footer/Footer';
 import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import Search from './SearchComponent/Search';
@@ -20,26 +20,32 @@ class App extends Component {
     this.state = { link: '', isOpen: true };
   }
 
-  handleSignInWindow = () => {
-    return <SignIn />;
-  };
-
-  handleSignUpWindow = () => {
-    return <SignUp />;
-  };
-
   handleSwitch = () => this.props.updateBackImageSrc();
 
   render() {
     const { focusingImgObject = {}, searchBackground = '', isLightBoxOpen = false, currentPage = '' } =
       this.props || {};
     return (
-      <div className="flex flex-col h-screen">
+      <div className="flex flex-col min-h-screen">
         <BrowserRouter basename={ROUTER_BASENAME}>
-          <MyNavbar searchBackground={searchBackground} isLightBoxOpen={isLightBoxOpen} />
-
+          <Nav searchBackground={searchBackground} isLightBoxOpen={isLightBoxOpen} />
           <Route path="/Search" component={Search} />
-
+          <div className={`${isLightBoxOpen ? 'filter-blur' : 'filter-none'}`}>
+            <Route path="/Hots" component={Hots} />
+            <Route path="/Favs" component={Favs} />
+            <Route path="/tags/:key" component={Hots} />
+            <Redirect to="/Search" />
+          </div>
+          <Footer
+            currentPage={currentPage}
+            handleSwitch={this.handleSwitch}
+            isLightBoxOpen={isLightBoxOpen}
+            searchBackground={searchBackground}
+          />
+        </BrowserRouter>
+        <SignIn />
+        <SignUp />
+        {isLightBoxOpen && (
           <TagPanel
             isTagPanelOpen={isLightBoxOpen}
             isInHots={currentPage === 'hots'}
@@ -50,46 +56,23 @@ class App extends Component {
             }}
             parentProps={this.props}
           />
-
-          <div
-            style={{
-              filter: isLightBoxOpen ? 'blur(0.5rem) saturate(200%)' : 'none',
-            }}
-          >
-            <Route path="/Hots" component={Hots} />
-            <Route path="/Favs" component={Favs} />
-            <Route path="/tags/:key" component={Hots} />
-            <Redirect to="/Search" />
-          </div>
-          <MyFooter
-            currentPage={currentPage}
-            handleSwitch={this.handleSwitch}
-            isLightBoxOpen={isLightBoxOpen}
-            searchBackground={searchBackground}
-          />
-        </BrowserRouter>
-        {this.handleSignInWindow()}
-        {this.handleSignUpWindow()}
+        )}
       </div>
     );
   }
 }
-const mapStateToProps = (state, ownProps) => {
-  return {
-    searchBackground: state.favorite.searchBackground,
-    blurEffect: state.favorite.blurEffect,
-    focusingImgObject: state.favorite.focusingImgObject,
-    isLightBoxOpen: state.favorite.isLightBoxOpen,
-    onSearchInHot: state.favorite.onSearchInHot,
-    currentPage: state.favorite.currentPage,
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  searchBackground: state.favorite.searchBackground,
+  blurEffect: state.favorite.blurEffect,
+  focusingImgObject: state.favorite.focusingImgObject,
+  isLightBoxOpen: state.favorite.isLightBoxOpen,
+  onSearchInHot: state.favorite.onSearchInHot,
+  currentPage: state.favorite.currentPage,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    updateBackImageSrc: () => dispatch(updateBackgroundImageAction()),
-    closeLightBox: () => dispatch({ type: 'CLOSE_LIGHT_BOX' }),
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  updateBackImageSrc: () => dispatch(updateBackgroundImageAction()),
+  closeLightBox: () => dispatch({ type: 'CLOSE_LIGHT_BOX' }),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

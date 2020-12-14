@@ -1,20 +1,15 @@
 import React from 'react';
-import { Button } from '@blueprintjs/core';
 import { connect } from 'react-redux';
+import { NavButton } from './Nav';
 
 const SignoutLinks = (props) => {
   const handleLoginBtn = props.showSignInWindow;
-  const handleSigupBtn = props.showSignUpWindow;
+  const handleSignUpBtn = props.showSignUpWindow;
 
   return (
     <>
-      <Button className="bp3-minimal" icon="hand" onClick={handleSigupBtn} disabled>
-        <p className="desktop-navbar-txt">Sign-up</p>
-      </Button>
-
-      <Button className="bp3-minimal" icon="log-in" onClick={handleLoginBtn} disabled>
-        <p className="desktop-navbar-txt">Login</p>
-      </Button>
+      <NavButton icon="hand" onClick={handleSignUpBtn} text="Sign-up" disabled />
+      <NavButton icon="log-in" onClick={handleLoginBtn} text="Login" disabled />
     </>
   );
 };

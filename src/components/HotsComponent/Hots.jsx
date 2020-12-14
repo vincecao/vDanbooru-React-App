@@ -1,13 +1,13 @@
-import React, { Fragment } from 'react';
-import { EditableText, H1, Tooltip, NonIdealState, Position, Intent, Toaster } from '@blueprintjs/core';
-import Gallery from 'react-grid-gallery';
-import { DEFAULTLST } from '../../const/data';
+import React from 'react';
+import { NonIdealState, Position, Intent, Toaster } from '@blueprintjs/core';
+// import Gallery from 'react-grid-gallery';
 import { connect } from 'react-redux';
-import { updatePhotoAction } from '../../actions/updatePhotoAction';
 
 import firebase from '../../const/fbConfig';
 import 'firebase/auth';
 import 'firebase/firestore';
+import HotsSearchInput from './HotsSearchInput';
+import Gallery from '../gallery/Gallery';
 
 const tagStyle = {
   display: 'inline',
@@ -27,57 +27,8 @@ class Hots extends React.Component {
   constructor(props) {
     super(props);
     this.onSelectImage = this.onSelectImage.bind(this);
-    this.state = {
-      keywords:
-        !this.props.match.params.key || this.props.match.params.key === ''
-          ? DEFAULTLST[Math.floor(Math.random() * DEFAULTLST.length)]
-          : this.props.match.params.key,
-      placeholder: '',
-      confirmOnEnterKey: true,
-      intent: 'none',
-      maxLength: 20,
-      selectAllOnFocus: true,
-      showIndicate: true,
-    };
     this.props.updateCurrentPage('hots');
   }
-
-  componentDidMount() {
-    try {
-      this.updateSearch(this.state.keywords);
-      setInterval(() => {
-        this.setState({
-          showIndicate: !this.state.showIndicate,
-        });
-      }, 1000);
-      this.props.mountOnSearch(this.updateSearch);
-    } catch {}
-  }
-
-  updateSearch = (keywords) => {
-    if (keywords) {
-      this.props.updatePhotos(keywords);
-
-      let tempPlaceholder = keywords;
-      let placeholder = tempPlaceholder.charAt(0).toUpperCase() + tempPlaceholder.slice(1);
-      this.setState({ keywords: '', placeholder });
-    } else {
-      this.props.updatePhotos(-1);
-      this.setState({ keywords: '', placeholder: '' });
-    }
-  };
-
-  handleReportChange = (keywords) => {
-    this.setState({ keywords });
-  };
-
-  showIndicator = (flag) => {
-    if (flag === true) {
-      return <span style={{ opacity: 1 }}>:</span>;
-    } else {
-      return <span style={{ opacity: 0 }}>:</span>;
-    }
-  };
 
   handleLightboxWillOpen = (event) => {
     this.props.openLightBox();
@@ -132,61 +83,42 @@ class Hots extends React.Component {
   };
 
   render() {
+    const { isLoad, photos } = this.props;
     return (
-      <Fragment>
-        <Tooltip className="bp3-minimal" content="vDanbooru search is here !" position="right">
-          <H1 style={{ margin: '30px' }}>
-            {this.showIndicator(this.state.showIndicate)}
-            <EditableText
-              intent={this.state.intent}
-              maxLength={this.state.maxLength}
-              placeholder={this.state.placeholder === '' ? 'Type something...' : this.state.placeholder}
-              selectAllOnFocus={this.state.selectAllOnFocus}
-              onChange={this.handleReportChange}
-              value={this.state.keywords.trim().toLowerCase().replace(' ', '')}
-              confirmOnEnterKey={this.state.confirmOnEnterKey}
-              onConfirm={() => this.updateSearch(this.state.keywords)}
-            />
-          </H1>
-        </Tooltip>
-        {this.props.isLoad === true ? (
-          <div
-            style={{
-              height: '450px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <div className="bp3-progress-bar bp3-intent-primary" style={{ width: '75%' }}>
-              <div className="bp3-progress-meter" style={{ width: '50%' }} />
+      <div className="flex-1">
+        <HotsSearchInput />
+        <div className="w-full flex justify-center items-center py-10">
+          {isLoad ? (
+            <div className="bp3-progress-bar bp3-intent-primary w-3/4">
+              <div className="bp3-progress-meter w-1/2" />
             </div>
-          </div>
-        ) : this.props.photos === null || this.props.photos === undefined || this.props.photos.length === 0 ? (
-          <div style={{ height: '450px' }}>
+          ) : !photos || photos.length === 0 ? (
             <NonIdealState
-              style={{ display: 'block' }}
+              className="m-auto"
               icon="search"
               title="No search results"
               description="No result found, please try again!"
             />
-          </div>
-        ) : (
-          <Gallery
-            images={this.props.photos}
-            backdropClosesModal={true}
-            rowHeight={300}
-            onSelectImage={this.onSelectImage}
-            showLightboxThumbnails={true}
-            tagStyle={tagStyle}
-            lightboxWillOpen={this.handleLightboxWillOpen}
-            lightboxWillClose={this.handleLightboxWillClose}
-            currentImageWillChange={this.handleCurrentImageWillChange}
-            enableKeyboardInput={true}
-          />
-        )}
-        <Toaster position={Position.TOP_RIGHT} ref={this.refHandlers.toaster} />
-      </Fragment>
+          ) : (
+            <div className="min-h-64">
+              <Gallery photos={photos} />
+              {/* <Gallery
+                images={}
+                backdropClosesModal={true}
+                rowHeight={300}
+                onSelectImage={this.onSelectImage}
+                showLightboxThumbnails={true}
+                tagStyle={tagStyle}
+                lightboxWillOpen={this.handleLightboxWillOpen}
+                lightboxWillClose={this.handleLightboxWillClose}
+                currentImageWillChange={this.handleCurrentImageWillChange}
+                enableKeyboardInput={true}
+              /> */}
+            </div>
+          )}
+          <Toaster position={Position.TOP_RIGHT} ref={this.refHandlers.toaster} />
+        </div>
+      </div>
     );
   }
 }
@@ -207,7 +139,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updatePhotos: (keyword) => dispatch(updatePhotoAction(keyword)),
+    // updatePhotos: (keyword) => dispatch(updatePhotoAction(keyword)),
     // replaceFavs: (favs) => dispatch(replaceAllAction(favs)),
     // addFavs: (imgObj) => dispatch(addFavAction(imgObj)),
     // delFavs: (imgObj) => dispatch(deleteSingleAction(imgObj)),
@@ -220,9 +152,9 @@ const mapDispatchToProps = (dispatch) => {
     updateFocusImg: (focusingImgObject) => {
       return dispatch({ type: 'UPDATE_FOCUS_IMG', focusingImgObject });
     },
-    mountOnSearch: (onSearchInHot) => {
-      return dispatch({ type: 'MOUNT_ON_SEARCH', onSearchInHot });
-    },
+    // mountOnSearch: (onSearchInHot) => {
+    //   return dispatch({ type: 'MOUNT_ON_SEARCH', onSearchInHot });
+    // },
     updateCurrentPage: (currentPage) => {
       return dispatch({ type: 'UPDATE_CURRENT_PAGE', currentPage });
     },

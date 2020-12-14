@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Alignment,
   Button,
@@ -13,23 +13,24 @@ import {
   Menu,
 } from '@blueprintjs/core';
 import SignoutLinks from './SignoutLinks';
-import SigninLinks from './SigninLinks';
+import SignInLinks from './SigninLinks';
 import ShareMenu from './ShareMenu';
 
-const NavButtonLink = (props) => (
+export const NavButtonLink = (props) => (
   <Link to={props.linkTo}>
     <NavButton {...props} />
   </Link>
 );
 
-const NavButton = (props) => (
+export const NavButton = (props) => (
   <>
     <Button {...props} minimal className="hidden md:inline-flex mr-2" />
     <Button {...props} minimal large className="inline-flex md:hidden mr-2" text="" />
   </>
 );
 
-const MyNavbar = ({ searchBackground, isLightBoxOpen }) => {
+const Nav = ({ searchBackground, isLightBoxOpen }) => {
+  const { pathname } = useLocation();
   const auth = useSelector((state) => state.firebase.auth);
 
   const AboutMenu = () => (
@@ -47,17 +48,17 @@ const MyNavbar = ({ searchBackground, isLightBoxOpen }) => {
 
   const UserCenterAction = () => (
     <>
-      {isLoaded(auth) && !isEmpty(auth.uid) && <SigninLinks />}
+      {isLoaded(auth) && !isEmpty(auth.uid) && <SignInLinks />}
       {isLoaded(auth) && isEmpty(auth.uid) && <SignoutLinks />}
     </>
   );
 
   const LeftNav = () => (
     <Navbar.Group align={Alignment.LEFT}>
-      <NavButtonLink linkTo="/Search" icon="home" text="vDanbooru" />
+      <NavButtonLink linkTo="/Search" icon="home" text="vDanbooru" active={pathname.indexOf('/Search') > -1} />
       <Navbar.Divider />
-      <NavButtonLink linkTo="/Hots" icon="heatmap" text="Hots" />
-      <NavButtonLink linkTo="/Favs" icon="star" text="Favs" />
+      <NavButtonLink linkTo="/Hots" icon="heatmap" text="Hots" active={pathname.indexOf('/Hots') > -1} />
+      <NavButtonLink linkTo="/Favs" icon="star" text="Favs" active={pathname.indexOf('/Favs') > -1} />
       <Popover content={<AboutMenu />} interactionKind={PopoverInteractionKind.HOVER} position={Position.BOTTOM}>
         <NavButton icon="inbox" rightIcon="caret-down" text="About" />
       </Popover>
@@ -79,15 +80,11 @@ const MyNavbar = ({ searchBackground, isLightBoxOpen }) => {
   );
 
   return (
-    <Navbar
-      style={{
-        filter: isLightBoxOpen ? 'blur(0.5rem) saturate(200%)' : 'none',
-      }}
-    >
+    <Navbar className={`${isLightBoxOpen ? 'filter-blur' : 'filter-none'}`}>
       <LeftNav />
       <RightNav />
     </Navbar>
   );
 };
 
-export default MyNavbar;
+export default Nav;

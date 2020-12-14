@@ -26,18 +26,34 @@ h5 {
 @import '~@blueprintjs/core/lib/css/blueprint.css';
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
 
+/* slightly transparent fallback */
+.backdrop-blur {
+  background-color: rgba(44, 43, 43, 0.5);
+}
+
+/* if backdrop support: very transparent and blurred */
+@supports ((-webkit-backdrop-filter: blur(2em)) or (backdrop-filter: blur(2em))) {
+  .backdrop-blur {
+    background-color: rgba(44, 43, 43, 0.5);
+    -webkit-backdrop-filter: blur(2em);
+    backdrop-filter: blur(2em);
+  }
+}
+
+.filter-blur {
+  filter: blur(0.5rem) saturate(200%);
+}
+
+.filter-none {
+  filter: none;
+}
+
 /* SEARCH */
 .text-shadow-display {
   text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 6px 1px rgba(0, 0, 0, 0.6), 0 0 5px rgba(0, 0, 0, 0.6);
 }
 
 /* FAVS */
-div.center {
-  display: flex;
-  justify-content: center;
-  margin-top: 100px;
-}
-
 div.ReactGridGallery_tile-icon-bar svg {
   fill: #ff8879;
 }
@@ -70,26 +86,4 @@ p.desktop-navbar-txt {
   padding: 0;
   margin: auto;
   text-decoration: none;
-}
-
-@media screen and (max-width: 650px) {
-  p.desktop-navbar-txt {
-    display: none;
-  }
-
-  span.bp3-icon.bp3-icon-star,
-  span.bp3-icon.bp3-icon-heatmap,
-  span.bp3-icon.bp3-icon-inbox,
-  span.bp3-icon.bp3-icon-home,
-  span.bp3-icon.bp3-icon-social-media,
-  span.bp3-icon.bp3-icon-user,
-  span.bp3-icon.bp3-icon-log-out,
-  span.bp3-icon.bp3-icon-log-in,
-  span.bp3-icon.bp3-icon-hand,
-  span.bp3-icon.bp3-icon-tag,
-  span.bp3-icon.bp3-icon-share,
-  span.bp3-icon.bp3-icon-download,
-  span.bp3-icon.bp3-icon-refresh {
-    margin: 0;
-  }
 }
