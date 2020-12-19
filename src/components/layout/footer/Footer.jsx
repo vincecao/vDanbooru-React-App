@@ -1,5 +1,7 @@
-import React from 'react';
-import { Card, Elevation, Tooltip, Button, Icon } from '@blueprintjs/core';
+import React, { useContext } from 'react';
+import { Card, Elevation, Tooltip, Button } from '@blueprintjs/core';
+import { useLocation } from 'react-router-dom';
+import { FeatureImageContext } from '../../../contexts/featureImageContext';
 
 const FooterButton = (props) => (
   <>
@@ -19,21 +21,21 @@ const FooterBanner = () => (
   </p>
 );
 
-const Footer = ({ currentPage, handleSwitch, isLightBoxOpen, searchBackground }) => {
-  const handleDownload = () => searchBackground && window.open(searchBackground, '_blank');
+const Footer = () => {
+  const { pathname } = useLocation();
+  const { featureImage, switchImage } = useContext(FeatureImageContext);
+
+  const handleDownload = () => featureImage && window.open(featureImage, '_blank');
   return (
-    <Card
-      elevation={Elevation.TWO}
-      className={`footer-card flex justify-between p-2 ${isLightBoxOpen ? 'filter-blur' : 'filter-none'}`}
-    >
+    <Card elevation={Elevation.TWO} className={`footer-card flex justify-between p-2 z-10`}>
       <span>
-        {currentPage === 'search' && (
+        {pathname === '/' && (
           <>
-            <FooterButton icon="refresh" text="Switch a Image" onClick={handleSwitch} />
+            <FooterButton icon="refresh" text="Switch a Image" onClick={switchImage} />
             <FooterButton icon="download" text="Download Features" onClick={handleDownload} />
           </>
         )}
-        {currentPage !== 'search' && <p className="bp3-minimal my-auto">{currentPage.toUpperCase()}</p>}
+        {pathname !== '/' && <p className="bp3-minimal my-auto">{pathname.toUpperCase()}</p>}
       </span>
       <FooterBanner />
     </Card>

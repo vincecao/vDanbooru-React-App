@@ -1,51 +1,97 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { DownloadButton, PaginationButton } from '../button/buttons';
 import UniversalButton from '../button/UniversalButton';
 
 export const ThumbnailWithLoading = (props) => {
   const [loaded, setLoaded] = useState(false);
   const { src, alt, className, thumbnail } = props;
   const onLoad = () => setLoaded(true);
-  return <img {...props} onLoad={onLoad} src={!loaded ? thumbnail : src} alt={alt} className={className} />;
+  return (
+    <div className="relative">
+      {!loaded && (
+        <span className="absolute top-4 right-4 inline-flex space-x-4 text-black bg-black rounded-lg px-2 py-1 items-center backdrop-blur-light">
+          <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+          <span className="inline-flex">Loading</span>
+        </span>
+      )}
+      <img {...props} onLoad={onLoad} src={!loaded ? thumbnail : src} alt={alt} className={className} />
+    </div>
+  );
 };
 
-const TagButton = ({ text }) => <UniversalButton color="black" className="mr-2" text={text} />;
+const CloseButton = ({ onClose }) => (
+  <UniversalButton color="red" className="text-lg z-50 rounded-full" onClick={onClose}>
+    <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+      <path
+        fillRule="evenodd"
+        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+        clipRule="evenodd"
+      />
+    </svg>
+  </UniversalButton>
+);
+
+const TagButton = ({ text }) => {
+  const history = useHistory();
+  const handleTagOnClick = () => history.push(`/tags/${text}`);
+  return <UniversalButton color="white" className="mr-2 mb-2 backdrop-light" text={text} onClick={handleTagOnClick} />;
+};
 
 const TagGroup = ({ tags }) => (
-  <div>
+  <div className="text-white">
     <h3>Tags</h3>
     {tags.map((tag) => (
-      <TagButton text={tag.value} />
+      <TagButton key={tag.value} text={tag.value} />
     ))}
   </div>
 );
 
-const DownloadButton = () => <UniversalButton color="indigo" className="mr-2" text="Download" />;
-const ButtonGroup = () => (
-  <div>
+const ButtonGroup = ({ photo }) => (
+  <div className="text-white mb-10">
     <h3>Download</h3>
-    <DownloadButton />
+    <DownloadButton photo={photo} />
   </div>
 );
 
-const GalleryLightbox = ({ photo, onClose }) => {
-  const { src, caption, tags, thumbnail, thumbnailHeight, thumbnailWidth } = photo;
+const GalleryLightbox = ({ photo, onClose, onNext, onPrev, prevDisabled = false, nextDisabled = false }) => {
+  const { src, caption, tags, thumbnail } = photo;
   return (
     <>
-      <div className="backdrop-blur fixed top-0 right-0 left-0 bottom-0 z-30" />
-      <div className="fixed top-28 bottom-28 left-28 right-28 bg-white shadow-lg z-40 rounded-lg">
-        <UniversalButton color="red" className="absolute top-10 right-10 text-lg" text="close" onClick={onClose} />
-        <div className="mx-auto p-10 h-full w-full flex">
-          <div className="m-3 override-auto">
-            <ThumbnailWithLoading
-              src={src}
-              thumbnail={thumbnail}
-              alt={caption}
-              className="rounded-lg shadow-lg h-full"
-            />
+      <div className="backdrop-blur-light dark:backdrop-blur-dark fixed top-0 left-0 right-0 bottom-0 z-40 flex items-center justify-center py-2 lg:py-0 lg:px-32 px-2">
+        <div className="relative backdrop-dark shadow-lg rounded-xl m-auto px-2 py-2 lg:p-0 h-full lg:h-auto overflow-auto">
+          <div className="grid lg:grid-cols-5 lg:gap-5">
+            <div className="lg:col-span-4 relative">
+              <div className="overflow-auto max-h-85vh">
+                <ThumbnailWithLoading
+                  key={src}
+                  src={src}
+                  thumbnail={thumbnail}
+                  alt={caption}
+                  className="rounded-l-xl rounded-r-xl lg:rounded-r-none shadow-lg object-contain w-full"
+                />
+                <div className="absolute right-5 bottom-5 space-x-4">
+                  <PaginationButton role="prev" color="white" onClick={onPrev} disabled={prevDisabled} />
+                  <PaginationButton role="next" color="white" onClick={onNext} disabled={nextDisabled} />
+                </div>
+              </div>
+            </div>
+            <div className="px-3 pb-3 lg:pb-0 lg:px-0">
+              <div className="overflow-auto lg:pr-5 max-h-85vh">
+                <TagGroup tags={tags} />
+                <ButtonGroup photo={photo} />
+              </div>
+            </div>
           </div>
-          <div className="m-2 p-2 max-w-xs overflow-auto">
-            <TagGroup tags={tags} />
-            <ButtonGroup tags={tags} />
+          <div className="absolute top-4 right-4">
+            <CloseButton onClose={onClose} />
           </div>
         </div>
       </div>

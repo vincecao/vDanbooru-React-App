@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { Link, useLocation } from 'react-router-dom';
@@ -13,11 +13,14 @@ import {
   Menu,
 } from '@blueprintjs/core';
 import SignoutLinks from './SignoutLinks';
-import SignInLinks from './SigninLinks';
 import ShareMenu from './ShareMenu';
+import { getRandomKey } from '../../../utilis';
+import { LightBoxContext } from '../../../contexts/lightBoxContext';
+import { FeatureImageContext } from '../../../contexts/featureImageContext';
+import { ToggleThemeButton } from '../../button/buttons';
 
 export const NavButtonLink = (props) => (
-  <Link to={props.linkTo}>
+  <Link {...props} to={props.linkTo}>
     <NavButton {...props} />
   </Link>
 );
@@ -29,9 +32,10 @@ export const NavButton = (props) => (
   </>
 );
 
-const Nav = ({ searchBackground, isLightBoxOpen }) => {
+const Nav = () => {
   const { pathname } = useLocation();
-  const auth = useSelector((state) => state.firebase.auth);
+  const { isLightBoxMode } = useContext(LightBoxContext);
+  const { featureImage } = useContext(FeatureImageContext);
 
   const AboutMenu = () => (
     <Menu className="bp3-minimal">
@@ -46,19 +50,18 @@ const Nav = ({ searchBackground, isLightBoxOpen }) => {
     </Menu>
   );
 
-  const UserCenterAction = () => (
-    <>
-      {isLoaded(auth) && !isEmpty(auth.uid) && <SignInLinks />}
-      {isLoaded(auth) && isEmpty(auth.uid) && <SignoutLinks />}
-    </>
-  );
+  const UserCenterAction = () => <SignoutLinks />;
 
   const LeftNav = () => (
     <Navbar.Group align={Alignment.LEFT}>
-      <NavButtonLink linkTo="/Search" icon="home" text="vDanbooru" active={pathname.indexOf('/Search') > -1} />
+      <NavButtonLink linkTo="/" icon="home" text="vDanbooru" className="font-display" />
       <Navbar.Divider />
-      <NavButtonLink linkTo="/Hots" icon="heatmap" text="Hots" active={pathname.indexOf('/Hots') > -1} />
-      <NavButtonLink linkTo="/Favs" icon="star" text="Favs" active={pathname.indexOf('/Favs') > -1} />
+      <NavButtonLink
+        linkTo={`/tags/${getRandomKey()}`}
+        icon="heatmap"
+        text="Hots"
+        active={pathname.indexOf('/hots') > -1}
+      />
       <Popover content={<AboutMenu />} interactionKind={PopoverInteractionKind.HOVER} position={Position.BOTTOM}>
         <NavButton icon="inbox" rightIcon="caret-down" text="About" />
       </Popover>
@@ -68,19 +71,20 @@ const Nav = ({ searchBackground, isLightBoxOpen }) => {
   const RightNav = () => (
     <Navbar.Group align={Alignment.RIGHT}>
       <Popover
-        content={<ShareMenu imgSrc={searchBackground} />}
+        content={<ShareMenu imgSrc={featureImage} />}
         interactionKind={PopoverInteractionKind.HOVER}
         position={Position.BOTTOM}
       >
         <NavButton icon="social-media" rightIcon="caret-down" text="Share" />
       </Popover>
       <Navbar.Divider />
+      <ToggleThemeButton />
       <UserCenterAction />
     </Navbar.Group>
   );
 
   return (
-    <Navbar className={`${isLightBoxOpen ? 'filter-blur' : 'filter-none'}`}>
+    <Navbar className={`${isLightBoxMode ? 'filter-blur' : 'filter-none'}`}>
       <LeftNav />
       <RightNav />
     </Navbar>

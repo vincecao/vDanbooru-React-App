@@ -6,16 +6,17 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
-import rootReducer from './reducer/rootReducer';
 import firebase from './const/fbConfig';
 import App from './components/App';
 import './tailwind.css';
+import LightBoxProvider from './contexts/lightBoxContext';
+import { ThemeProvider } from './contexts/themeContext';
 
 const composeEnhancers = composeWithDevTools({
   realtime: true,
 });
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk.withExtraArgument(firebase))));
+const store = createStore(composeEnhancers(applyMiddleware(thunk.withExtraArgument(firebase))));
 
 const rrfConfig = {
   userProfile: 'users',
@@ -30,14 +31,14 @@ const rrfProps = {
   createFirestoreInstance, // <- needed if using firestore
 };
 
-window.addEventListener('beforeunload', (ev) => {
-  localStorage.setItem('vDanbooru-fav', JSON.stringify(store.getState().favs));
-});
-
 ReactDOM.render(
   <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
-      <App />
+      <ThemeProvider>
+        <LightBoxProvider>
+          <App />
+        </LightBoxProvider>
+      </ThemeProvider>
     </ReactReduxFirebaseProvider>
   </Provider>,
   document.getElementById('root')

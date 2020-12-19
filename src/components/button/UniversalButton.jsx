@@ -18,7 +18,7 @@ const UniversalButton = ({
   const Wrapper = (props) =>
     tagName === 'button' ? (
       <button type="button" {...props} />
-    ) : tagName === 'a' ? (
+    ) : tagName === 'anchor' ? (
       // eslint-disable-next-line jsx-a11y/anchor-has-content
       <a {...props} href={href} target="_blank" rel="noopener noreferrer" download={download} />
     ) : tagName === 'div' ? (
@@ -35,7 +35,7 @@ const UniversalButton = ({
   switch (color) {
     case 'gray':
       minimalColor = 'hover:bg-gray-200';
-      mainColor = 'bg-gray-300 hover:bg-gray-100';
+      mainColor = 'bg-gray-400 hover:bg-gray-100';
       mainTextColor = 'text-gray-700 hover:text-gray-800';
       break;
     case 'red':
@@ -75,7 +75,7 @@ const UniversalButton = ({
       break;
     case 'white':
       minimalColor = 'hover:text-gray-700';
-      mainColor = 'bg-white hover:bg-gray-100';
+      mainColor = 'bg-white hover:bg-gray-300';
       mainTextColor = 'text-black';
       break;
     case 'black':
@@ -85,7 +85,7 @@ const UniversalButton = ({
       break;
     default:
       minimalColor = 'hover:text-gray-200';
-      mainColor = 'bg-gray-400 hover:bg-gray-300';
+      mainColor = 'bg-gray-100 dark:bg-gray-600 hover:bg-gray-300';
       mainTextColor = 'text-white';
   }
 
@@ -117,7 +117,7 @@ const UniversalButton = ({
         </>
       )}
       {!loading && children}
-      {text && <span className="truncate">{text}</span>}
+      {text && <p className="break-all text-left">{text}</p>}
     </Wrapper>
   );
 };
