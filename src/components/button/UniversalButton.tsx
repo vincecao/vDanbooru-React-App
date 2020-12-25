@@ -1,7 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, ReactNode } from 'react';
 
-const UniversalButton = ({
+export interface UniversalButtonProps {
+  children?: ReactNode;
+  onClick?: () => void;
+  className?: string;
+  color?: string;
+  minimal?: boolean;
+  loading?: boolean;
+  disabled?: boolean;
+  tagName?: string;
+  href?: string;
+  download?: string;
+  testid?: string;
+  text?: string;
+}
+
+export interface WrapperProps {
+  [propName: string]: any;
+}
+
+const UniversalButton: FC<UniversalButtonProps> = ({
   children,
   onClick,
   className,
@@ -15,7 +33,7 @@ const UniversalButton = ({
   testid = '',
   text = '',
 }) => {
-  const Wrapper = (props) =>
+  const Wrapper: FC<WrapperProps> = (props) =>
     tagName === 'button' ? (
       <button type="button" {...props} />
     ) : tagName === 'anchor' ? (
@@ -121,7 +139,5 @@ const UniversalButton = ({
     </Wrapper>
   );
 };
-
-UniversalButton.propTypes = {};
 
 export default UniversalButton;

@@ -7,8 +7,9 @@ const IndexInput = () => {
   const history = useHistory();
   const searchTerm = getRandomKey();
 
-  const handleKeyDown = (nativeEvent, searchTerm) => nativeEvent.keyCode === 13 && history.push(`/tags/${searchTerm}`);
-  const handleInputOnChange = ({ nativeEvent }) => setSearchValue(nativeEvent.target.value);
+  const handleKeyDown = (nativeEvent: any, searchTerm: string) =>
+    nativeEvent.keyCode === 13 && history.push(`/tags/${searchTerm}`);
+  const handleInputOnChange = ({ nativeEvent }: { nativeEvent: any }) => setSearchValue(nativeEvent.target.value);
 
   return (
     <div className="bp3-input-group bp3-large w-4/5 md:w-3/5 mx-auto max-w-xl">

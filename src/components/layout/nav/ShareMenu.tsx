@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { MenuItem, Menu } from '@blueprintjs/core';
 import {
   FacebookIcon,
@@ -19,7 +19,11 @@ import {
 
 const ROUTER_BASENAME = process.env.REACT_APP_ROUTER_BASENAME || '/';
 
-const ShareMenu = ({ imgSrc }) => {
+interface ShareMenuProps {
+  imgSrc: string;
+}
+
+const ShareMenu: FC<ShareMenuProps> = ({ imgSrc }) => {
   const url = `${window.location.protocol}//${window.location.hostname}${ROUTER_BASENAME}`;
 
   return (

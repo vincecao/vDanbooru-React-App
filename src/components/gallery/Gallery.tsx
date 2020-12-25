@@ -1,7 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import GalleryLightbox from './GalleryLightbox';
 
-const Gallery = ({ photos }) => {
+export interface Tag {
+  value: string;
+}
+
+export interface Photo {
+  src: string;
+  tags: Tag[];
+  caption: string;
+  thumbnail: string;
+  thumbnailHeight: number;
+  thumbnailWidth: number;
+}
+
+interface GalleryProps {
+  photos: Photo[];
+}
+
+const Gallery: FC<GalleryProps> = ({ photos }) => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const prevDisabled = selectedIndex <= 0;
@@ -15,8 +32,8 @@ const Gallery = ({ photos }) => {
       <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 px-2">
         {photos &&
           typeof photos === 'object' &&
-          photos.map((photo = {}, index) => {
-            const { src, caption, thumbnail, thumbnailHeight, thumbnailWidth } = photo;
+          photos.map((photo, index) => {
+            const { caption, thumbnail, thumbnailHeight, thumbnailWidth } = photo;
             return (
               <button
                 key={caption}

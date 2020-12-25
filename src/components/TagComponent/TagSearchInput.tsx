@@ -1,26 +1,34 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, FC } from 'react';
 import { EditableText, H1, Tooltip } from '@blueprintjs/core';
 import { useHistory, useParams } from 'react-router-dom';
 
+interface ParamTypes {
+  key: string;
+}
+
 const TagSearchInput = () => {
-  const { key = '' } = useParams();
+  const { key = '' } = useParams<ParamTypes>();
   const history = useHistory();
-  const intervalID = useRef(null);
+  const intervalID = useRef(-1 as number);
 
   const [placeholder, setPlaceholder] = useState('');
   const [keywords, setKeywords] = useState('');
   const [showIndicate, setShowIndicate] = useState(true);
 
   useEffect(() => {
-    intervalID.current = setInterval(() => setShowIndicate((_showIndicate) => !_showIndicate), 1000);
-    return () => clearInterval(intervalID.current);
+    intervalID.current = window.setInterval(() => setShowIndicate((_showIndicate) => !_showIndicate), 1000);
+    return () => window.clearInterval(intervalID.current);
   }, []);
 
   useEffect(() => {
     key && setPlaceholder(key);
   }, [key]);
 
-  const Indicator = ({ showIndicate }) => (
+  interface IndicatorProps {
+    showIndicate: boolean;
+  }
+
+  const Indicator: FC<IndicatorProps> = ({ showIndicate }) => (
     <span className={`${showIndicate === true ? 'opacity-100' : 'opacity-0'} mr-2`}>:</span>
   );
 

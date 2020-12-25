@@ -1,7 +1,7 @@
 module.exports = {
   purge: {
-    enabled: true,
-    content: ['./src/**/*.html', './src/**/*.jsx', './src/**/*.js'],
+    // enabled: true,
+    content: ['./src/**/*.html', './src/**/*.jsx', './src/**/*.js', './src/**/*.tsx', './src/**/*.ts'],
   },
   theme: {
     themeVariants: ['dark'],

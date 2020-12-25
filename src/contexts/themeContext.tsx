@@ -1,21 +1,35 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import React, { FC, useState, useEffect, useRef, useLayoutEffect, ReactNode } from 'react';
 
 /**
  * Saves the old theme for future use
  * @param {string} theme - Name of curent theme
  * @return {string} previousTheme
  */
-function usePrevious(theme) {
-  const ref = useRef();
+
+
+function usePrevious(theme: string) {
+  const ref = useRef('' as string);
   useEffect(() => {
     ref.current = theme;
   });
   return ref.current;
 }
 
-export const ThemeContext = React.createContext();
+type IContextProps = {
+  theme: string;
+  toggleTheme: () => void;
+}
 
-export const ThemeProvider = ({ children }) => {
+export const ThemeContext = React.createContext({
+  theme: 'light',
+  toggleTheme: () => {}
+} as IContextProps);
+
+interface ThemeProviderProps {
+  children: ReactNode;
+};
+
+export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   // defaults to light theme
   const [theme, setTheme] = useState('light');
 

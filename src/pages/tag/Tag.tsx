@@ -6,8 +6,12 @@ import { getPhotos } from '../../services/safebooruServices';
 import { useParams } from 'react-router-dom';
 import UniversalButton from '../../components/button/UniversalButton';
 
+interface ParamTypes {
+  key: string;
+}
+
 const Tag = () => {
-  const { key = '' } = useParams();
+  const { key = '' } = useParams<ParamTypes>();
   const [isLoad, setIsLoad] = useState(true);
   const [photos, setPhotos] = useState([]);
 
@@ -23,7 +27,7 @@ const Tag = () => {
   }, [key]);
 
   return (
-    <div className="flex-1 bg-gray-200 dark:bg-gray-900">
+    <div className="flex-1 bg-gray-200 dark:bg-gray-600">
       <TagSearchInput />
       {isLoad ? (
         <UniversalButton loading />

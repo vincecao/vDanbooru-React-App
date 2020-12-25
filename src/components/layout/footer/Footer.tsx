@@ -1,9 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, FC } from 'react';
 import { Card, Elevation, Tooltip, Button } from '@blueprintjs/core';
 import { useLocation } from 'react-router-dom';
 import { FeatureImageContext } from '../../../contexts/featureImageContext';
 
-const FooterButton = (props) => (
+interface FooterButtonProps {
+  [propName: string]: any;
+}
+
+const FooterButton: FC<FooterButtonProps> = (props) => (
   <>
     <Button {...props} className="hidden md:inline-flex mr-2" />
     <Button {...props} large className="inline-flex md:hidden mr-2" text="" />

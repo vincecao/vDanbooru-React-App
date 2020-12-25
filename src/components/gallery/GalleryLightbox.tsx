@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, FC, Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { DownloadButton, PaginationButton } from '../button/buttons';
 import UniversalButton from '../button/UniversalButton';
+import { Photo, Tag } from './Gallery';
 
-export const ThumbnailWithLoading = (props) => {
+interface ThumbnailWithLoadingProps {
+  src: string;
+  alt: string;
+  className: string;
+  thumbnail: string;
+}
+
+export const ThumbnailWithLoading: FC<ThumbnailWithLoadingProps> = (props) => {
   const [loaded, setLoaded] = useState(false);
   const { src, alt, className, thumbnail } = props;
   const onLoad = () => setLoaded(true);
@@ -27,7 +35,11 @@ export const ThumbnailWithLoading = (props) => {
   );
 };
 
-const CloseButton = ({ onClose }) => (
+interface CloseButtonProps {
+  onClose: () => void;
+}
+
+const CloseButton: FC<CloseButtonProps> = ({ onClose }) => (
   <UniversalButton color="red" className="text-lg z-50 rounded-full" onClick={onClose}>
     <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
       <path
@@ -39,13 +51,21 @@ const CloseButton = ({ onClose }) => (
   </UniversalButton>
 );
 
-const TagButton = ({ text }) => {
+interface TagButtonProps {
+  text: string;
+}
+
+const TagButton: FC<TagButtonProps> = ({ text }) => {
   const history = useHistory();
   const handleTagOnClick = () => history.push(`/tags/${text}`);
   return <UniversalButton color="white" className="mr-2 mb-2 backdrop-light" text={text} onClick={handleTagOnClick} />;
 };
 
-const TagGroup = ({ tags }) => (
+interface TagGroupProps {
+  tags: Tag[];
+}
+
+const TagGroup: FC<TagGroupProps> = ({ tags }) => (
   <div className="text-white">
     <h3>Tags</h3>
     {tags.map((tag) => (
@@ -54,14 +74,34 @@ const TagGroup = ({ tags }) => (
   </div>
 );
 
-const ButtonGroup = ({ photo }) => (
+interface ButtonGroupProps {
+  photo: Photo;
+}
+
+const ButtonGroup: FC<ButtonGroupProps> = ({ photo }) => (
   <div className="text-white mb-10">
     <h3>Download</h3>
     <DownloadButton photo={photo} />
   </div>
 );
 
-const GalleryLightbox = ({ photo, onClose, onNext, onPrev, prevDisabled = false, nextDisabled = false }) => {
+interface GalleryLightboxProps {
+  photo: Photo;
+  onClose: () => void;
+  onNext: () => void;
+  onPrev: () => void;
+  prevDisabled?: boolean;
+  nextDisabled?: boolean;
+}
+
+const GalleryLightbox: FC<GalleryLightboxProps> = ({
+  photo,
+  onClose,
+  onNext,
+  onPrev,
+  prevDisabled = false,
+  nextDisabled = false,
+}) => {
   const { src, caption, tags, thumbnail } = photo;
   return (
     <>

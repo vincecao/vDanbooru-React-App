@@ -1,6 +1,4 @@
-import React, { useContext } from 'react';
-import { useSelector } from 'react-redux';
-import { isLoaded, isEmpty } from 'react-redux-firebase';
+import React, { useContext, FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Alignment,
@@ -19,13 +17,22 @@ import { LightBoxContext } from '../../../contexts/lightBoxContext';
 import { FeatureImageContext } from '../../../contexts/featureImageContext';
 import { ToggleThemeButton } from '../../button/buttons';
 
-export const NavButtonLink = (props) => (
+interface NavButtonLinkProps {
+  linkTo: string;
+  [propName: string]: any;
+}
+
+export const NavButtonLink: FC<NavButtonLinkProps> = (props) => (
   <Link {...props} to={props.linkTo}>
     <NavButton {...props} />
   </Link>
 );
 
-export const NavButton = (props) => (
+interface NavButtonProps {
+  [propName: string]: any;
+}
+
+export const NavButton: FC<NavButtonProps> = (props) => (
   <>
     <Button {...props} minimal className="hidden md:inline-flex mr-2" />
     <Button {...props} minimal large className="inline-flex md:hidden mr-2" text="" />
