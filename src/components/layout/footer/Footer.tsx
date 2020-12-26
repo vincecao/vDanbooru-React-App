@@ -31,7 +31,7 @@ const Footer = () => {
 
   const handleDownload = () => featureImage && window.open(featureImage, '_blank');
   return (
-    <Card elevation={Elevation.TWO} className={`footer-card flex justify-between p-2 z-10`}>
+    <Card elevation={Elevation.TWO} className={`footer-card rounded-none flex justify-between p-2 z-10`}>
       <span>
         {pathname === '/' && (
           <>

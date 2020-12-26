@@ -4,14 +4,13 @@ import { ThemeContext } from '../../contexts/themeContext';
 import UniversalButton from './UniversalButton';
 
 interface photoProps {
-  src: string,
+  src: string;
   [propName: string]: any;
 }
 
 interface DownloadButtonProps {
   photo: photoProps;
 }
-
 
 export const DownloadButton: FC<DownloadButtonProps> = ({ photo }) => {
   return (
@@ -23,7 +22,7 @@ export const DownloadButton: FC<DownloadButtonProps> = ({ photo }) => {
       href={photo.src}
       download={photo.src}
     />
-  )
+  );
 };
 
 interface PaginationButtonProps {
@@ -34,15 +33,13 @@ interface PaginationButtonProps {
 export const PaginationButton: FC<PaginationButtonProps> = (props) => {
   const { role = 'next' } = props;
   return (
-    <UniversalButton {...props} className="mr-2">
+    <UniversalButton {...props} className="rounded-full">
       <Icon className="px-1" icon={role === 'next' ? 'arrow-right' : 'arrow-left'} />
     </UniversalButton>
   );
 };
 
-interface ToggleThemeButtonProps {
- 
-}
+interface ToggleThemeButtonProps {}
 
 export const ToggleThemeButton: FC<ToggleThemeButtonProps> = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);

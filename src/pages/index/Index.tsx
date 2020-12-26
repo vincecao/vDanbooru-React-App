@@ -15,7 +15,7 @@ const Index = () => {
         style={{ backgroundImage: gradientBackgroundImage }}
       />
       <div
-        className="flex-1 flex flex-col justify-center z-0 bg-contain bg-center bg-no-repeat"
+        className="flex-1 flex flex-col justify-center z-0 bg-cover md:bg-contain bg-center bg-no-repeat"
         style={{ backgroundImage }}
       >
         <h1 className="font-semibold text-white dark:text-gray-200 text-center font-display text-shadow-display">

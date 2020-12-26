@@ -29,7 +29,7 @@ const Gallery: FC<GalleryProps> = ({ photos }) => {
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2 px-2">
+      <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 px-2">
         {photos &&
           typeof photos === 'object' &&
           photos.map((photo, index) => {
@@ -41,7 +41,7 @@ const Gallery: FC<GalleryProps> = ({ photos }) => {
                 onClick={() => setSelectedIndex(index)}
                 className={`overflow-hidden ${thumbnailHeight < thumbnailWidth ? '' : 'row-span-2'}`}
               >
-                <img src={thumbnail} alt={caption} className="min-h-full min-w-full rounded-xl object-cover" />
+                <img src={thumbnail} alt={caption} className="min-h-full min-w-full max-h-56 rounded-xl object-cover" />
               </button>
             );
           })}

@@ -30,7 +30,10 @@ export const ThumbnailWithLoading: FC<ThumbnailWithLoadingProps> = (props) => {
           <span className="inline-flex">Loading</span>
         </span>
       )}
-      <img {...props} onLoad={onLoad} src={!loaded ? thumbnail : src} alt={alt} className={className} />
+      <div>
+        <img {...props} onLoad={onLoad} src={src} alt={alt} className={`${className} ${loaded ? 'block' : 'hidden'}`} />
+        <img {...props} src={thumbnail} alt={alt} className={`${className} ${!loaded ? 'block' : 'hidden'}`} />
+      </div>
     </div>
   );
 };
@@ -108,14 +111,18 @@ const GalleryLightbox: FC<GalleryLightboxProps> = ({
       <div className="backdrop-blur-light dark:backdrop-blur-dark fixed top-0 left-0 right-0 bottom-0 z-40 flex items-center justify-center py-2 lg:py-0 lg:px-32 px-2">
         <div className="relative backdrop-dark shadow-lg rounded-xl m-auto px-2 py-2 lg:p-0 h-full lg:h-auto overflow-auto">
           <div className="grid lg:grid-cols-5 lg:gap-5">
-            <div className="lg:col-span-4 relative">
-              <div className="overflow-auto max-h-85vh">
+            <div className="relative lg:col-span-4 flex items-center">
+              <div
+                className="absolute top-0 left-0 bottom-0 right-0 filter-blur bg-cover bg-center -z-10"
+                style={{ background: `url(${thumbnail})` }}
+              />
+              <div className="overflow-auto max-h-85vh w-full z-10">
                 <ThumbnailWithLoading
                   key={src}
                   src={src}
                   thumbnail={thumbnail}
                   alt={caption}
-                  className="rounded-l-xl rounded-r-xl lg:rounded-r-none shadow-lg object-contain w-full"
+                  className="rounded-xl lg:rounded-r-none shadow-lg object-contain w-full"
                 />
                 <div className="absolute right-5 bottom-5 space-x-4">
                   <PaginationButton role="prev" color="white" onClick={onPrev} disabled={prevDisabled} />
