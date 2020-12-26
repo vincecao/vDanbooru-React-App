@@ -104,7 +104,7 @@ const UniversalButton: FC<UniversalButtonProps> = ({
     default:
       minimalColor = 'hover:text-gray-200';
       mainColor = 'bg-gray-100 dark:bg-gray-600 hover:bg-gray-300';
-      mainTextColor = 'text-white';
+      mainTextColor = 'text-black dark:text-white';
   }
 
   return (

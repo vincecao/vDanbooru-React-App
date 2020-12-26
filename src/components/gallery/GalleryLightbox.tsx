@@ -18,7 +18,7 @@ export const ThumbnailWithLoading: FC<ThumbnailWithLoadingProps> = (props) => {
   return (
     <div className="relative">
       {!loaded && (
-        <span className="absolute top-4 right-4 inline-flex space-x-4 text-black bg-black rounded-lg px-2 py-1 items-center backdrop-blur-light">
+        <span className="absolute top-4 left-4 inline-flex space-x-4 text-black bg-black rounded-lg px-2 py-1 items-center backdrop-blur-light">
           <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path
@@ -137,7 +137,7 @@ const GalleryLightbox: FC<GalleryLightboxProps> = ({
               </div>
             </div>
           </div>
-          <div className="absolute top-4 right-4">
+          <div className="absolute top-4 right-4 z-10">
             <CloseButton onClose={onClose} />
           </div>
         </div>
