@@ -1,11 +1,12 @@
 import React, { FC, useState, useEffect, useRef, useLayoutEffect, ReactNode } from 'react';
 
+export const prefersDark = () => !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
 /**
  * Saves the old theme for future use
  * @param {string} theme - Name of curent theme
  * @return {string} previousTheme
  */
-
 
 function usePrevious(theme: string) {
   const ref = useRef('' as string);
@@ -18,16 +19,16 @@ function usePrevious(theme: string) {
 type IContextProps = {
   theme: string;
   toggleTheme: () => void;
-}
+};
 
 export const ThemeContext = React.createContext({
   theme: 'light',
-  toggleTheme: () => {}
+  toggleTheme: () => {},
 } as IContextProps);
 
 interface ThemeProviderProps {
   children: ReactNode;
-};
+}
 
 export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
   // defaults to light theme
@@ -35,7 +36,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
 
   // set user's preferred color scheme on first load
   useLayoutEffect(() => {
-    setTheme(!!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme(prefersDark() ? 'dark' : 'light');
   }, []);
 
   // change theme

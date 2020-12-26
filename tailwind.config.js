@@ -1,7 +1,9 @@
 module.exports = {
   purge: {
-    // enabled: true,
-    content: ['./src/**/*.html', './src/**/*.jsx', './src/**/*.js', './src/**/*.tsx', './src/**/*.ts'],
+    content: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx'],
+    options: {
+      safelist: ['theme-dark'],
+    }
   },
   theme: {
     themeVariants: ['dark'],
@@ -15,6 +17,9 @@ module.exports = {
       },
       maxHeight: {
         '85vh': '85vh'
+      },
+      spacing: {
+        '56': '185px'
       }
     },
   },

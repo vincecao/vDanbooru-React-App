@@ -14,15 +14,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Build & Depoly
         run: |
-          dd of=.env << EOF
+          dd of=.env.production << EOF
+          NODE_ENV=production
           REACT_APP_BASE_URL_DEV=${{secrets.REACT_APP_BASE_URL_DEV}}
-          REACT_APP_FIREBASE_APIKEY=${{secrets.REACT_APP_FIREBASE_APIKEY}}
-          REACT_APP_FIREBASE_APPID=${{secrets.REACT_APP_FIREBASE_APPID}}
-          REACT_APP_FIREBASE_MEASUREID=${{secrets.REACT_APP_FIREBASE_MEASUREID}}
-          REACT_APP_FIREBASE_MSGSENDERID=${{secrets.REACT_APP_FIREBASE_MSGSENDERID}}
           REACT_APP_ROUTER_BASENAME=${{secrets.REACT_APP_ROUTER_BASENAME}}
           EOF
-          yarn && CI=false yarn build
+          yarn && CI=false yarn build:prod
 
       - name: Deploy to GitHub Pages
         if: success()

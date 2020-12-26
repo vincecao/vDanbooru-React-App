@@ -30,7 +30,6 @@ package-lock.json
 yarn.lock
 
 # Environment Variables
-.env
-.env.build
+.env*
 .eslintcache
 src/tailwind.css
