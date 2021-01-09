@@ -20,6 +20,7 @@ jobs:
           heroku_app_name: 'vdanbooru-express-server'
           heroku_email: 'linengcao@yahoo.com'
           appdir: 'express'
+          usedocker: true
 
       - name: Build prod test
         run: |
