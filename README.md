@@ -1,15 +1,13 @@
 # vDanbooru React App
 
-BlueprintJS & Tailwindcss Anime Image search web application, searching Image from Express support safe danbooru lib.
-
-Host on build branch with github action.
+BlueprintJS & Tailwindcss Anime Image search web application. Integrated with Github action for CI/CD. Hosted with ExpressJS with Docker in Heroku
 
 [vDanbooru React Portal](http://vince-amazing.com/vDanbooru-React-App)
 
 ### Development & Build Instruction
 
 ``` bash
-# 0. create your own .env file, referred from .env.sample
+# 0. create your own .env.staging, .env.github or .env.production, referred from .env.sample
 
 # 1. install dependencies
 yarn
@@ -19,6 +17,15 @@ yarn start
 
 # 3. react build
 yarn build
+
+# express server development
+cd express
+
+# build docker image
+docker build -t vdanbooru-express-image .
+
+# test express endpoint in local
+docker run -p 5000:5000 -e PORT=5000 vdanbooru-express-image
 
 ```
 
