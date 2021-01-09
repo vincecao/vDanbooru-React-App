@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [dev]
   pull_request:
-    branches: [master]
+    branches: [dev]
 
 jobs:
   publish:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Build & Deploy
+      - name: Build prod test
         run: |
           dd of=.env.production << EOF
           NODE_ENV=production
@@ -20,12 +20,3 @@ jobs:
           REACT_APP_ROUTER_BASENAME=${{secrets.REACT_APP_ROUTER_BASENAME}}
           EOF
           yarn && CI=false yarn build:prod
-
-      - name: Deploy & host on build branch
-        if: success()
-        uses: crazy-max/ghaction-github-pages@v2
-        with:
-          target_branch: build
-          build_dir: build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
