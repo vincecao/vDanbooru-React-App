@@ -12,7 +12,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Build & Depoly
+
+      - name: Deploy express docker container to heroku
+        uses: akhileshns/heroku-deploy@v3.8.9
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'vdanbooru-express-server'
+          heroku_email: 'linengcao@yahoo.com'
+          appdir: 'express'
+          usedocker: true
+
+      - name: Build frontend & Deploy in build branch
         run: |
           dd of=.env.production << EOF
           NODE_ENV=production
@@ -21,11 +31,11 @@ jobs:
           EOF
           yarn && CI=false yarn build:prod
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy & host on build branch
         if: success()
         uses: crazy-max/ghaction-github-pages@v2
         with:
-          target_branch: demo
+          target_branch: build
           build_dir: build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

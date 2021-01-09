@@ -28,7 +28,6 @@ yarn-error.log*
 
 # Environment Variables
 .env*
+
 # eslint
 .eslintcache
-# tailwind
-src/tailwind.css
