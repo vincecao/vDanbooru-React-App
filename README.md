@@ -23,6 +23,8 @@ cd express
 
 # build docker image
 docker build -t vdanbooru-express-image .
+OR
+yarn build:image
 
 # test express endpoint in local
 docker run -p 5000:5000 -e PORT=5000 vdanbooru-express-image
