@@ -7,8 +7,8 @@ const IndexInput = () => {
   const history = useHistory();
   const searchTerm = getRandomKey();
 
-  const handleKeyDown = (nativeEvent: any, searchTerm: string) =>
-    nativeEvent.keyCode === 13 && history.push(`/tags/${searchTerm}`);
+  const handleKeyDown = (nativeEvent: any, searchValue: string) =>
+    nativeEvent.keyCode === 13 && history.push(`/tags/${searchValue}`);
   const handleInputOnChange = ({ nativeEvent }: { nativeEvent: any }) => setSearchValue(nativeEvent.target.value);
 
   return (
@@ -20,9 +20,9 @@ const IndexInput = () => {
         placeholder={searchTerm}
         onChange={handleInputOnChange}
         value={searchValue}
-        onKeyDown={({ nativeEvent }) => handleKeyDown(nativeEvent, searchTerm)}
+        onKeyDown={({ nativeEvent }) => handleKeyDown(nativeEvent, searchValue)}
       />
-      <Link className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-arrow-right" to={`/tags/${searchTerm}`} />
+      <Link className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-arrow-right" to={`/tags/${searchValue}`} />
     </div>
   );
 };
