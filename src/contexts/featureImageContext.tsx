@@ -1,5 +1,5 @@
 import React, { FC, createContext, useState, useEffect, ReactNode } from 'react';
-import { getRandomPhotos } from '../services/safebooruServices';
+import { getRandomPhotos } from '../services/booruServices';
 
 type IContextProps = {
   featureImage: string;
@@ -13,10 +13,9 @@ export const FeatureImageContext = createContext({
   switchImage: () => {},
 } as IContextProps);
 
-
 interface FeatureImageProviderProps {
   children: ReactNode;
-};
+}
 
 const FeatureImageProvider: FC<FeatureImageProviderProps> = ({ children }) => {
   const [featureImage, setFeatureImage] = useState('');

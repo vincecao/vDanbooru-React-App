@@ -56,11 +56,12 @@ const CloseButton: FC<CloseButtonProps> = ({ onClose }) => (
 
 interface TagButtonProps {
   text: string;
+  value: string;
 }
 
-const TagButton: FC<TagButtonProps> = ({ text }) => {
+const TagButton: FC<TagButtonProps> = ({ text, value }) => {
   const history = useHistory();
-  const handleTagOnClick = () => history.push(`/tags/${text}`);
+  const handleTagOnClick = () => history.push(`/tags/${value}`);
   return <UniversalButton color="white" className="mr-2 mb-2 backdrop-light" text={text} onClick={handleTagOnClick} />;
 };
 
@@ -72,7 +73,7 @@ const TagGroup: FC<TagGroupProps> = ({ tags }) => (
   <div className="text-white">
     <h3>Tags</h3>
     {tags.map((tag) => (
-      <TagButton key={tag.value} text={tag.value} />
+      <TagButton key={tag.value} text={tag.title} value={tag.value} />
     ))}
   </div>
 );

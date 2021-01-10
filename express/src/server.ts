@@ -1,6 +1,6 @@
 import express from 'express';
 import { urlencoded, json } from 'body-parser';
-import controller from './controllers/safebooruController';
+import controller from './controllers/booruController';
 import { getCorsOptions } from './utils/utils';
 const app = express();
 const router = express.Router();
