@@ -3,6 +3,7 @@ import GalleryLightbox from './GalleryLightbox';
 
 export interface Tag {
   value: string;
+  title: string;
 }
 
 export interface Photo {

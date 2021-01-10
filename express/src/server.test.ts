@@ -5,7 +5,7 @@ const request = supertest(app);
 
 require('dotenv').config();
 
-jest.mock('./services/safeBooruService', () => ({
+jest.mock('./services/booruService', () => ({
   getImageAdvanced: jest.fn(),
 }));
 
