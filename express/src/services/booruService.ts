@@ -18,7 +18,7 @@ export const getBooruImage = (
   })
     .then((posts: any[]) => {
       switch (site) {
-        case 'safebooru':
+        case 'safe':
           return util.getFormatSafebooruImageList(posts);
         default:
           return util.getFormatImageList(posts);
