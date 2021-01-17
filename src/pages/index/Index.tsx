@@ -6,13 +6,13 @@ const Index = () => {
   const { featureImage } = useContext(FeatureImageContext);
 
   const backgroundImage = `url(${featureImage})`;
-  const gradientBackgroundImage = `linear-gradient(to bottom, rgba(247, 247, 247, 0.52), rgba(62, 57, 61, 0.73)), ${backgroundImage}`;
+  const gradient = (image: string) => `linear-gradient(to bottom, rgba(247, 247, 247, 0.52), rgba(62, 57, 61, 0.73)), ${image}`;
 
   return (
     <>
       <div
         className="fixed h-full w-full filter-blur bg-cover bg-center -z-10"
-        style={{ backgroundImage: gradientBackgroundImage }}
+        style={{ backgroundImage: gradient(backgroundImage) }}
       />
       <div
         className="flex-1 flex flex-col justify-center z-0 bg-cover md:bg-contain bg-center bg-no-repeat"

@@ -41,7 +41,7 @@ const Tag = () => {
     <div className="flex-1 bg-gray-200 dark:bg-gray-600 py-8">
       <TagSearchInput key={`tags-input-${key}`} />
       <TagInfo isError={isError} message={isLoad ? 'Loading...' : searchInfo} />
-      {!photos || photos.length === 0 ? (
+      {!isLoad && (!photos || photos.length) === 0 ? (
         <div className="mx-auto mt-32">
           <NonIdealState icon="search" title="No result" description={`No record found with ${key}`} />
         </div>
