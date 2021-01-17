@@ -7,6 +7,6 @@ RUN rm -rf node_modules
 RUN rm -rf .env
 RUN yarn install
 RUN yarn global add pm2
-RUN yarn build
+RUN yarn run --prod build
 
 CMD ["pm2-runtime", "./build/index.js"]

@@ -26,7 +26,7 @@ const controller = (router: Router) => {
   };
 
   router.get('/:site/:type/tag/:t/num/:n', getImageAdvanced);
-  router.get('/getSitesList', getSitesList);
+  router.get('/sitesList', getSitesList);
 };
 
 export default controller;

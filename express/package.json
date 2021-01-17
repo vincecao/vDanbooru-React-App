@@ -31,8 +31,9 @@
   "scripts": {
     "build": "rimraf ./build && tsc",
     "build:image": "docker build -t vdanbooru-express-image .",
-    "start": "yarn build && node build/index.js",
-    "start:dev": "yarn build && concurrently \"tsc -w\" \"nodemon build/index.js\"",
+    "start": "yarn run --prod build && NODE_ENV=development node build/index.js",
+    "start:dev": "yarn run --prod build && NODE_ENV=development concurrently \"tsc -w\" \"nodemon build/index.js\"",
+    "start:prod": "yarn run --prod build && NODE_ENV=production concurrently \"tsc -w\" \"nodemon build/index.js\"",
     "test": "jest",
     "test:dev": "jest --watchAll"
   }

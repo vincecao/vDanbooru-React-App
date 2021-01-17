@@ -1,6 +1,6 @@
 # vDanbooru React App
 
-BlueprintJS & Tailwindcss Anime Image search web application. Integrated with Github action for CI/CD. Hosted with ExpressJS Docker Container in Heroku
+BlueprintJS & Tailwindcss Anime Image search web application. Integrated with Github action for entire CI/CD pipeline. Hosted with ExpressJS Docker Container in Heroku
 
 [vDanbooru React Portal](http://vince-amazing.com/vDanbooru-React-App)
 
@@ -19,6 +19,11 @@ yarn start
 yarn build
 
 # express server development
+
+# install nodemon
+npm install -g nodemon
+
+# move to sub-express folder
 cd express
 
 # build docker image
@@ -27,7 +32,11 @@ docker build -t vdanbooru-express-image .
 yarn build:image
 
 # test express endpoint in local
-docker run -p 5000:5000 -e PORT=5000 vdanbooru-express-image
+docker run \
+-p 5000:5000 \
+-e PORT=5000 \
+-e NODE_ENV=production \
+vdanbooru-express-image
 
 ```
 

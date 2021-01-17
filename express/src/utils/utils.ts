@@ -1,7 +1,7 @@
 export const getCorsOptions = () => {
   const corsWhitelist = ['https://vince-amazing.com', 'https://localhost:3000'];
   return {
-    origin: function (origin: string, callback: Function) {
+    origin: process.env.NODE_ENV !== 'production' || function (origin: string, callback: Function) {
       if (corsWhitelist.includes(origin)) {
         callback(null, true);
       } else {

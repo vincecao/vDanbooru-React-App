@@ -21,6 +21,10 @@ jobs:
           heroku_email: 'linengcao@yahoo.com'
           appdir: 'express'
           usedocker: true
+          docker_build_args: |
+            NODE_ENV
+        env:
+          NODE_ENV: production
 
       - name: Build frontend & Deploy in build branch
         run: |
