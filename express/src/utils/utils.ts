@@ -1,13 +1,15 @@
 export const getCorsOptions = () => {
   const corsWhitelist = ['https://vince-amazing.com', 'https://localhost:3000'];
   return {
-    origin: process.env.NODE_ENV !== 'production' || function (origin: string, callback: Function) {
-      if (corsWhitelist.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin:
+      process.env.NODE_ENV !== 'production' ||
+      function (origin: string, callback: Function) {
+        if (corsWhitelist.includes(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
   };
 };
 
@@ -22,7 +24,7 @@ export const getFormatSafebooruImageList = (posts: SafebooruIncomingPostType[]):
     const thumbnail = data.sample
       ? `//safebooru.org//samples/${data.directory}/sample_${data.image
           .replace(/.png/i, '.jpg')
-          .replace(/.jpeg/i, '.jpg')}?${data.id}`
+          .replace(/.jpeg/i, '.jpg')}`
       : src;
     return {
       src,
