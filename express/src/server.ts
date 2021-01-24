@@ -1,6 +1,7 @@
 import express from 'express';
 import { urlencoded, json } from 'body-parser';
-import controller from './controllers/booruController';
+import booruController from './controllers/booruController';
+import dbController from './controllers/mongodnController';
 import { getCorsOptions } from './utils/utils';
 const app = express();
 const router = express.Router();
@@ -17,6 +18,7 @@ app.use('/api', router);
 
 router.use(cors(getCorsOptions()));
 
-controller(router);
+booruController(router);
+dbController(router);
 
 export default app;
