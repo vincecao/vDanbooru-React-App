@@ -35,10 +35,10 @@
     "build:prod": "env-cmd -f .env.production yarn run --prod build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prebuild": "yarn build:tailwind",
+    "prebuild": "yarn run --prod build:tailwind",
     "prestart": "yarn build:tailwind",
     "lint": "eslint ./src --ignore-path .gitignore",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "yarn lint --fix"
   },
   "eslintConfig": {
     "extends": [
