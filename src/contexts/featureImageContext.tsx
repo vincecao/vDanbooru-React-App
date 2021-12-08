@@ -23,7 +23,7 @@ const FeatureImageProvider: FC<FeatureImageProviderProps> = ({ children }) => {
     switchImage();
   }, []);
 
-  const switchImage = () => getRandomPhotos('scenery').then(setFeatureImage);
+  const switchImage = () => getRandomPhotos('scenery').then(setFeatureImage).catch(console.error);
 
   return (
     <FeatureImageContext.Provider value={{ featureImage, setFeatureImage, switchImage }}>

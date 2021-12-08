@@ -1,5 +1,5 @@
 import React, { useState, FC, Fragment } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { DownloadButton, PaginationButton } from '../button/buttons';
 import UniversalButton from '../button/UniversalButton';
 import { Photo, Tag } from './Gallery';
@@ -60,8 +60,8 @@ interface TagButtonProps {
 }
 
 const TagButton: FC<TagButtonProps> = ({ text, value }) => {
-  const history = useHistory();
-  const handleTagOnClick = () => history.push(`/tags/${value}`);
+  const navigate = useNavigate();
+  const handleTagOnClick = () => navigate(`/tags/${value}`);
   return <UniversalButton color="white" className="mr-2 mb-2 backdrop-light" text={text} onClick={handleTagOnClick} />;
 };
 

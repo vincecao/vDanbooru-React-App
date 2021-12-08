@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Nav from "./components/layout/nav/Nav";
 import Footer from "./components/layout/footer/Footer";
 import Index from "./pages/index/Index";
@@ -23,11 +23,11 @@ const App = () => {
         >
           <FeatureImageProvider>
             <Nav />
-            <Switch>
-              <Route exact path="/" component={Index} />
-              <Route path="/tags/:key" component={Tag} />
-              <Redirect to="/" />
-            </Switch>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/tags/:key" element={<Tag />} />
+              <Route path="*" element={<Navigate to ="/" />}/>
+            </Routes>
             <Footer />
           </FeatureImageProvider>
         </div>

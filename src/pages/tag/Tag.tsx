@@ -5,16 +5,12 @@ import { getPhotos } from '../../services/booruServices';
 import TagSearchInput from '../../components/TagComponent/TagSearchInput';
 import Gallery from '../../components/gallery/Gallery';
 
-interface ParamTypes {
-  key: string;
-}
-
 const TagInfo = ({ message = '', isError = false }: { message: string; isError: boolean }) => {
   return <p className={`p-5 pt-0 font-mono ${isError ? 'text-red-500' : ''}`}>{message}</p>;
 };
 
 const Tag = () => {
-  const { key = '' } = useParams<ParamTypes>();
+  const { key } = useParams();
   const [isLoad, setIsLoad] = useState(true);
   const [photos, setPhotos] = useState([]);
   const [isError, setIsError] = useState(false);
@@ -22,9 +18,8 @@ const Tag = () => {
 
   useEffect(() => {
     if (key) {
-      Promise.resolve()
-        .then(() => setIsLoad(true))
-        .then(() => getPhotos(key, 50))
+      setIsLoad(true)
+      getPhotos(key, 50)
         .then((photos) => {
           setPhotos(photos);
           setSearchInfo(`${photos.length} results show`);
@@ -33,7 +28,7 @@ const Tag = () => {
           setIsError(true);
           setSearchInfo(error.message);
         })
-        .then(() => setIsLoad(false));
+        .finally(() => setIsLoad(false));
     }
   }, [key]);
 

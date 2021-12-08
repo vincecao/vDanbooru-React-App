@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getRandomKey } from '../../utilis';
 
 const IndexInput = () => {
   const [searchValue, setSearchValue] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   const searchTerm = getRandomKey();
 
   const handleKeyDown = (nativeEvent: any, searchValue: string) =>
-    nativeEvent.keyCode === 13 && history.push(`/tags/${searchValue}`);
+    nativeEvent.keyCode === 13 && navigate(`/tags/${searchValue}`);
   const handleInputOnChange = ({ nativeEvent }: { nativeEvent: any }) => setSearchValue(nativeEvent.target.value);
 
   return (
