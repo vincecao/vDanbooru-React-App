@@ -1,12 +1,12 @@
-import app from './server';
 import supertest from 'supertest';
+import app from './server';
 
 const request = supertest(app);
 
 require('dotenv').config();
 
 jest.mock('./services/booruService', () => ({
-  getImageAdvanced: jest.fn(),
+  getImageAdvanced: jest.fn()
 }));
 
 afterEach(() => {

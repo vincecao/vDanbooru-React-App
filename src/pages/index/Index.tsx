@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { ReactElement, useContext } from 'react';
 import { FeatureImageContext } from '../../contexts/featureImageContext';
 import IndexInput from './IndexInput';
 
-const Index = () => {
+export default function Index(): ReactElement {
   const { featureImage } = useContext(FeatureImageContext);
 
   const backgroundImage = `url(${featureImage})`;
@@ -25,6 +25,4 @@ const Index = () => {
       </div>
     </>
   );
-};
-
-export default Index;
+}

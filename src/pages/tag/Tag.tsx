@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactElement } from 'react';
 import { useParams } from 'react-router-dom';
 import { NonIdealState } from '@blueprintjs/core';
 import { getPhotos } from '../../services/booruServices';
 import TagSearchInput from '../../components/TagComponent/TagSearchInput';
-import Gallery from '../../components/gallery/Gallery';
+import Gallery, { Photo } from '../../components/gallery/Gallery';
 
-const TagInfo = ({ message = '', isError = false }: { message: string; isError: boolean }) => {
+function TagInfo({ message = '', isError = false }: { message: string; isError: boolean }) {
   return <p className={`p-5 pt-0 font-mono ${isError ? 'text-red-500' : ''}`}>{message}</p>;
-};
+}
 
-const Tag = () => {
+export default function Tag(): ReactElement {
   const { key } = useParams();
   const [isLoad, setIsLoad] = useState(true);
-  const [photos, setPhotos] = useState([]);
+  const [photos, setPhotos] = useState<Photo[]>([]);
   const [isError, setIsError] = useState(false);
   const [searchInfo, setSearchInfo] = useState('');
 
   useEffect(() => {
     if (key) {
-      setIsLoad(true)
+      setIsLoad(true);
       getPhotos(key, 50)
-        .then((photos) => {
-          setPhotos(photos);
-          setSearchInfo(`${photos.length} results show`);
+        .then((myPhotos: Photo[]) => {
+          setPhotos(myPhotos);
+          setSearchInfo(`${myPhotos.length} results show`);
         })
         .catch((error) => {
           setIsError(true);
@@ -45,8 +45,4 @@ const Tag = () => {
       )}
     </div>
   );
-};
-
-Tag.propTypes = {};
-
-export default Tag;
+}

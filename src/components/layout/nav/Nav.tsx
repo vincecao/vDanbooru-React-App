@@ -1,4 +1,4 @@
-import React, { useContext, FC } from 'react';
+import React, { useContext, ReactElement } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Alignment,
@@ -17,34 +17,41 @@ import { LightBoxContext } from '../../../contexts/lightBoxContext';
 import { FeatureImageContext } from '../../../contexts/featureImageContext';
 import { ToggleThemeButton } from '../../button/buttons';
 
+interface NavButtonProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [propName: string]: any;
+}
+
+export function NavButton(props: NavButtonProps): ReactElement {
+  return (
+    <>
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <Button {...props} minimal className="hidden md:inline-flex mr-2" />
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <Button {...props} minimal large className="inline-flex md:hidden mr-2" text="" />
+    </>
+  );
+}
+
 interface NavButtonLinkProps {
   linkTo: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [propName: string]: any;
 }
 
-export const NavButtonLink: FC<NavButtonLinkProps> = (props) => (
-  <Link {...props} to={props.linkTo}>
-    <NavButton {...props} />
-  </Link>
-);
-
-interface NavButtonProps {
-  [propName: string]: any;
+export function NavButtonLink(props: NavButtonLinkProps): ReactElement {
+  const { linkTo } = props;
+  return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    <Link {...props} to={linkTo}>
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <NavButton {...props} />
+    </Link>
+  );
 }
 
-export const NavButton: FC<NavButtonProps> = (props) => (
-  <>
-    <Button {...props} minimal className="hidden md:inline-flex mr-2" />
-    <Button {...props} minimal large className="inline-flex md:hidden mr-2" text="" />
-  </>
-);
-
-const Nav = () => {
-  const { pathname } = useLocation();
-  const { isLightBoxMode } = useContext(LightBoxContext);
-  const { featureImage } = useContext(FeatureImageContext);
-
-  const AboutMenu = () => (
+function AboutMenu(): ReactElement {
+  return (
     <Menu className="bp3-minimal">
       <MenuItem
         text="Github"
@@ -56,10 +63,14 @@ const Nav = () => {
       <MenuItem text="Me!!" icon="mugshot" href="//vince-amazing.com" target="_blank" rel="noopener noreferrer" />
     </Menu>
   );
+}
 
-  const UserCenterAction = () => <SignoutLinks />;
+function UserCenterAction() {
+  return <SignoutLinks />;
+}
 
-  const LeftNav = () => (
+function LeftNav({ pathname }: { pathname: string }) {
+  return (
     <Navbar.Group align={Alignment.LEFT}>
       <NavButtonLink linkTo="/" icon="home" text="vDanbooru" className="font-display" />
       <Navbar.Divider />
@@ -74,8 +85,10 @@ const Nav = () => {
       </Popover>
     </Navbar.Group>
   );
+}
 
-  const RightNav = () => (
+function RightNav({ featureImage }: { featureImage: string }) {
+  return (
     <Navbar.Group align={Alignment.RIGHT}>
       <Popover
         content={<ShareMenu imgSrc={featureImage} />}
@@ -89,13 +102,17 @@ const Nav = () => {
       <UserCenterAction />
     </Navbar.Group>
   );
+}
+
+export default function Nav(): ReactElement {
+  const { pathname } = useLocation();
+  const { isLightBoxMode } = useContext(LightBoxContext);
+  const { featureImage } = useContext(FeatureImageContext);
 
   return (
     <Navbar className={`${isLightBoxMode ? 'filter-blur' : 'filter-none'}`}>
-      <LeftNav />
-      <RightNav />
+      <LeftNav pathname={pathname} />
+      <RightNav featureImage={featureImage} />
     </Navbar>
   );
-};
-
-export default Nav;
+}

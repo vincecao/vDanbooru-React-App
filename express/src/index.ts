@@ -1,5 +1,5 @@
-import app from './server';
 import * as http from 'http';
+import app from './server';
 
 http
   .createServer(app)

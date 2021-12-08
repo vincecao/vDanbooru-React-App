@@ -1,5 +1,8 @@
-import React, { FC, createContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext, useState, useEffect, ReactNode, ReactElement, useMemo,
+} from 'react';
 import { getRandomPhotos } from '../services/booruServices';
+import { emptyFunc } from '../utilis';
 
 type IContextProps = {
   featureImage: string;
@@ -9,26 +12,25 @@ type IContextProps = {
 
 export const FeatureImageContext = createContext({
   featureImage: '',
-  setFeatureImage: () => {},
-  switchImage: () => {},
+  setFeatureImage: emptyFunc,
+  switchImage: emptyFunc,
 } as IContextProps);
 
 interface FeatureImageProviderProps {
   children: ReactNode;
 }
 
-const FeatureImageProvider: FC<FeatureImageProviderProps> = ({ children }) => {
+export default function FeatureImageProvider({ children }: FeatureImageProviderProps): ReactElement {
   const [featureImage, setFeatureImage] = useState('');
+
+  // eslint-disable-next-line no-console
+  const switchImage = () => getRandomPhotos('scenery').then(setFeatureImage).catch(console.error);
+
   useEffect(() => {
     switchImage();
   }, []);
 
-  const switchImage = () => getRandomPhotos('scenery').then(setFeatureImage).catch(console.error);
+  const value = useMemo(() => ({ featureImage, setFeatureImage, switchImage }), [featureImage]);
 
-  return (
-    <FeatureImageContext.Provider value={{ featureImage, setFeatureImage, switchImage }}>
-      {children}
-    </FeatureImageContext.Provider>
-  );
-};
-export default FeatureImageProvider;
+  return <FeatureImageContext.Provider value={value}>{children}</FeatureImageContext.Provider>;
+}
