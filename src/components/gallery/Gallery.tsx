@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { useState, ReactElement } from 'react';
 import GalleryLightbox from './GalleryLightbox';
 
 export interface Tag {
@@ -19,7 +19,7 @@ interface GalleryProps {
   photos: Photo[];
 }
 
-const Gallery: FC<GalleryProps> = ({ photos }) => {
+export default function Gallery({ photos }: GalleryProps): ReactElement {
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const prevDisabled = selectedIndex <= 0;
@@ -31,10 +31,12 @@ const Gallery: FC<GalleryProps> = ({ photos }) => {
   return (
     <>
       <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3 px-2">
-        {photos &&
-          typeof photos === 'object' &&
-          photos.map((photo, index) => {
-            const { caption, thumbnail, thumbnailHeight, thumbnailWidth } = photo;
+        {photos
+          && typeof photos === 'object'
+          && photos.map((photo, index) => {
+            const {
+              caption, thumbnail, thumbnailHeight, thumbnailWidth,
+            } = photo;
             return (
               <button
                 key={caption}
@@ -59,8 +61,4 @@ const Gallery: FC<GalleryProps> = ({ photos }) => {
       )}
     </>
   );
-};
-
-Gallery.propTypes = {};
-
-export default Gallery;
+}

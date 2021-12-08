@@ -33,7 +33,7 @@ jobs:
           REACT_APP_BASE_URL_DEV=${{secrets.REACT_APP_BASE_URL_DEV}}
           REACT_APP_ROUTER_BASENAME=${{secrets.REACT_APP_ROUTER_BASENAME}}
           EOF
-          yarn && CI=false yarn build:prod
+          yarn && yarn build:prod
 
       - name: Deploy & host on build branch
         if: success()

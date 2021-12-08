@@ -1,4 +1,7 @@
-import React, { FC, ReactNode } from 'react';
+/* eslint-disable react/no-unstable-nested-components */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { ReactElement, ReactNode } from 'react';
 
 export interface UniversalButtonProps {
   children?: ReactNode;
@@ -16,10 +19,11 @@ export interface UniversalButtonProps {
 }
 
 export interface WrapperProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [propName: string]: any;
 }
 
-const UniversalButton: FC<UniversalButtonProps> = ({
+export default function UniversalButton({
   children,
   onClick,
   className,
@@ -32,18 +36,19 @@ const UniversalButton: FC<UniversalButtonProps> = ({
   download = '',
   testid = '',
   text = '',
-}) => {
-  const Wrapper: FC<WrapperProps> = (props) =>
-    tagName === 'button' ? (
+}: UniversalButtonProps): ReactElement {
+  function Wrapper(props: WrapperProps): ReactElement {
+    return tagName === 'button' ? (
       <button type="button" {...props} />
     ) : tagName === 'anchor' ? (
-      // eslint-disable-next-line jsx-a11y/anchor-has-content
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
       <a {...props} href={href} target="_blank" rel="noopener noreferrer" download={download} />
     ) : tagName === 'div' ? (
       <div {...props} />
     ) : (
       <button type="button" {...props} />
     );
+  }
 
   // make compatible for PurgeCSS
   let minimalColor;
@@ -138,6 +143,4 @@ const UniversalButton: FC<UniversalButtonProps> = ({
       {text && <p className="break-all text-left">{text}</p>}
     </Wrapper>
   );
-};
-
-export default UniversalButton;
+}

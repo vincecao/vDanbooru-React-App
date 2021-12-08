@@ -13,8 +13,8 @@ export const getBooruImage = (
   if (!typeEnum.includes(type)) return Promise.reject(new Error('Invalid type'));
   return Booru.search(site, [tag], {
     limit: number,
-    random: true,
-    //random: (type === 'Random') ? true : false
+    random: true
+    // random: (type === 'Random') ? true : false
   })
     .then((posts: any[]) => {
       switch (site) {

@@ -1,6 +1,9 @@
-import React, { FC, useState, useEffect, useRef, useLayoutEffect, ReactNode } from 'react';
+import React, {
+  useState, useEffect, useRef, useLayoutEffect, ReactNode, ReactElement, useMemo,
+} from 'react';
+import { emptyFunc } from '../utilis';
 
-export const prefersDark = () => !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+export const prefersDark = (): boolean => !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 /**
  * Saves the old theme for future use
@@ -23,14 +26,14 @@ type IContextProps = {
 
 export const ThemeContext = React.createContext({
   theme: 'light',
-  toggleTheme: () => {},
+  toggleTheme: emptyFunc,
 } as IContextProps);
 
 interface ThemeProviderProps {
   children: ReactNode;
 }
 
-export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
+export function ThemeProvider({ children } : ThemeProviderProps): ReactElement {
   // defaults to light theme
   const [theme, setTheme] = useState('light');
 
@@ -46,10 +49,12 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
     document.documentElement.classList.add(`theme-${theme}`);
   }, [theme, oldTheme]);
 
-  function toggleTheme() {
+  function toggle() {
     if (theme === 'light') setTheme('dark');
     else setTheme('light');
   }
 
-  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
-};
+  const value = useMemo(() => ({ theme, toggleTheme: toggle }), [theme]);
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+}

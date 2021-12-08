@@ -1,4 +1,7 @@
-import React, { FC, createContext, useState, ReactNode } from 'react';
+import React, {
+  createContext, useState, ReactNode, ReactElement, useMemo,
+} from 'react';
+import { emptyFunc } from '../utilis';
 
 type IContextProps = {
   isLightBoxMode: boolean;
@@ -7,15 +10,15 @@ type IContextProps = {
 
 export const LightBoxContext = createContext({
   isLightBoxMode: false,
-  setIsLightBoxMode: () => {}
+  setIsLightBoxMode: emptyFunc,
 } as IContextProps);
 
 interface LightBoxProviderProps {
   children: ReactNode;
-};
+}
 
-const LightBoxProvider: FC<LightBoxProviderProps> = ({ children }) => {
+export default function LightBoxProvider({ children }: LightBoxProviderProps): ReactElement {
   const [isLightBoxMode, setIsLightBoxMode] = useState(false);
-  return <LightBoxContext.Provider value={{ isLightBoxMode, setIsLightBoxMode }}>{children}</LightBoxContext.Provider>;
-};
-export default LightBoxProvider;
+  const value = useMemo(() => ({ isLightBoxMode, setIsLightBoxMode }), [isLightBoxMode]);
+  return <LightBoxContext.Provider value={value}>{children}</LightBoxContext.Provider>;
+}

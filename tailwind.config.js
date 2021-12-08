@@ -1,9 +1,12 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable global-require */
+
 module.exports = {
   purge: {
     content: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx'],
     options: {
       safelist: ['theme-dark'],
-    }
+    },
   },
   theme: {
     themeVariants: ['dark'],
@@ -16,11 +19,11 @@ module.exports = {
         xl: '18px',
       },
       maxHeight: {
-        '85vh': '85vh'
+        '85vh': '85vh',
       },
       spacing: {
-        '56': '185px'
-      }
+        56: '185px',
+      },
     },
   },
   variants: {

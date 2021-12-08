@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { ReactElement, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { getRandomKey } from '../../utilis';
 
-const IndexInput = () => {
+export default function IndexInput(): ReactElement {
   const [searchValue, setSearchValue] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   const searchTerm = getRandomKey();
 
-  const handleKeyDown = (nativeEvent: any, searchValue: string) =>
-    nativeEvent.keyCode === 13 && history.push(`/tags/${searchValue}`);
-  const handleInputOnChange = ({ nativeEvent }: { nativeEvent: any }) => setSearchValue(nativeEvent.target.value);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleKeyDown = (event: Event, mySearchValue: string) => (event as any).keyCode === 13 && navigate(`/tags/${mySearchValue}`);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleInputOnChange = ({ nativeEvent }: { nativeEvent: Event }) => setSearchValue((nativeEvent?.target as any).value);
 
   return (
     <div className="bp3-input-group bp3-large w-4/5 md:w-3/5 mx-auto max-w-xl">
@@ -25,6 +26,4 @@ const IndexInput = () => {
       <Link className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-arrow-right" to={`/tags/${searchValue}`} />
     </div>
   );
-};
-
-export default IndexInput;
+}

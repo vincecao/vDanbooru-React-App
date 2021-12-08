@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { NavButton } from './Nav';
 
-const SignoutLinks = (props) => {
+export default function SignoutLinks(): ReactElement {
   return (
-    <span className='hidden md:flex'>
+    <span className="hidden md:flex">
       <NavButton icon="hand" text="Sign-up" disabled />
       <NavButton icon="log-in" text="Login" disabled />
     </span>
   );
-};
-
-export default SignoutLinks;
+}
