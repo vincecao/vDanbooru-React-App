@@ -29,7 +29,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "build:tailwind": "tailwindcss build ./src/index.tailwind.css -o ./src/tailwind.css",
+    "build:tailwind": "tailwindcss build -i ./src/index.tailwind.css -o ./src/tailwind.css",
+    "tailwind:watch": "npx tailwindcss -i ./src/index.tailwind.css -o ./src/tailwind.css --watch",
     "build:staging": "env-cmd -f .env.staging yarn build",
     "build:github-page": "env-cmd -f .env.github yarn build",
     "build:prod": "env-cmd -f .env.production yarn run --prod build",
@@ -79,10 +80,8 @@
     "husky": "^7.0.4",
     "lint-staged": "^12.1.2",
     "postcss": "^8.4.4",
-    "postcss-cli": "^9.0.2",
     "prettier": "^2.5.1",
-    "tailwindcss": "^2.2.19",
-    "tailwindcss-multi-theme": "^1.0.4"
+    "tailwindcss": "^3.0.1"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
