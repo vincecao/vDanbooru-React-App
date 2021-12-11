@@ -1,15 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable global-require */
-
 module.exports = {
-  purge: {
-    content: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx'],
-    options: {
-      safelist: ['theme-dark'],
-    },
-  },
+  content: ['./src/**/*.{html,ts,tsx,js,jsx}'],
+  darkMode: 'class',
   theme: {
-    themeVariants: ['dark'],
     extend: {
       fontFamily: {
         display: ['Dancing Script', 'ui-serif'],
@@ -27,13 +19,12 @@ module.exports = {
     },
   },
   variants: {
-    opacity: ['responsive', 'hover', 'disabled', 'focus', 'dark', 'dark:hover', 'dark:focus'],
-    cursor: ['responsive', 'hover', 'disabled', 'focus', 'dark', 'dark:hover', 'dark:focus'],
-    backgroundColor: ['responsive', 'hover', 'focus', 'dark', 'dark:hover', 'dark:focus'],
-    textColor: ['responsive', 'hover', 'focus', 'dark', 'dark:hover', 'dark:focus'],
+    opacity: ['responsive', 'hover', 'disabled', 'focus'],
+    cursor: ['responsive', 'hover', 'disabled', 'focus'],
+    backgroundColor: ['responsive', 'hover', 'focus'],
+    textColor: ['responsive', 'hover', 'focus'],
   },
   corePlugins: {
     float: false,
   },
-  plugins: [require('tailwindcss-multi-theme')],
 };

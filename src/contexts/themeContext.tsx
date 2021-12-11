@@ -1,23 +1,9 @@
 import React, {
-  useState, useEffect, useRef, useLayoutEffect, ReactNode, ReactElement, useMemo,
+  useState, useLayoutEffect, ReactNode, ReactElement, useMemo,
 } from 'react';
 import { emptyFunc } from '../utilis';
 
 export const prefersDark = (): boolean => !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-/**
- * Saves the old theme for future use
- * @param {string} theme - Name of curent theme
- * @return {string} previousTheme
- */
-
-function usePrevious(theme: string) {
-  const ref = useRef('' as string);
-  useEffect(() => {
-    ref.current = theme;
-  });
-  return ref.current;
-}
 
 type IContextProps = {
   theme: string;
@@ -42,16 +28,14 @@ export function ThemeProvider({ children } : ThemeProviderProps): ReactElement {
     setTheme(prefersDark() ? 'dark' : 'light');
   }, []);
 
-  // change theme
-  const oldTheme = usePrevious(theme);
-  useLayoutEffect(() => {
-    document.documentElement.classList.remove(`theme-${oldTheme}`);
-    document.documentElement.classList.add(`theme-${theme}`);
-  }, [theme, oldTheme]);
-
   function toggle() {
-    if (theme === 'light') setTheme('dark');
-    else setTheme('light');
+    if (theme === 'light') {
+      document.documentElement.classList.add('dark');
+      setTheme('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      setTheme('light');
+    }
   }
 
   const value = useMemo(() => ({ theme, toggleTheme: toggle }), [theme]);
